@@ -46,7 +46,7 @@ export function initBarFire(canvas: HTMLCanvasElement, header: HTMLElement) {
     const sx = w / 2 + (Math.random() - 0.5) * w * 0.62;
     return {
       x: spark ? sx : w / 2 + g * spread * 2,
-      y: spark ? h - 2 - Math.random() * 6 : h + 1,
+      y: spark ? h - 2 - Math.random() * 6 : h + 2,
       vx: spark ? (sx - w / 2) * 0.012 + (Math.random() - 0.5) * 0.5 : (Math.random() - 0.5) * 0.3,
       vy: spark ? -(1.5 + Math.random() * 1.2) : -(0.9 + Math.random() * 1.1),
       r: spark ? 1 + Math.random() * 0.8 : 5 + Math.random() * 6,
