@@ -4,17 +4,26 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Photo from '../components/Photo.astro';
 import Icon from '../components/Icon.astro';
-import SectionHead from '../components/SectionHead.astro';
 import Approach from '../components/Approach.astro';
 import ProcessTeaser from '../components/ProcessTeaser.astro';
 import CtaBand from '../components/CtaBand.astro';
+
+// The motto, spelt out. Every line comes from what the site already says about how we work.
+const motto = [
+  { word: 'People', icon: 'users', text: 'A dedicated team, assigned to your work and trained on your process.', pts: ['Dedicated teams', 'Trained on your process', 'Working US business hours'] },
+  { word: 'Process', icon: 'layers', text: 'Requirements agreed before launch, and every handoff follows the workflow you defined.', pts: ['Criteria agreed first', 'Documented handoffs', 'Private, secure records'] },
+  { word: 'Progress', icon: 'chart', text: 'Feedback reviewed together, so the work keeps improving as your priorities change.', pts: ['Regular reviews', 'Adapt as you grow', 'One line of contact'] },
+];
+// 24 hour dial: tick marks and the four labels
+const ticks = Array.from({ length: 24 }, (_, h) => h);
+const label = (h: number) => (h === 0 ? '12 am' : h === 6 ? '6 am' : h === 12 ? '12 pm' : '6 pm');
 ---
 <Base title="About" page="about" description="Markforth Solutions (Private) Limited is a BPO and lead generation company in Shamsabad, Rawalpindi. People, process and progress: how we work with partners.">
   <PageHero
     label="About Markforth"
     title="People. Process."
     accent="Progress."
-    lead="Markforth Solutions (Private) Limited is a BPO and lead generation company based in Rawalpindi, Pakistan. We bring people and processes together to support the work behind business growth."
+    lead="A BPO and lead generation team in Shamsabad, Rawalpindi, working US business hours for the partners we support. Three words describe how we work."
     crumbs={[{ label: 'About' }]}
     action={{ label: 'Work with us', href: '/contact.html' }}
     secondary={{ label: 'Join the team', href: '/careers.html' }}
@@ -43,8 +52,69 @@ import CtaBand from '../components/CtaBand.astro';
     </div>
   </PageHero>
 
+  <!-- People. Process. Progress. Three panels; the one you point at, tap or reach opens wide. -->
+  <section class="band-void section rel slant-top motto" aria-labelledby="motto-title">
+    <div class="container">
+      <div class="motto__head" data-reveal>
+        <p class="eyebrow" data-r>What we stand for</p>
+        <h2 class="h2" id="motto-title" data-split>Three words, <span class="accent">every engagement.</span></h2>
+      </div>
+      <div class="motto__panels" data-motto>
+        {motto.map((m, i) => (
+          <article class:list={['motto__p', { 'is-open': i === 0 }]} tabindex="0" aria-labelledby={`motto-${i}`} style={`--i:${i}`}>
+            <span class="motto__bars" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="motto__icon" aria-hidden="true"><Icon name={m.icon} /></span>
+            <span class="motto__n" aria-hidden="true">0{i + 1}</span>
+            <h3 class="motto__w" id={`motto-${i}`}>{m.word}.</h3>
+            <div class="motto__more">
+              <p>{m.text}</p>
+              <ul>{m.pts.map((p) => <li><Icon name="check" />{p}</li>)}</ul>
+            </div>
+            <span class="motto__timer" aria-hidden="true"><i></i></span>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <section class="band-mist section" aria-label="The Markforth approach">
     <div class="container"><Approach /></div>
+  </section>
+
+  <!-- A 24 hour dial in Rawalpindi time: our shift, daylight here, and the hand at now -->
+  <section class="band-void section dial-band" aria-labelledby="dial-title">
+    <div class="container dial-grid">
+      <div class="dial-copy" data-reveal>
+        <p class="eyebrow" data-r>Time zones</p>
+        <h2 class="h2" id="dial-title" data-split>Our day runs on <span class="accent">your clock.</span></h2>
+        <p class="lede" data-r>When your customers are awake, our team is at work. The dial is a full day in Rawalpindi: the red arc is our US-hours shift, the hand is right now.</p>
+        <ul class="dial-key" data-r>
+          <li><i class="k-shift"></i><span><b>Our shift</b> 9 am Eastern to 5 pm Pacific, in Rawalpindi time</span></li>
+          <li><i class="k-day"></i><span><b>Daylight in Rawalpindi</b> 6 am to 6 pm</span></li>
+          <li><i class="k-now"></i><span><b>Now</b> <span data-dial-now>Rawalpindi time</span></span></li>
+        </ul>
+        <p class="dial-ahead" data-r><b class="num"><span data-hours>10</span></b><span>hours ahead of New York today, updated with daylight saving</span></p>
+      </div>
+      <div class="dial" data-dial data-r>
+        <svg viewBox="0 0 360 360" aria-hidden="true">
+          <circle class="dial__face" cx="180" cy="180" r="150" />
+          {ticks.map((h) => <line class:list={['dial__tick', { 'is-major': h % 6 === 0 }]} x1="180" y1={h % 6 === 0 ? 34 : 40} x2="180" y2="48" transform={`rotate(${h * 15} 180 180)`} />)}
+          {[0, 6, 12, 18].map((h) => {
+            const a = (h / 24) * Math.PI * 2 - Math.PI / 2;
+            return <text class="dial__label" x={180 + Math.cos(a) * 112} y={184 + Math.sin(a) * 112} text-anchor="middle">{label(h)}</text>;
+          })}
+          <circle class="dial__day" cx="180" cy="180" r="128" pathLength="24" transform="rotate(-90 180 180)" stroke-dasharray="12 12" stroke-dashoffset="-6" />
+          <circle class="dial__track" cx="180" cy="180" r="140" />
+          <circle class="dial__shift" cx="180" cy="180" r="140" pathLength="24" transform="rotate(-90 180 180)" data-dial-shift stroke-dasharray="11 13" stroke-dashoffset="-18" />
+          <g class="dial__hand" data-dial-hand><line x1="180" y1="62" x2="180" y2="22" /><circle cx="180" cy="40" r="7" /></g>
+        </svg>
+        <div class="dial__center" data-shift>
+          <small>Rawalpindi</small>
+          <b class="num" data-clock="Asia/Karachi"><span data-time data-time-fx>PKT</span></b>
+          <span class="dial__state" data-status-text>Our team works US business hours</span>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section class="band-light section" aria-labelledby="process-title">
@@ -56,9 +126,14 @@ import CtaBand from '../components/CtaBand.astro';
   <section class="band-mist section" aria-labelledby="office-title">
     <div class="container">
       <div class="split">
-        <div class="photo-wrap" data-pop>
+        <div class="photo-wrap office-card" data-pop>
           <Photo name="office-windows" sizes="(max-width: 900px) 100vw, 45vw" />
-          <div class="photo-badge"><span class="ibox"><Icon name="pin" /></span><div><b>Burj-e-Noor Trading Center</b><span>Shamsabad, Rawalpindi</span></div></div>
+          <!-- the building's lift display climbs to our floor -->
+          <div class="lift" data-lift aria-hidden="true">
+            <span class="lift__floor"><em data-lift-floor>G</em><i class="lift__arrow"></i></span>
+            <span class="lift__text"><small>Burj-e-Noor Trading Center</small><b>1st Floor · Office 04–05</b><span>Markforth Solutions</span></span>
+            <span class="lift__dots"><i></i><i></i><i></i></span>
+          </div>
         </div>
         <div class="split__body" data-reveal>
           <p class="eyebrow" data-r>Visit us</p>
@@ -66,12 +141,12 @@ import CtaBand from '../components/CtaBand.astro';
           <p class="lede" data-r>Our team works from Burj-e-Noor Trading Center on Main Murree Road, in the heart of Shamsabad.</p>
           <dl class="facts" data-r>
             <div><dt><Icon name="briefcase" /> Office</dt><dd>No. 04-05, 1st Floor</dd></div>
-            <div><dt><Icon name="pin" /> Area</dt><dd>Shamsabad, Rawalpindi 43490</dd></div>
+            <div><dt><span class="pin-drop"><Icon name="pin" /></span> Area</dt><dd>Shamsabad, Rawalpindi 43490</dd></div>
             <div data-clock="Asia/Karachi"><dt><Icon name="clock" /> Local time</dt><dd><span data-time>Pakistan time</span>, <span data-day>today</span></dd></div>
             <div><dt><Icon name="phone" /> Call or WhatsApp</dt><dd><a href={`tel:${site.phone.replace(/[^+\d]/g, '')}`}>{site.phone}</a></dd></div>
           </dl>
           <div class="hero__actions" data-r>
-            <a class="btn btn-dark" href="https://www.google.com/maps/search/?api=1&query=Burj-e-Noor+Trading+Center+Main+Murree+Road+Shamsabad+Rawalpindi" target="_blank" rel="noopener"><Icon name="pin" /> Open in Google Maps</a>
+            <a class="btn btn-dark" href={site.address.mapUrl} target="_blank" rel="noopener"><Icon name="pin" /> Open in Google Maps</a>
             <a class="btn btn-line" href="/contact.html">Contact us</a>
           </div>
         </div>

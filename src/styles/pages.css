@@ -155,3 +155,156 @@ html:not(.js) .pt__steps::before { transform: none !important; }
 
 /* text beside a taller picture stays together, centred, instead of spreading out */
 .split__body { align-content: center; }
+
+/* =================== About page =================== */
+
+/* ---------- A1 People. Process. Progress.: panels that open wide ---------- */
+.motto__head { display: grid; gap: 14px; margin-bottom: clamp(24px, 3vw, 36px); }
+.motto__panels { display: flex; gap: 12px; min-height: 400px; }
+.motto__p { position: relative; isolation: isolate; overflow: hidden; flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; justify-content: flex-end; gap: 14px; padding: 26px 28px 34px; border-radius: 22px; border: 1px solid var(--line-dark);
+  background: linear-gradient(165deg, #16181e 0%, #0b0c10 100%); cursor: pointer; transition: flex-grow 700ms var(--ease), border-color 400ms var(--ease); }
+.motto__p::before { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(90% 80% at 100% 0%, rgb(223 47 24 / 0.42), transparent 65%); opacity: 0; transition: opacity 600ms var(--ease); }
+.motto__p.is-open { flex-grow: 2.7; border-color: rgb(255 75 43 / 0.45); }
+.motto__p.is-open::before { opacity: 1; }
+.motto__p:focus-visible { outline-offset: -3px; }
+.motto__n { position: absolute; top: 24px; left: 28px; font-family: var(--display); font-size: 15px; font-weight: 700; color: var(--red-bright); font-variant-numeric: tabular-nums; }
+.motto__icon { position: absolute; z-index: -1; right: -8%; top: -6%; width: min(58%, 260px); color: #fff; opacity: 0.05; transform: rotate(-8deg); transition: opacity 600ms var(--ease), transform 900ms var(--ease); }
+.motto__icon svg { width: 100%; height: auto; stroke-width: 0.9; }
+.motto__p.is-open .motto__icon { opacity: 0.13; transform: rotate(0) scale(1.05); }
+.motto__bars { position: absolute; top: 26px; right: 26px; display: grid; justify-items: end; gap: 5px; }
+.motto__bars i { display: block; height: 7px; border-radius: 1px; background: var(--red-bright); transform: skewX(-24deg) scaleX(0); transform-origin: right; transition: transform 500ms var(--ease); }
+.motto__bars i:nth-child(1) { width: 46px; } .motto__bars i:nth-child(2) { width: 32px; background: var(--red); } .motto__bars i:nth-child(3) { width: 18px; background: #fff; }
+.motto__p.is-open .motto__bars i { transform: skewX(-24deg) scaleX(1); }
+.motto__p.is-open .motto__bars i:nth-child(2) { transition-delay: 70ms; } .motto__p.is-open .motto__bars i:nth-child(3) { transition-delay: 140ms; }
+.motto__w { font-size: clamp(38px, 4.8vw, 74px); font-weight: 800; line-height: 0.95; letter-spacing: -0.04em; color: rgb(255 255 255 / 0.5); white-space: nowrap; transition: color 400ms var(--ease); }
+.motto__p.is-open .motto__w, .motto__p:hover .motto__w { color: #fff; }
+.motto__more { display: grid; gap: 14px; max-height: 0; opacity: 0; overflow: hidden; transform: translateY(10px); transition: max-height 600ms var(--ease), opacity 400ms var(--ease), transform 500ms var(--ease); }
+.motto__p.is-open .motto__more { max-height: 260px; opacity: 1; transform: none; transition-delay: 0s, 250ms, 250ms; }
+.motto__more p { max-width: 42ch; font-size: 17px; line-height: 1.55; color: var(--on-dark-2); }
+.motto__more ul { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.motto__more li { display: inline-flex; align-items: center; gap: 7px; padding: 7px 13px 7px 10px; border-radius: 999px; border: 1px solid rgb(255 255 255 / 0.1); background: rgb(255 255 255 / 0.05); font-size: 13.5px; color: #fff; white-space: nowrap; }
+.motto__more li svg { width: 14px; height: 14px; color: var(--red-bright); stroke-width: 3; }
+.motto__timer { position: absolute; left: 28px; right: 28px; bottom: 16px; height: 2px; border-radius: 2px; background: rgb(255 255 255 / 0.08); overflow: hidden; opacity: 0; transition: opacity 300ms; }
+.motto__timer i { position: absolute; inset: 0; background: var(--red-bright); transform-origin: left; transform: scaleX(0); }
+.motto__panels.is-auto .motto__p.is-open .motto__timer { opacity: 1; }
+@media (prefers-reduced-motion: no-preference) { .motto__panels.is-auto .motto__p.is-open .motto__timer i { animation: mottoTimer 5s linear forwards; } }
+@keyframes mottoTimer { to { transform: scaleX(1); } }
+@media (max-width: 900px) {
+  .motto__panels { flex-direction: column; min-height: 0; gap: 10px; }
+  .motto__p { flex: none; padding: 54px 22px 26px; min-height: 0; }
+  .motto__p.is-open { flex: none; }
+  .motto__w { font-size: 44px; }
+  .motto__n { top: 20px; left: 22px; }
+}
+
+/* ---------- A2 the approach: heading held in view, principles light up in turn ---------- */
+.ap { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(32px, 5vw, 72px); align-items: start; }
+.ap__sticky { position: sticky; top: 110px; display: grid; gap: 18px; justify-items: start; }
+.ap__meter { display: flex; align-items: center; gap: 16px; width: min(100%, 380px); margin-top: 6px; }
+.ap__count { display: inline-flex; align-items: baseline; gap: 6px; font-family: var(--display); font-weight: 800; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.ap__count b { font-size: 56px; line-height: 1; color: var(--red); }
+.ap__count small { font-size: 18px; color: var(--muted); }
+.ap__track { position: relative; flex: 1; height: 6px; border-radius: 2px; background: var(--hairline); overflow: hidden; transform: skewX(-24deg); }
+.ap__track i { position: absolute; inset: 0; background: linear-gradient(90deg, var(--red), #ff6a4d); transform-origin: left; transform: scaleX(var(--ap, 0.25)); transition: transform 500ms var(--ease); }
+.ap__list { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
+.ap__item { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; align-items: start; padding: 26px 28px; border-radius: 20px; border: 1px solid var(--hairline); background: #fff;
+  transition: border-color 500ms var(--ease), box-shadow 500ms var(--ease), transform 500ms var(--ease); }
+.ap__item h3 { font-size: clamp(20px, 1.6vw, 24px); }
+.ap__item p { margin-top: 8px; color: var(--muted); font-size: 15.5px; }
+.ap__icon { display: grid; place-items: center; width: 50px; height: 50px; border-radius: 14px; background: var(--ink); color: #fff; transition: background-color 500ms var(--ease), transform 500ms var(--ease); }
+.ap__icon svg { width: 22px; height: 22px; }
+.ap__n { position: absolute; z-index: -1; right: -0.04em; bottom: -0.22em; font-family: var(--display); font-weight: 800; font-size: 120px; line-height: 0.8; letter-spacing: -0.05em; color: rgb(223 47 24 / 0.05); transition: color 500ms var(--ease), transform 500ms var(--ease); }
+.ap__line { position: absolute; left: 0; top: 20px; bottom: 20px; width: 4px; border-radius: 0 3px 3px 0; background: var(--red); transform: scaleY(0); transition: transform 500ms var(--ease); }
+.ap__item.is-active { border-color: rgb(223 47 24 / 0.4); box-shadow: var(--shadow-lift); transform: translateX(-6px); }
+.ap__item.is-active .ap__icon { background: var(--red); transform: rotate(-6deg); }
+.ap__item.is-active .ap__n { color: rgb(223 47 24 / 0.12); transform: translateY(-6px); }
+.ap__item.is-active .ap__line { transform: scaleY(1); }
+@media (max-width: 900px) { .ap { grid-template-columns: minmax(0, 1fr); } .ap__sticky { position: static; } .ap__item.is-active { transform: none; } }
+
+/* ---------- A3 the 24 hour dial ---------- */
+.dial-band { position: relative; isolation: isolate; overflow: hidden; }
+.dial-band::before { content: ''; position: absolute; z-index: -1; right: -10%; top: -20%; width: 60%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgb(223 47 24 / 0.32), transparent 65%); filter: blur(30px); }
+.dial-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: clamp(32px, 5vw, 72px); align-items: center; }
+.dial-copy { display: grid; gap: 18px; justify-items: start; }
+.dial-key { display: grid; gap: 10px; margin: 4px 0 0; padding: 0; list-style: none; }
+.dial-key li { display: flex; align-items: center; gap: 12px; font-size: 15px; color: var(--on-dark-2); }
+.dial-key b { color: #fff; font-weight: 600; margin-right: 4px; }
+.dial-key i { flex: none; width: 26px; height: 6px; border-radius: 3px; }
+.k-shift { background: var(--red-bright); box-shadow: 0 0 10px rgb(255 75 43 / 0.7); }
+.k-day { background: var(--amber); }
+.k-now { background: #fff; }
+.dial-ahead { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-radius: 16px; border: 1px solid var(--line-dark); background: rgb(255 255 255 / 0.03); font-size: 15px; color: var(--on-dark-2); }
+.dial-ahead b { font-family: var(--display); font-size: 44px; line-height: 1; color: var(--red-bright); }
+.dial { position: relative; justify-self: center; width: min(100%, 470px); aspect-ratio: 1; }
+.dial svg { width: 100%; height: 100%; overflow: visible; }
+.dial__face { fill: rgb(255 255 255 / 0.025); stroke: var(--line-dark); stroke-width: 1; }
+.dial__tick { stroke: rgb(255 255 255 / 0.22); stroke-width: 2; stroke-linecap: round; }
+.dial__tick.is-major { stroke: rgb(255 255 255 / 0.6); stroke-width: 3; }
+.dial__label { fill: var(--on-dark-2); font-family: var(--sans); font-size: 12.5px; font-weight: 600; }
+.dial__track { fill: none; stroke: rgb(255 255 255 / 0.06); stroke-width: 18; }
+.dial__shift { fill: none; stroke: var(--red-bright); stroke-width: 18; filter: drop-shadow(0 0 10px rgb(255 75 43 / 0.6)); transition: stroke-dasharray 800ms var(--ease), stroke-dashoffset 800ms var(--ease); }
+.dial__day { fill: none; stroke: rgb(255 179 71 / 0.6); stroke-width: 4; stroke-linecap: round; }
+.dial__hand { transform-box: view-box; transform-origin: 180px 180px; transform: rotate(var(--a, 0deg)); transition: transform 900ms var(--ease); }
+.dial__hand line { stroke: #fff; stroke-width: 2.5; stroke-linecap: round; }
+.dial__hand circle { fill: #fff; filter: drop-shadow(0 0 8px rgb(255 255 255 / 0.8)); }
+.dial__hub { fill: var(--red-bright); }
+.dial__center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -38%); display: grid; justify-items: center; gap: 4px; text-align: center; pointer-events: none; }
+.dial__center small { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #ff8a73; }
+.dial__center b { font-family: var(--display); font-size: clamp(30px, 3.4vw, 44px); font-weight: 700; line-height: 1; color: #fff; }
+.dial__state { margin-top: 6px; padding: 5px 12px; border-radius: 999px; background: rgb(255 179 71 / 0.14); color: var(--amber); font-size: 12.5px; font-weight: 600; }
+.dial__center.is-on .dial__state { background: rgb(63 208 124 / 0.14); color: #8ee6b0; }
+@media (prefers-reduced-motion: no-preference) {
+  html.js .dial-band:not(.in-view) .dial__shift { stroke-dasharray: 0 24 !important; }
+  html.js .dial-band:not(.in-view) .dial__hand { transform: rotate(0deg); }
+}
+@media (max-width: 900px) { .dial-grid { grid-template-columns: minmax(0, 1fr); } .dial { width: min(100%, 360px); } .dial__center { transform: translate(-50%, -42%); } }
+
+/* ---------- A4 the office: photo with the building's lift display under it ---------- */
+.office-card { display: flex; flex-direction: column; border-radius: var(--radius); overflow: hidden; background: #0c0d12; box-shadow: 0 30px 60px -36px rgb(7 8 11 / 0.55); }
+.office-card .photo { flex: 1 1 auto; min-height: 240px; aspect-ratio: auto; border-radius: 0; }
+.split:has(.office-card) { align-items: stretch; }
+.lift { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 18px; padding: 18px 22px; color: #fff; }
+.lift::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: linear-gradient(90deg, var(--red), var(--red-bright) 50%, rgb(255 75 43 / 0.2)); }
+.lift__floor { position: relative; display: grid; place-items: center; width: 64px; height: 64px; border-radius: 14px; background: #050608; border: 1px solid rgb(255 75 43 / 0.35); box-shadow: inset 0 0 18px rgb(255 75 43 / 0.25); }
+.lift__floor em { font-family: var(--mono); font-size: 32px; font-style: normal; font-weight: 700; color: var(--red-bright); text-shadow: 0 0 10px rgb(255 75 43 / 0.9); }
+.lift__arrow { position: absolute; top: 6px; right: 8px; width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-bottom: 7px solid var(--red-bright); opacity: 0; }
+.lift.is-moving .lift__arrow { animation: liftArrow 0.6s steps(2) infinite; }
+@keyframes liftArrow { 50% { opacity: 1; } }
+.lift.is-arrived .lift__floor { animation: liftDing 900ms var(--ease); }
+@keyframes liftDing { 30% { box-shadow: inset 0 0 18px rgb(255 75 43 / 0.25), 0 0 0 6px rgb(255 75 43 / 0.25), 0 0 30px rgb(255 75 43 / 0.6); } }
+.lift__text { display: grid; gap: 2px; }
+.lift__text small { font-size: 11.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #ff8a73; }
+.lift__text b { font-family: var(--display); font-size: 19px; font-weight: 700; }
+.lift__text span { font-size: 13.5px; color: var(--on-dark-2); }
+.lift__dots { display: flex; gap: 6px; }
+.lift__dots i { width: 7px; height: 7px; border-radius: 50%; background: rgb(255 255 255 / 0.15); transition: background-color 300ms; }
+.lift.is-arrived .lift__dots i { background: var(--live-green); box-shadow: 0 0 8px rgb(63 208 124 / 0.7); }
+.lift.is-arrived .lift__dots i:nth-child(2) { transition-delay: 120ms; } .lift.is-arrived .lift__dots i:nth-child(3) { transition-delay: 240ms; }
+@media (max-width: 900px) { .office-card .photo { flex: none; aspect-ratio: 16 / 10; min-height: 0; } }
+@media (max-width: 420px) { .lift { grid-template-columns: auto minmax(0, 1fr); } .lift__dots { display: none; } }
+/* the map pin drops into place with a radar ring */
+.pin-drop { position: relative; display: inline-grid; }
+.pin-drop::after { content: ''; position: absolute; left: 50%; bottom: -1px; width: 14px; height: 5px; margin-left: -7px; border-radius: 50%; border: 1.5px solid var(--red); opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .in-view .pin-drop svg { animation: pinDrop 700ms cubic-bezier(0.3, 1.5, 0.5, 1) 400ms both; }
+  .in-view .pin-drop::after { animation: pinRadar 1.8s var(--ease) 1s 2; }
+}
+@keyframes pinDrop { from { transform: translateY(-14px); opacity: 0; } }
+@keyframes pinRadar { 0% { opacity: 0.9; transform: scale(0.4); } 100% { opacity: 0; transform: scale(2.4); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .motto__p, .motto__more, .motto__icon, .motto__bars i, .ap__item, .ap__icon, .ap__n, .ap__line, .dial__hand, .dial__shift { transition: none; }
+}
+
+/* About fixes: words sized to their panel; approach columns end together; the dial hand stays on the ring */
+.motto__p { container-type: inline-size; }
+.motto__w { font-size: clamp(30px, 15cqi, 76px); }
+@media (max-width: 900px) { .motto__w { font-size: 44px; } }
+.ap { align-items: stretch; }
+.ap__side { display: flex; }
+.ap__sticky { position: static; flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
+.ap__photo { position: relative; flex: 1 1 auto; width: 100%; min-height: 200px; margin: 6px 0 0; border-radius: var(--radius); overflow: hidden; }
+.ap__photo .photo { position: absolute; inset: 0; height: 100%; }
+@media (max-width: 900px) { .ap__photo { flex: none; aspect-ratio: 16 / 9; min-height: 0; } }
+.dial__hand line { stroke-width: 4; }
+.dial__hand circle { fill: #fff; stroke: var(--void); stroke-width: 3; }

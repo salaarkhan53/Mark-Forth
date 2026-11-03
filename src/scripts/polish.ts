@@ -204,6 +204,67 @@ function stepStrip() {
   update();
 }
 
+// A1: People. Process. Progress. One panel open at a time; they take turns until someone chooses.
+function motto() {
+  $$('[data-motto]').forEach((box) => {
+    const panels = $$('.motto__p', box);
+    let i = 0, timer = 0, auto = !reduced.matches, visible = false;
+    const open = (k: number) => {
+      i = k;
+      panels.forEach((p, n) => { p.classList.toggle('is-open', n === k); p.setAttribute('aria-expanded', String(n === k)); });
+      // restart the little timer bar
+      box.classList.remove('is-auto'); void box.offsetWidth; if (auto && visible) box.classList.add('is-auto');
+      schedule();
+    };
+    const schedule = () => { clearTimeout(timer); if (auto && visible) timer = window.setTimeout(() => open((i + 1) % panels.length), 5000); };
+    const choose = (k: number) => { auto = false; box.classList.remove('is-auto'); clearTimeout(timer); open(k); };
+    panels.forEach((p, k) => {
+      p.addEventListener('pointerenter', (e) => { if ((e as PointerEvent).pointerType === 'mouse') choose(k); });
+      p.addEventListener('click', () => choose(k));
+      p.addEventListener('focus', () => choose(k));
+      p.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); choose(k); } });
+    });
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) open(i); else clearTimeout(timer); }, { threshold: 0.4 }).observe(box);
+  });
+}
+
+// A2: the principle in the middle of the screen lights up; the counter and bar follow.
+function approach() {
+  $$('[data-ap]').forEach((root) => {
+    const items = $$('[data-ap-item]', root);
+    const count = root.querySelector('[data-ap-count]');
+    const bar = root.querySelector<HTMLElement>('[data-ap-bar]');
+    if (!items.length) return;
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const mid = innerHeight * 0.5;
+      let best = 0, dist = Infinity;
+      items.forEach((it, k) => { const r = it.getBoundingClientRect(); const d = Math.abs(r.top + r.height / 2 - mid); if (d < dist) { dist = d; best = k; } });
+      items.forEach((it, k) => it.classList.toggle('is-active', k === best));
+      if (count) count.textContent = String(best + 1).padStart(2, '0');
+      bar?.style.setProperty('--ap', String((best + 1) / items.length));
+    };
+    addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(update); }, { passive: true });
+    update();
+  });
+}
+
+// A4: the lift display climbs from G to the 1st floor when the office comes into view.
+function lift() {
+  const el = document.querySelector<HTMLElement>('[data-lift]');
+  const floor = el?.querySelector('[data-lift-floor]');
+  if (!el || !floor) return;
+  if (reduced.matches) { floor.textContent = '1'; el.classList.add('is-arrived'); return; }
+  const io = new IntersectionObserver(([e]) => {
+    if (!e.isIntersecting) return;
+    io.disconnect();
+    el.classList.add('is-moving');
+    setTimeout(() => { floor.textContent = '1'; el.classList.remove('is-moving'); el.classList.add('is-arrived'); }, 1500);
+  }, { threshold: 0.6 });
+  io.observe(el);
+}
+
 export function initPolish() {
   const run = (fn: () => void) => { try { fn(); } catch (e) { console.error(e); } };
   run(buttonSparks);
@@ -216,4 +277,7 @@ export function initPolish() {
   run(serviceWidgets);
   run(chapters);
   run(stepStrip);
+  run(motto);
+  run(approach);
+  run(lift);
 }

@@ -684,6 +684,24 @@ function tickClock(el: HTMLElement, txt: string) {
   }
 }
 
+// About: the 24 hour dial. The red arc is the US-hours shift (9 am Eastern to 5 pm Pacific)
+// in Rawalpindi time; the hand points at the time in Rawalpindi now.
+function aboutDial(now: Date) {
+  const dial = $('[data-dial]');
+  if (!dial) return;
+  const pk = tzOffset('Asia/Karachi', now);
+  const toPk = (tz: string, h: number) => (((h + pk - tzOffset(tz, now)) % 24) + 24) % 24;
+  const start = toPk('America/New_York', 9), end = toPk('America/Los_Angeles', 17);
+  const len = ((end - start) % 24 + 24) % 24;
+  const arc = $('[data-dial-shift]', dial);
+  if (arc) { arc.setAttribute('stroke-dasharray', `${len} ${24 - len}`); arc.setAttribute('stroke-dashoffset', String(-start)); }
+  const parts = dtf('Asia/Karachi', { hour: 'numeric', minute: 'numeric', hour12: false }).formatToParts(now);
+  const h = (Number(parts.find((p) => p.type === 'hour')?.value) % 24) + Number(parts.find((p) => p.type === 'minute')?.value) / 60;
+  $('[data-dial-hand]', dial)?.style.setProperty('--a', `${((h / 24) * 360).toFixed(2)}deg`);
+  const label = $('[data-dial-now]');
+  if (label) label.textContent = `${dtf('Asia/Karachi', { hour: 'numeric', minute: '2-digit' }).format(now).toLowerCase()} in Rawalpindi`;
+}
+
 function clocks() {
   const els = $$('[data-clock]');
   if (!els.length) return;
@@ -717,6 +735,7 @@ function clocks() {
       el.classList.toggle('is-open', tz === 'Asia/Karachi' ? usShift(now).on : weekday && h >= 9 && h < 17);
     });
     overlapChart(now);
+    aboutDial(now);
     // "Live now" chips: on shift through US business hours (9 am Eastern to 5 pm Pacific), Monday to Friday
     $$('[data-shift]').forEach((el) => {
       const s = usShift(now);
