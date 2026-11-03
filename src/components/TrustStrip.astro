@@ -1,0 +1,22 @@
+---
+import Icon from './Icon.astro';
+import SectionHead from './SectionHead.astro';
+const items = [
+  { icon: 'target', title: 'Requirements agreed first', text: 'Audience, qualification criteria and commercial model are settled with you before launch.' },
+  { icon: 'handoff', title: 'Clear handoffs', text: 'Every transfer and task follows the workflow and hours you defined.' },
+  { icon: 'message', title: 'Feedback, reviewed together', text: 'We review the work with you and adapt as your priorities evolve.' },
+  { icon: 'clock', title: 'US business hours', text: 'Our team works while your customers are awake across the United States.' },
+  { icon: 'lock', title: 'Private, secure records', text: 'Enquiries and applications are stored privately, never in public folders.' },
+  { icon: 'users', title: 'Dedicated teams', text: 'People assigned to your work, aligned to your process and standards.' },
+];
+---
+<section class="band-surface section" aria-labelledby="trust-title">
+  <div class="container">
+    <SectionHead label="How we work" title="Built around your requirements," accent="not a template." id="trust-title" split lead="People and process, aligned before the first conversation. Here is what every Markforth engagement includes." />
+    <ul class="trust" data-reveal>
+      {items.map((i) => (
+        <li data-r><div class="card__head"><span class="ibox"><Icon name={i.icon} /></span><h3>{i.title}</h3></div><p>{i.text}</p></li>
+      ))}
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,65 @@
+---
+// The process: on wide screens all four steps sit in one row and light up in turn as you scroll;
+// on smaller screens it is a row you can swipe, drag or step through with the arrows.
+import Photo from './Photo.astro';
+import Icon from './Icon.astro';
+import type { PhotoKey } from '../data/photos';
+interface Props { label?: string; title?: string; accent?: string; lead?: string; id?: string; }
+const {
+  label = 'From introduction to execution',
+  title = 'A clear process.',
+  accent = 'A shared direction.',
+  lead = 'Four steps on every engagement, so responsibilities are clear from the very first day.',
+  id = 'process-title',
+} = Astro.props;
+const steps: { n: string; name: string; title: string; text: string; who: string; photo: PhotoKey; icon: string }[] = [
+  { n: '01', name: 'Discover', title: 'Tell us what’s next.', text: 'Share your campaign, customer needs or operational priorities.', who: 'You share, we listen', photo: 'meeting-notes', icon: 'message' },
+  { n: '02', name: 'Align', title: 'Define the details.', text: 'Agree on the scope, qualification criteria, workflow and expectations.', who: 'Agreed together', photo: 'writing-notes', icon: 'check-circle' },
+  { n: '03', name: 'Prepare', title: 'Build the workflow.', text: 'Align the team and handoffs around the agreed requirements.', who: 'Our team gets ready', photo: 'laptop-typing', icon: 'users' },
+  { n: '04', name: 'Refine', title: 'Keep moving forward.', text: 'Review feedback together and adapt the process as the work develops.', who: 'Reviewed together', photo: 'city-windows', icon: 'chart' },
+];
+---
+<div class="pro" data-pro>
+  <div class="pro__head" data-reveal>
+    <div class="pro__title">
+      <p class="eyebrow" data-r>{label}</p>
+      <h2 class="h2" id={id} data-split>{title}<br /> <span class="accent">{accent}</span></h2>
+    </div>
+    <div class="pro__side" data-r>
+      <p class="lede">{lead}</p>
+      <div class="pro__meter">
+        <span class="pro__count" aria-hidden="true"><b data-pro-count>01</b><small>/ 0{steps.length}</small></span>
+        <span class="pro__bar" aria-hidden="true"><i data-pro-bar></i></span>
+        <span class="pro__arrows">
+          <button class="pro__arrow pro__arrow--prev" type="button" data-pro-prev aria-label="Previous step"><Icon name="arrow" /></button>
+          <button class="pro__arrow" type="button" data-pro-next aria-label="Next step"><Icon name="arrow" /></button>
+        </span>
+        <span class="pro__names">{steps.map((s, i) => <button type="button" data-pro-go={i} class:list={{ on: i === 0 }} aria-label={`Step ${i + 1}: ${s.name}`}>{s.name}</button>)}</span>
+      </div>
+    </div>
+  </div>
+  <div class="pro__viewport">
+    <ol class="pro__track" data-reveal>
+      {steps.map((s, i) => (
+        <li class:list={['pro__card', { 'is-active': i === 0 }]} data-r>
+          <Photo name={s.photo} sizes="(max-width: 900px) 80vw, 22vw" />
+          <div class="pro__body">
+            <span class="pro__num" aria-hidden="true">{s.n}</span>
+            <span class="pro__step"><Icon name={s.icon} /> Step {i + 1} · {s.name}</span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+            <span class="pro__who"><i aria-hidden="true"></i>{s.who}</span>
+          </div>
+        </li>
+      ))}
+      <li class="pro__card pro__card--end" data-r>
+        <div class="pro__body">
+          <span class="pro__step">Ready when you are</span>
+          <h3>Step one starts with a <span class="accent">conversation.</span></h3>
+          <p>Tell us about your campaign or operation and we’ll take it from there.</p>
+          <a class="btn btn-primary" href="/contact.html" data-magnetic>Start a conversation <Icon name="arrow" /></a>
+        </div>
+      </li>
+    </ol>
+  </div>
+</div>

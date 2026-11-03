@@ -1,0 +1,65 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
+import Icon from '../components/Icon.astro';
+import SectionHead from '../components/SectionHead.astro';
+import ProcessTeaser from '../components/ProcessTeaser.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { services } from '../data/services';
+const laneIcons: Record<string, string> = { 'lead-generation': 'phone', 'customer-support': 'headset', 'business-outsourcing': 'briefcase' };
+---
+<Base title="Services" page="services" description="Lead generation, customer support and business process outsourcing from Markforth Solutions in Rawalpindi, each shaped around your requirements before work starts.">
+  <PageHero
+    label="Our services"
+    title="The people behind your"
+    accent="next phase of growth."
+    lead="Lead generation, customer support and business outsourcing. Each one is shaped around your customers, your process and your requirements before any work starts."
+    crumbs={[{ label: 'Services' }]}
+    action={{ label: 'Discuss a service', href: '/contact.html' }}
+    secondary={{ label: 'See campaigns', href: '/campaigns.html' }}
+    variant="lanes"
+  >
+    <nav class="lanes" slot="aside" aria-label="Our three services">
+      {services.map((s, i) => (
+        <a class="lane" href={`#svc-${s.slug}`} style={`--i:${i}`}>
+          <span class="lane__glow" aria-hidden="true"></span>
+          <span class="lane__icon" aria-hidden="true"><Icon name={laneIcons[s.slug]} /></span>
+          <span class="lane__text"><small>{String(i + 1).padStart(2, '0')} · {s.verb}</small><b>{s.name}</b></span>
+          <Icon name="arrow" />
+        </a>
+      ))}
+    </nav>
+  </PageHero>
+
+  {services.map((s, i) => (
+    <section class:list={['section', i % 2 === 0 ? 'band-light' : 'band-mist']} aria-labelledby={`svc-${s.slug}`}>
+      <div class="container">
+        <div class:list={['split', { 'split--rev': i % 2 === 1 }]}>
+          <div class="photo-wrap" data-pop>
+            <Photo name={s.photo} sizes="(max-width: 900px) 100vw, 45vw" />
+            <div class="photo-badge"><span class="ibox"><Icon name="check-circle" /></span><div><b>{s.verb}</b><span>{s.summary}</span></div></div>
+          </div>
+          <div class="split__body" data-reveal>
+            <p class="eyebrow" data-r>Service 0{i + 1}</p>
+            <h2 class="h2" id={`svc-${s.slug}`} data-split>{s.name}</h2>
+            <p class="lede" data-r>{s.body}</p>
+            <ul class="checklist" data-r>{s.scope.map((x) => <li><Icon name="check-circle" /><span><b>{x.item}.</b> {x.detail}</span></li>)}</ul>
+            <div class="hero__actions" data-r>
+              <a class="btn btn-dark" href={`/services/${s.slug}.html`}>Explore {s.name.toLowerCase()} <Icon name="arrow" /></a>
+              <a class="btn btn-line" href={`/contact.html?interest=${encodeURIComponent(s.enquiry)}`}>Enquire</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="band-mist section" aria-labelledby="process-title">
+    <div class="container">
+      <ProcessTeaser label="How every partnership starts" title="Whichever service," accent="the same four steps." lead="Every engagement is discovered, aligned, prepared and refined with you, so responsibilities are clear from the first day." />
+    </div>
+  </section>
+
+  <CtaBand title="Choose a service." accent="Or combine all three." text="Tell us which service you need, or describe the work and we will suggest how to split it." action={{ label: 'Discuss a service', href: '/contact.html' }} />
+</Base>

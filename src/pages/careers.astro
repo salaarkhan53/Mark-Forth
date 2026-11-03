@@ -1,0 +1,90 @@
+---
+import EdgeMark from '../components/EdgeMark.astro';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import SectionHead from '../components/SectionHead.astro';
+import CareersCards from '../components/CareersCards.astro';
+import '../styles/legacy.css';
+// Markup contract for /careers.js (unchanged): #job-list, #job-search, #job-department, #jobs-note,
+// #retry-jobs, #job-count, #clear-job-filters, .menu, .links, #year.
+const next = [
+  { icon: 'file', t: 'Apply', d: 'Choose a role and send your details directly to the recruitment team. Freshers are welcome.' },
+  { icon: 'search', t: 'Review', d: 'Check published updates using your reference and a code sent to your application email.' },
+  { icon: 'calendar', t: 'Connect', d: 'If invited, choose an available interview slot and get the details on your tracking page.' },
+];
+---
+<Base title="Careers" page="careers" legacy description="Apply for agent, quality, team lead, operations, HR, administration and technical roles at Markforth Solutions in Rawalpindi.">
+  <PageHero
+    label="Careers at Markforth"
+    title="Find your place."
+    accent="Build what’s next."
+    lead="From your first conversation to the systems behind every campaign, there’s more than one way to move forward with Markforth."
+    crumbs={[{ label: 'Careers' }]}
+    action={{ label: 'See open positions', href: '#vacancies' }}
+    secondary={{ label: 'Track an application', href: '/track.html' }}
+    variant="roles"
+  >
+    <div class="roles-hero" slot="aside">
+      <div class="roles-hero__count">
+        <b class="num"><span data-count="21" data-roles>21</span></b>
+        <span>open roles<br />in Rawalpindi</span>
+      </div>
+      <div class="roles-hero__chips" aria-hidden="true">
+        {[0, 1].map((row) => (
+          <div class:list={['roles-hero__row', { 'is-rev': row === 1 }]}>
+            <div class="roles-hero__track">
+              {[0, 1].map(() => (row === 0
+                ? ['Fronter', 'Verifier', 'Closer', 'Quality', 'Team lead', 'Operations']
+                : ['HR', 'Admin', 'Technical', 'Customer support', 'Freshers welcome', 'Full-time']
+              ).map((r) => <span>{r}</span>))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <p class="roles-hero__note"><span class="live-tag"><i aria-hidden="true"></i>Live</span> Updated from our open positions list.</p>
+    </div>
+  </PageHero>
+
+  <section class="band-mist section vacancies" id="vacancies" aria-labelledby="vacancies-title">
+    <div class="container">
+      <div class="vacancy-heading">
+        <div style="display:grid;gap:14px"><p class="eyebrow">Opportunities</p><h2 class="h2" id="vacancies-title">Make your next move.</h2></div>
+        <span id="job-count" role="status">Loading available positions…</span>
+      </div>
+      <div class="job-filters form">
+        <label>Search positions<input id="job-search" type="search" placeholder="Role, skill or keyword" maxlength="100" /></label>
+        <label>Department<select id="job-department"><option value="">All departments</option></select></label>
+        <button id="clear-job-filters" type="button" class="btn btn-line">Reset filters</button>
+      </div>
+      <p id="jobs-note" class="jobs-note" role="status" hidden></p>
+      <button id="retry-jobs" type="button" class="btn btn-primary" hidden>Retry loading positions</button>
+      <div id="job-list" class="job-list" aria-live="polite"></div>
+      <noscript><p>Enable JavaScript to view current positions. For recruitment enquiries, contact info@markforthsol.com.</p></noscript>
+    </div>
+  </section>
+
+  <section class="band-light section" aria-labelledby="start-title">
+    <div class="container">
+      <SectionHead label="Where most people start" title="Agent roles," accent="open to freshers." id="start-title" split lead="New to BPO? You can apply as a fresher. Tell us about your communication skills and availability." />
+      <CareersCards />
+    </div>
+  </section>
+
+  <section class="band-void section rel slant-top" aria-labelledby="next-title">
+    <EdgeMark left="Apply" right="Connect" />
+    <div class="glow" style="width:40vw;aspect-ratio:1;right:-14vw;top:-10%" aria-hidden="true"></div>
+    <div class="container">
+      <SectionHead label="What happens next" title="A considered" accent="start." id="next-title" split lead="Applications are subject to review and do not guarantee an interview or offer." />
+      <div class="grid-3" data-reveal>
+        {next.map((n, i) => (
+          <div class="card hoverable" data-r><div class="card__top card__head"><span class="ibox"><Icon name={n.icon} /></span><h3>{n.t}</h3><span class="card__num">0{i + 1}</span></div><p>{n.d}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Fragment slot="end">
+    <script is:inline src="/careers.js"></script>
+  </Fragment>
+</Base>

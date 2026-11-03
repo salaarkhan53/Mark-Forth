@@ -1,0 +1,40 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+interface Props { title?: string; accent?: string; text?: string; action?: { label: string; href: string }; }
+const {
+  title = 'Let’s move your business',
+  accent = 'forward.',
+  text = 'Looking for a campaign partner or support for your operations? Tell us what you have in mind.',
+  action = { label: 'Start a conversation', href: '/contact.html' },
+} = Astro.props;
+const steps = [
+  { t: 'Share your requirements', d: 'Campaign, service, audience and preferred model.' },
+  { t: 'A focused conversation', d: 'We confirm scope, criteria and availability with you.' },
+  { t: 'Launch with clarity', d: 'Team, workflow and handoffs agreed before day one.' },
+];
+---
+<section class="section band-light cta-band" aria-labelledby="cta-title">
+  <div class="container">
+    <div class="cta" data-reveal data-cta>
+      <div class="glow" aria-hidden="true"></div>
+      <span class="cta__cursor" aria-hidden="true"></span>
+      <canvas class="embers" aria-hidden="true" data-embers></canvas>
+      <div class="grid-lines" aria-hidden="true"></div>
+      <div class="cta__grid">
+        <div class="cta__copy">
+          <p class="eyebrow" data-r>Start a conversation</p>
+          <h2 id="cta-title" data-split>{title} <span class="accent">{accent}</span></h2>
+          <p class="lede" data-r>{text}</p>
+          <div class="hero__actions" data-r>
+            <a class="btn btn-primary" href={action.href} data-magnetic>{action.label} <Icon name="arrow" /></a>
+            <a class="btn btn-outline" href={`mailto:${site.email}`}><Icon name="mail" /> Email us</a>
+          </div>
+        </div>
+        <ol class="cta__steps" aria-label="What happens next">
+          {steps.map((s, i) => <li data-r><b>{i + 1}</b><span><strong>{s.t}</strong>{s.d}</span></li>)}
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHead from '../components/SectionHead.astro';
+import ServiceCards from '../components/ServiceCards.astro';
+// The emblem's four pieces, drifting apart: the page moved on without them.
+const pieces = [
+  'M 96.574219 60.777344 L 467.171875 60.777344 L 423.132812 136.777344 L 140.125 136.777344 Z',
+  'M 48.757812 136.777344 L 140.125 136.777344 L 180.257812 209.359375 L 87.183594 209.359375 Z',
+  'M 381.09375 209.359375 L 180.257812 209.359375 L 224.660156 284.074219 L 337.808594 284.074219 Z',
+  'M 130.730469 284.074219 L 224.660156 284.074219 L 281.390625 381.457031 L 234.910156 461.691406 L 130.730469 285.785156 Z',
+];
+---
+<Base title="Page not found" page="404" noindex description="This page has moved or no longer exists.">
+  <PageHero
+    label="Page not found"
+    title="This page"
+    accent="moved forward."
+    lead="The page you were looking for has moved or no longer exists. Pick up from one of these instead."
+    action={{ label: 'Back to home', href: '/' }}
+    secondary={{ label: 'Services', href: '/services.html' }}
+    more={[{ label: 'Careers', href: '/careers.html' }]}
+    variant="lost"
+  >
+    <div class="lost" slot="aside" aria-hidden="true">
+      <svg viewBox="-40 -20 600 560">
+        {pieces.map((d, i) => <path class={`lost__p lost__p${i + 1}`} d={d} fill={i === 3 ? '#ffffff' : '#df2f18'} />)}
+      </svg>
+      <span class="lost__code">404</span>
+    </div>
+  </PageHero>
+  <section class="band-mist section" aria-labelledby="next-title">
+    <div class="container">
+      <SectionHead label="Where to next" title="Explore our" accent="services." id="next-title" split lead="The page you were after may have moved. These are the best places to pick up from." />
+      <ServiceCards />
+    </div>
+  </section>
+</Base>

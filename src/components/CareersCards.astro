@@ -1,0 +1,24 @@
+---
+import Icon from './Icon.astro';
+const roles = [
+  { name: 'Fronter', line: 'Start the conversation.', icon: 'phone' },
+  { name: 'Verifier', line: 'Bring clarity to every handoff.', icon: 'check-circle' },
+  { name: 'Closer', line: 'Move conversations forward.', icon: 'target' },
+];
+---
+<div class="grid-4" data-reveal>
+  {roles.map((r) => (
+    <a class="card" href={`/apply.html?role=${r.name}`} data-r>
+      <div class="card__head"><span class="ibox"><Icon name={r.icon} /></span><h3>{r.name}</h3></div>
+      <p>{r.line}</p>
+      <div class="tags role-tags"><span>Full-time</span><span>On-site</span><span>Rawalpindi</span></div>
+      <span class="link">Apply now <Icon name="arrow" /></span>
+    </a>
+  ))}
+  <a class="card card--all" href="/careers.html" data-r>
+    <span class="card__bg" aria-hidden="true"><i></i><i></i><i></i></span>
+    <div class="card__head"><span class="ibox"><Icon name="briefcase" /></span><h3>All open positions</h3></div>
+    <p>Agent, quality, team lead, operations, HR, admin and technical roles.</p>
+    <span class="link">View positions <Icon name="arrow" /></span>
+  </a>
+</div>

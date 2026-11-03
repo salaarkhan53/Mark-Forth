@@ -1,0 +1,14 @@
+---
+// The official emblem, extruded by stacking 14 darkened copies of the vector behind it.
+const slices = Array.from({ length: 14 }, (_, i) => 14 - i);
+const { caption = true } = Astro.props;
+---
+<div class="emblem" data-emblem role="img" aria-label="Markforth’s red and white emblem">
+  <div class="emblem__tilt">
+    <div class="emblem__spin">
+      {slices.map((z) => <img class="emblem__slice" style={`--z:${z}`} src="/assets/markforth-emblem.svg" alt="" width="445" height="430" aria-hidden="true" />)}
+      <img class="emblem__front" src="/assets/markforth-emblem.svg" alt="" width="445" height="430" />
+    </div>
+  </div>
+  {caption && <p class="emblem__caption" aria-hidden="true"><span>People. Process. Progress.</span><span>Rawalpindi</span></p>}
+</div>

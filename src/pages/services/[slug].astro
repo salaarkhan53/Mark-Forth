@@ -1,0 +1,88 @@
+---
+import EdgeMark from '../../components/EdgeMark.astro';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Photo from '../../components/Photo.astro';
+import Icon from '../../components/Icon.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import ServiceCards from '../../components/ServiceCards.astro';
+import CampaignExplorer from '../../components/CampaignExplorer.astro';
+import ProcessTeaser from '../../components/ProcessTeaser.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { services, type Service } from '../../data/services';
+
+export function getStaticPaths() {
+  return services.map((s) => ({ params: { slug: s.slug }, props: { s } }));
+}
+const { s } = Astro.props as { s: Service };
+const enquiry = `/contact.html?interest=${encodeURIComponent(s.enquiry)}`;
+const icons = ['target', 'check-circle', 'handoff', 'chart'];
+---
+<Base title={s.name} page={`service-${s.slug}`} description={`${s.name} from Markforth Solutions, Rawalpindi. ${s.summary} ${s.body}`}>
+  <PageHero
+    label={`${s.verb}: ${s.name.toLowerCase()}`}
+    title={s.name}
+    lead={`${s.summary} ${s.body}`}
+    crumbs={[{ label: 'Services', href: '/services.html' }, { label: s.name }]}
+    action={{ label: `Discuss ${s.name.toLowerCase()}`, href: enquiry }}
+    secondary={{ label: 'All services', href: '/services.html' }}
+    photo={s.photo}
+    badge={{ icon: 'clock', title: 'US business hours', text: 'Staffed from Rawalpindi' }}
+  />
+
+  <section class="band-light section" aria-labelledby="included-title">
+    <div class="container">
+      <SectionHead label="What’s included" title="What we take on," accent="agreed with you." id="included-title" split lead="This is where the conversation starts. What we take on is agreed with you before launch." />
+      <div class="grid-4" data-reveal>
+        {s.scope.map((x, i) => (
+          <div class="card hoverable" data-r>
+            <div class="card__head"><span class="ibox"><Icon name={icons[i % icons.length]} /></span><h3>{x.item}</h3></div>
+            <p>{x.detail}</p>
+            <div class="tags" style="margin-top:auto"><span>{x.value}</span></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band-mist section" aria-labelledby="agree-title">
+    <div class="container">
+      <div class="split">
+        <div class="photo-wrap" data-pop><Photo name="writing-notes" sizes="(max-width: 900px) 100vw, 45vw" /></div>
+        <div class="split__body" data-reveal>
+          <p class="eyebrow" data-r>Before we start</p>
+          <h2 class="h2" id="agree-title" data-split>Agreed with you, <span class="accent">up front.</span></h2>
+          <p class="lede" data-r>Nothing launches until these are settled. It keeps responsibilities clear from the first day.</p>
+          <ul class="checklist" data-r>{s.agree.map((a) => <li><Icon name="check-circle" /><span>{a}</span></li>)}</ul>
+          <a class="btn btn-primary" href={enquiry} data-r>Start the conversation <Icon name="arrow" /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band-light section" aria-labelledby="process-title">
+    <div class="container">
+      <ProcessTeaser title="From first conversation" accent="to a working process." lead="Four steps take this service from your brief to a team that runs it your way." />
+    </div>
+  </section>
+
+  {s.campaigns ? (<>
+    <section class="band-void section rel slant-top" aria-labelledby="campaigns-title">
+      <EdgeMark left="Campaigns" right={s.verb} />
+      <div class="glow" style="width:40vw;aspect-ratio:1;right:-14vw;top:0" aria-hidden="true"></div>
+      <div class="container">
+        <SectionHead label="Campaign focus" title="Where we" accent="run it." id="campaigns-title" split lead="Insurance and home-service campaigns, each with its own audience, criteria and handoff." />
+        <CampaignExplorer />
+      </div>
+    </section>
+  </>) : null}
+
+  <section class="band-mist section" aria-labelledby="more-title">
+    <div class="container">
+      <SectionHead label="Also from Markforth" title="Other" accent="services." id="more-title" split lead="Take one service or combine them. Every engagement follows the same agreed process." />
+      <ServiceCards exclude={s.slug} />
+    </div>
+  </section>
+
+  <CtaBand title="Let’s talk about" accent={`${s.name.toLowerCase()}.`} text={`Tell us what you need from ${s.name.toLowerCase()}. The enquiry form opens with it selected.`} action={{ label: 'Start a conversation', href: enquiry }} />
+</Base>

@@ -1,0 +1,60 @@
+---
+// Line drawings of a famous building in each city, drawn for this site.
+// Paths draw in when the section arrives; windows (.win) light up when it is
+// night in that city (set by the clock script); a sun or moon sits in the sky.
+interface Props { name: 'lal-haveli' | 'empire-state' | 'willis-tower' | 'colorado-capitol' | 'griffith'; label: string; }
+const { name, label } = Astro.props;
+---
+<svg class={`landmark landmark--${name}`} viewBox="0 0 120 100" role="img" aria-label={label} fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+  <circle class="orb" cx="104" cy="16" r="6" pathLength="1" />
+  {name === 'lal-haveli' && (
+    <g>
+      <rect class="body" x="22" y="44" width="76" height="48" pathLength="1" />
+      <path d="M22 44v-4h8v4M38 44v-4h8v4M54 44v-4h12v4M74 44v-4h8v4M90 44v-4h8v4" pathLength="1" />
+      <path d="M22 40v-8h12v8M22 32q6-10 12 0M28 22v-3M86 40v-8h12v8M86 32q6-10 12 0M92 22v-3" pathLength="1" />
+      <path d="M48 64h24v-8q-12-14-24 0zM46 64h28M50 64v6M70 64v6" pathLength="1" />
+      <path d="M32 92v-11a6 6 0 0 1 12 0v11M76 92v-11a6 6 0 0 1 12 0v11M54 92v-13a6 6 0 0 1 12 0v13" pathLength="1" />
+      <rect class="win" x="29" y="50" width="6" height="8" rx="3" /><rect class="win" x="40" y="50" width="6" height="8" rx="3" />
+      <rect class="win" x="74" y="50" width="6" height="8" rx="3" /><rect class="win" x="85" y="50" width="6" height="8" rx="3" />
+      <rect class="win" x="57" y="54" width="6" height="7" rx="3" />
+    </g>
+  )}
+  {name === 'empire-state' && (
+    <g>
+      <path class="body" d="M38 92V58h44v34M46 58V44h28v14M52 44V30h16v14M56 30V20h8v10" pathLength="1" />
+      <path d="M60 20V5M58 20v-4h4v4" pathLength="1" />
+      <rect class="win" x="42" y="64" width="4" height="6" /><rect class="win" x="50" y="64" width="4" height="6" /><rect class="win" x="66" y="64" width="4" height="6" /><rect class="win" x="74" y="64" width="4" height="6" />
+      <rect class="win" x="42" y="76" width="4" height="6" /><rect class="win" x="74" y="76" width="4" height="6" />
+      <rect class="win" x="51" y="48" width="4" height="6" /><rect class="win" x="65" y="48" width="4" height="6" /><rect class="win" x="58" y="34" width="4" height="6" />
+      <path d="M58 92V70M62 92V70" pathLength="1" />
+    </g>
+  )}
+  {name === 'willis-tower' && (
+    <g>
+      <path class="body" d="M36 92V54h12v38M48 92V22h12v70M60 92V30h12v62M72 92V62h12v30" pathLength="1" />
+      <path d="M52 22V6M56 22V9" pathLength="1" />
+      <rect class="win" x="51" y="30" width="6" height="4" /><rect class="win" x="51" y="44" width="6" height="4" /><rect class="win" x="51" y="58" width="6" height="4" />
+      <rect class="win" x="63" y="40" width="6" height="4" /><rect class="win" x="63" y="54" width="6" height="4" /><rect class="win" x="63" y="68" width="6" height="4" />
+      <rect class="win" x="39" y="62" width="6" height="4" /><rect class="win" x="75" y="70" width="6" height="4" /><rect class="win" x="39" y="76" width="6" height="4" />
+    </g>
+  )}
+  {name === 'colorado-capitol' && (
+    <g>
+      <path class="body" d="M16 92V68h88v24M42 68l18-11 18 11" pathLength="1" />
+      <path d="M46 57V46h28v11M44 46q16-26 32 0M60 20v-6M57 26h6" pathLength="1" />
+      <path d="M48 92V72M54 92V72M60 92V72M66 92V72M72 92V72" pathLength="1" />
+      <rect class="win" x="21" y="74" width="5" height="7" /><rect class="win" x="30" y="74" width="5" height="7" /><rect class="win" x="85" y="74" width="5" height="7" /><rect class="win" x="94" y="74" width="5" height="7" />
+      <rect class="win" x="51" y="49" width="4" height="5" /><rect class="win" x="58" y="49" width="4" height="5" /><rect class="win" x="65" y="49" width="4" height="5" />
+    </g>
+  )}
+  {name === 'griffith' && (
+    <g>
+      <path class="body" d="M14 92V72h92v20" pathLength="1" />
+      <path d="M44 72v-6h32v6M44 66q16-26 32 0M60 40v-4" pathLength="1" />
+      <path d="M18 72v-8h14v8M18 64q7-10 14 0M88 72v-8h14v8M88 64q7-10 14 0" pathLength="1" />
+      <path d="M54 92V80a6 6 0 0 1 12 0v12" pathLength="1" />
+      <rect class="win" x="22" y="78" width="6" height="6" /><rect class="win" x="34" y="78" width="6" height="6" /><rect class="win" x="80" y="78" width="6" height="6" /><rect class="win" x="92" y="78" width="6" height="6" />
+    </g>
+  )}
+  <path class="ground" d="M8 92h104" pathLength="1" />
+</svg>

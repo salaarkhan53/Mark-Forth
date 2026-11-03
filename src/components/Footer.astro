@@ -1,0 +1,60 @@
+---
+import { site, nav } from '../data/site';
+import Icon from './Icon.astro';
+interface Props { privacyLinkId?: string; privacyTarget?: string; managedPrivacy?: boolean; }
+// Apply and track bind their own privacy dialogs by id; other pages use data-dialog.
+const { privacyLinkId = 'privacy-link', privacyTarget = 'privacy', managedPrivacy = true } = Astro.props;
+const links = [...nav, { label: 'Contact', href: '/contact.html' }];
+---
+<footer class="site-footer ft">
+  <!-- The top edge is the emblem's three forward bars, stepped across the page. -->
+  <div class="foot-edge" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="ft__body">
+  <!-- The name, slanted forward, sits behind the footer and fills with red as the page ends. -->
+  <div class="container ft__bg" aria-hidden="true">
+    <div class="ft__word" data-ft-word>
+      <span class="ft__ghost">Markforth</span>
+      <span class="ft__fill">Markforth</span>
+      <i class="ft__edge"></i>
+    </div>
+  </div>
+
+  <div class="container ft__top">
+    <div class="ft__brand">
+      <a href="/" aria-label="Markforth Solutions home"><img src="/assets/markforth-logo-onblack.png" alt="Markforth Solutions" width="1423" height="303" loading="lazy" /></a>
+      <p>Lead generation, customer support and business outsourcing, working US hours from Rawalpindi.</p>
+    </div>
+    <div class="ft__cta">
+      <span>Have a campaign in mind?</span>
+      <a class="btn btn-primary" href="/contact.html" data-magnetic>Let’s talk <Icon name="arrow" /></a>
+      <a class="ft__wa wa-pulse" data-magnetic href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener" aria-label="Message Markforth on WhatsApp"><Icon name="whatsapp" /></a>
+    </div>
+  </div>
+
+  <div class="container ft__mid">
+    <nav class="ft__nav" aria-label="Footer">
+      {links.map((l) => <a href={l.href}><span>{l.label}</span></a>)}
+    </nav>
+    <ul class="ft__contact">
+      <li><a href={`mailto:${site.email}`}><Icon name="mail" />{site.email}</a></li>
+      <li><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener"><Icon name="phone" />{site.phone}</a></li>
+      <li><a href={site.address.mapUrl} target="_blank" rel="noopener"><Icon name="pin" />{site.address.short}</a></li>
+      {site.socials.map((s) => <li><a href={s.href} target="_blank" rel="noopener">{s.label}</a></li>)}
+    </ul>
+  </div>
+
+  </div>
+
+  <div class="container legal">
+    <p>© <span id="year">{new Date().getFullYear()}</span> {site.legalName}</p>
+    <div class="legal__links">
+      <a href="/track.html">Track an application</a>
+      <a href={`#${privacyTarget}`} id={privacyLinkId} data-dialog={managedPrivacy ? privacyTarget : undefined}>Privacy notice</a>
+      <a class="legal__top" href="#top" data-top aria-label="Back to top">
+        <svg class="legal__ring" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" pathLength="100" /><circle class="legal__ring-p" cx="20" cy="20" r="18" pathLength="100" data-top-ring /></svg>
+        <Icon name="arrow" />
+      </a>
+    </div>
+  </div>
+</footer>

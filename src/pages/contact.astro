@@ -1,0 +1,79 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { site, enquiryOptions } from '../data/site';
+---
+<Base title="Contact" page="contact" description="Contact Markforth Solutions in Rawalpindi about lead generation, customer support, business outsourcing or a campaign partnership. Email info@markforthsol.com.">
+  <PageHero
+    label="Start a conversation"
+    title="Let’s move your business"
+    accent="forward."
+    lead="Looking for a campaign partner or support for your operations? Tell us what you have in mind. No email app needed."
+    crumbs={[{ label: 'Contact' }]}
+    action={{ label: 'Send an enquiry', href: '#enquiry' }}
+    secondary={{ label: 'Message on WhatsApp', href: `https://wa.me/${site.whatsapp}` }}
+    variant="status"
+  >
+    <div class="status" slot="aside" data-shift>
+      <span class="status__ring" aria-hidden="true"><i></i></span>
+      <p class="status__title" data-status-text>Our team works US business hours</p>
+      <p class="status__sub">Replies within one business day.</p>
+      <div class="status__clocks">
+        <div data-clock="Asia/Karachi"><small>Rawalpindi</small><b class="num" data-time>PKT</b></div>
+        <div data-clock="America/New_York"><small>New York</small><b class="num" data-time>ET</b></div>
+      </div>
+      <p class="status__hours">On shift Monday to Friday, 9 am Eastern to 5 pm Pacific.</p>
+    </div>
+  </PageHero>
+
+  <section class="band-mist section" aria-label="Enquiry">
+    <div class="container contact-grid">
+      <div class="card" data-r>
+        <p class="eyebrow">Business enquiry</p>
+        <h2 class="h2" style="font-size:clamp(30px,3vw,44px)">Tell us about your requirements.</h2>
+        <form id="enquiry" class="form" method="post" novalidate>
+          <div class="form-trap" aria-hidden="true"><label>Leave this field empty<input name="company_website" tabindex="-1" autocomplete="off" /></label></div>
+          <label>Your name<input required name="name" autocomplete="name" placeholder="Full name" maxlength="100" /></label>
+          <label>Company<input required name="company" autocomplete="organization" placeholder="Company name" maxlength="150" /></label>
+          <label class="full">Work email<input required name="email" type="email" autocomplete="email" placeholder="you@company.com" maxlength="200" /></label>
+          <label class="full">How can we help?
+            <select name="service">{enquiryOptions.map((o) => <option>{o}</option>)}</select>
+          </label>
+          <label class="full">Tell us about your requirements<textarea required name="message" placeholder="Your campaign, team requirements or next big step" maxlength="4000"></textarea></label>
+          <div class="full" style="display:flex;flex-wrap:wrap;gap:14px;align-items:center">
+            <button type="submit" class="btn btn-primary" data-magnetic>Send enquiry <Icon name="arrow" /></button>
+            <span class="small muted">Secure form. Sent directly to Markforth.</span>
+          </div>
+          <p class="form-note full" id="form-note" role="status">Please do not include consumer records, health information or confidential client data.</p>
+        </form>
+      </div>
+      <aside class="contact-side" aria-label="Contact details" data-reveal>
+        <div class="card" data-r>
+          <div class="contact-item"><span class="ibox"><Icon name="mail" /></span><div><b>Email</b><a href={`mailto:${site.email}`}>{site.email}</a></div></div>
+          {site.phone && <div class="contact-item"><span class="ibox"><Icon name="phone" /></span><div><b>Phone</b><a href={`tel:${site.phone.replace(/[^+\d]/g, '')}`}>{site.phone}</a></div></div>}
+          {site.whatsapp && <div class="contact-item"><span class="ibox"><Icon name="message" /></span><div><b>WhatsApp</b><a href={`https://wa.me/${site.whatsapp}`} rel="noopener">Message us</a></div></div>}
+          <div class="contact-item"><span class="ibox"><Icon name="pin" /></span><div><b>Office</b><address>{site.address.lines.map((l) => <>{l}<br /></>)}</address></div></div>
+          <a class="btn btn-line btn-sm" href={site.address.mapUrl} target="_blank" rel="noopener"><Icon name="pin" /> Open in Google Maps</a>
+        </div>
+        <div class="card" data-r>
+          <div class="contact-item"><span class="ibox"><Icon name="clock" /></span><div><b>Hours</b><span>US business hours, from Rawalpindi</span></div></div>
+          <div class="contact-item"><span class="ibox"><Icon name="briefcase" /></span><div><b>Applying for a job?</b><a href="/careers.html">See open positions</a></div></div>
+          <div class="contact-item"><span class="ibox"><Icon name="search" /></span><div><b>Already applied?</b><a href="/track.html">Track your application</a></div></div>
+        </div>
+        <div class="card contact-chat" data-r>
+          <span class="contact-chat__live"><i aria-hidden="true"></i>We reply on business days</span>
+          <h3>Prefer a quick chat?</h3>
+          <p>Send a message on WhatsApp or email us directly. Tell us the service or campaign you have in mind and we’ll take it from there.</p>
+          <div class="contact-chat__actions">
+            <a class="btn btn-primary btn-sm" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener"><Icon name="whatsapp" /> WhatsApp us</a>
+            <a class="btn btn-outline btn-sm" href={`mailto:${site.email}`}><Icon name="mail" /> Email</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+
+  <script is:inline slot="end" src="/forms-api.js"></script>
+</Base>

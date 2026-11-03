@@ -1,0 +1,81 @@
+---
+import EdgeMark from '../../components/EdgeMark.astro';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Photo from '../../components/Photo.astro';
+import Icon from '../../components/Icon.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import CampaignExplorer from '../../components/CampaignExplorer.astro';
+import ProcessTeaser from '../../components/ProcessTeaser.astro';
+import CampaignArt from '../../components/CampaignArt.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { campaigns, type Campaign } from '../../data/campaigns';
+
+export function getStaticPaths() {
+  return campaigns.map((c) => ({ params: { slug: c.slug }, props: { c } }));
+}
+const { c } = Astro.props as { c: Campaign };
+const enquiry = `/contact.html?interest=${encodeURIComponent(c.name)}`;
+const icons: Record<string, string> = { medicare: 'medicare', aca: 'shield', 'final-expense': 'life', 'auto-insurance': 'car', 'hospital-indemnity': 'hospital', 'home-improvement': 'home' };
+const pointIcons = ['users', 'target', 'chart'];
+---
+<Base title={`${c.name} campaigns`} page={`campaign-${c.slug}`} description={`${c.name} (${c.category.toLowerCase()}) campaign support from Markforth Solutions. ${c.description}`}>
+  <PageHero
+    label={c.category}
+    title={c.name}
+    accent="campaigns."
+    lead={c.description}
+    crumbs={[{ label: 'Campaigns', href: '/campaigns.html' }, { label: c.name }]}
+    action={{ label: `Discuss ${c.name}`, href: enquiry }}
+    secondary={{ label: 'All campaigns', href: '/campaigns.html' }}
+    variant="art"
+  >
+    <div class="hero-art" slot="aside"><CampaignArt icon={icons[c.slug]} /><span class="hero-art__tag">{c.category}</span></div>
+  </PageHero>
+
+  <section class="band-light section" aria-labelledby="discuss-title">
+    <div class="container">
+      <SectionHead label="The partnership conversation" title="What we" accent="discuss first." id="discuss-title" split lead={`Every ${c.name} partnership starts here, before a single call is made.`} />
+      <div class="grid-3" data-reveal>
+        {c.points.map((p, i) => (
+          <div class="card hoverable" data-r><div class="card__head"><span class="ibox"><Icon name={pointIcons[i % 3]} /></span><h3>{p}</h3></div><p>Defined around your requirements and agreed with you during onboarding.</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band-mist section" aria-labelledby="bring-title">
+    <div class="container">
+      <div class="split split--rev">
+        <div class="photo-wrap" data-pop>
+          <Photo name="meeting-notes" sizes="(max-width: 900px) 100vw, 45vw" />
+          <div class="photo-badge"><span class="ibox"><Icon name="calendar" /></span><div><b>First call</b><span>Scope, criteria, model</span></div></div>
+        </div>
+        <div class="split__body" data-reveal>
+          <p class="eyebrow" data-r>Come prepared</p>
+          <h2 class="h2" id="bring-title" data-split>Bring these to <span class="accent">the first call.</span></h2>
+          <ul class="checklist" data-r>{c.need.map((n) => <li><Icon name="check-circle" /><span>{n}</span></li>)}</ul>
+          <p class="muted" data-r>Campaign availability and terms are confirmed during onboarding.</p>
+          <a class="btn btn-primary" href={enquiry} data-r>Discuss {c.name} <Icon name="arrow" /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band-light section" aria-labelledby="process-title">
+    <div class="container">
+      <ProcessTeaser title="From first call" accent="to launch." lead={`Four steps take your ${c.name} campaign from the first conversation to live transfers.`} />
+    </div>
+  </section>
+
+  <section class="band-void section rel slant-top" aria-labelledby="others-title">
+    <EdgeMark left="More" right="campaigns" />
+    <div class="glow" style="width:40vw;aspect-ratio:1;right:-14vw;top:0" aria-hidden="true"></div>
+    <div class="container">
+      <SectionHead label="Campaign focus" title="Other" accent="campaigns." id="others-title" split lead="Each campaign is set up the same careful way, around its own audience and buyer requirements." />
+      <CampaignExplorer exclude={c.slug} />
+    </div>
+  </section>
+
+  <CtaBand title="Let’s discuss" accent={`${c.name}.`} text={`Tell us about your ${c.name} campaign. The enquiry form opens with it selected.`} action={{ label: `Discuss ${c.name}`, href: enquiry }} />
+</Base>

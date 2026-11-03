@@ -1,0 +1,59 @@
+---
+import Icon from './Icon.astro';
+import { faqs, site } from '../data/site';
+interface Props { items?: { q: string; a: string }[]; }
+const { items = faqs } = Astro.props;
+// one word for what each question is about
+const topics = items.map((f) => (/campaign/i.test(f.q) ? 'campaigns' : /partner/i.test(f.q) ? 'partnerships' : /apply|experience/i.test(f.q) ? 'applying' : /where|based/i.test(f.q) ? 'our office' : 'services'));
+// words from the answers themselves
+const rows = [
+  ['Lead generation', 'Customer support', 'Business outsourcing', 'Scope agreed first'],
+  ['Medicare', 'ACA', 'Final Expense', 'Auto Insurance', 'Hospital Indemnity', 'Home Improvement'],
+  ['Freshers welcome', 'US business hours', 'Rawalpindi', 'Focused conversations'],
+];
+---
+<section class="band-mist section faq-band" aria-labelledby="faq-title">
+  <!-- background: slanted rows of outlined words drifting in opposite directions, over a dot field that ripples around the cursor -->
+  <div class="faq-bg" aria-hidden="true">
+    <canvas class="faq-bg__dots" data-faq-dots></canvas>
+    {rows.map((r, i) => (
+      <div class:list={['faq-bg__row', { 'is-rev': i % 2 === 1 }]}>
+        <div class="faq-bg__track">{[0, 1].map(() => r.map((w) => <span>{w}</span>))}</div>
+      </div>
+    ))}
+  </div>
+  <div class="container faq">
+    <aside class="faq__card" data-reveal>
+      <!-- a large slanted question mark, outlined, that slowly fills and floats -->
+      <span class="faq__mark" aria-hidden="true" data-faq-mark></span>
+      <!-- an index of the questions: which one, on what, cycling (and following the list) -->
+      <div class="faq__index" aria-hidden="true" data-faq-index data-topics={JSON.stringify(topics)}>
+        <span class="faq__index-n"><b data-faq-index-n>01</b><small>/ {String(items.length).padStart(2, '0')}</small></span>
+        <span class="faq__index-topic">Answers on <span class="faq__index-word"><em data-faq-index-word>{topics[0]}</em></span></span>
+        <span class="faq__index-bars">{items.map((_, i) => <i class:list={{ on: i === 0 }}></i>)}</span>
+      </div>
+      <div class="faq__card-body">
+        <p class="eyebrow" data-r>Good questions</p>
+        <h2 class="h2" id="faq-title" data-split>Before we <span class="accent">get started.</span></h2>
+        <p class="faq__lede" data-r>Can’t find your answer? Our team is a message away.</p>
+        <div class="faq__actions" data-r>
+          <a class="btn btn-primary btn-sm" href={`mailto:${site.email}`}><Icon name="mail" /> Email us</a>
+          <a class="btn btn-outline btn-sm" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener"><Icon name="whatsapp" /> WhatsApp</a>
+        </div>
+      </div>
+    </aside>
+    <div class="faq__list" data-reveal>
+      {items.map((f, i) => (
+        <details class="faq__item" data-r data-faq>
+          <summary>
+            <span class="faq__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <span class="faq__q">{f.q}</span>
+            <i aria-hidden="true"></i>
+          </summary>
+          <div class="faq__a"><div class="faq__a-in"><p>{f.a}</p></div></div>
+          <span class="faq__big" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

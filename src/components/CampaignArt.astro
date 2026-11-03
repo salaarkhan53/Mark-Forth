@@ -1,0 +1,13 @@
+---
+// Campaign artwork in the brand style: a large line icon on a dark red field,
+// with the emblem's three forward bars rushing past behind it. Inline, crisp and light.
+import Icon from './Icon.astro';
+interface Props { icon: string; class?: string; }
+const { icon, class: cls } = Astro.props;
+---
+<div class:list={['camp-art', cls]} aria-hidden="true">
+  <span class="camp-art__bars"><i></i><i></i><i></i></span>
+  <span class="camp-art__ring"></span>
+  <span class="camp-art__echo"><Icon name={icon} /></span>
+  <span class="camp-art__icon"><Icon name={icon} /></span>
+</div>

@@ -1,0 +1,16 @@
+---
+interface Props { label: string; title: string; accent?: string; lead?: string; split?: boolean; center?: boolean; id?: string; }
+const { label, title, accent, lead, split = false, center = false, id } = Astro.props;
+---
+<div class:list={['section-head', { 'section-head--split': split, 'section-head--center': center }]} data-reveal>
+  <div style="display:grid;gap:16px">
+    <p class="eyebrow" data-r>{label}</p>
+    <h2 class="h2" id={id} data-split>{title}{accent && <> <span class="accent">{accent}</span></>}</h2>
+  </div>
+  {(lead || Astro.slots.has('default')) && (
+    <div class="section-head__side">
+      {lead && <p class="lede" data-r>{lead}</p>}
+      <slot />
+    </div>
+  )}
+</div>

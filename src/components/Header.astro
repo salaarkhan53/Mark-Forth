@@ -1,0 +1,59 @@
+---
+import { nav, site } from '../data/site';
+import Icon from './Icon.astro';
+const path = Astro.url.pathname.replace(/\.html$/, '');
+const isActive = (href: string) => {
+  const h = href.replace(/\.html$/, '');
+  if (h === '/') return path === '' || path === '/' || path === '/index';
+  return path === h || path.startsWith(h + '/') || (h === '/careers' && (path === '/apply' || path === '/track'));
+};
+const links = nav;
+// The overlay lists every page, numbered, with Contact last (same set as the footer).
+const menuLinks = [{ label: 'Home', href: '/' }, ...nav, { label: 'Contact', href: '/contact.html' }];
+const tel = site.phone.replace(/[^+\d]/g, '');
+---
+<header class="site-header" id="top">
+  <div class="bar">
+    <a class="logo" href="/" aria-label="Markforth Solutions home">
+      <img class="logo-full" src="/assets/markforth-logo-onblack.png" alt="Markforth Solutions" width="1423" height="303" />
+      <img class="logo-mark" src="/assets/markforth-emblem.svg" alt="" width="445" height="430" aria-hidden="true" />
+      <span class="logo-word" aria-hidden="true"><b>Mark</b>forth</span>
+    </a>
+    <nav class="nav" aria-label="Main navigation" data-glide>
+      <span class="glide" aria-hidden="true"></span>
+      {links.map((n) => <a href={n.href} aria-current={isActive(n.href) ? 'page' : undefined}>{n.label}</a>)}
+    </nav>
+    <div class="header-end">
+      <a class="icon-btn wa-pulse" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp" data-magnetic><Icon name="whatsapp" /></a>
+      <a class="btn btn-primary btn-sm" href="/contact.html">Let’s talk</a>
+    </div>
+    <button class="menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navlinks" data-magnetic><i aria-hidden="true"></i><span>Menu</span></button>
+    <span class="bar-progress" aria-hidden="true"><i class="progress" data-read-progress></i></span>
+  </div>
+</header>
+<nav class="links" id="navlinks" aria-label="Mobile navigation">
+  <div class="links__list">
+    {menuLinks.map((n, i) => (
+      <a class="links__a" href={n.href} style={`--i:${i}`} aria-current={isActive(n.href) ? 'page' : undefined}>
+        <small aria-hidden="true">{String(i + 1).padStart(2, '0')}</small><span>{n.label}</span>
+      </a>
+    ))}
+    <div class="links__actions">
+      <a class="btn btn-primary" href="/contact.html">Start a conversation</a>
+      <a class="btn btn-outline" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener"><Icon name="whatsapp" /> WhatsApp</a>
+    </div>
+  </div>
+  <div class="links__panel">
+    <img class="links__emblem" src="/assets/markforth-emblem.svg" alt="" width="445" height="430" aria-hidden="true" loading="lazy" />
+    <div class="links__clocks">
+      <div class="links__clock" data-clock="Asia/Karachi"><small>Rawalpindi</small><b class="num" data-time>PKT</b><span data-day>Pakistan</span></div>
+      <div class="links__clock" data-clock="America/New_York"><small>New York</small><b class="num" data-time>ET</b><span data-day>US</span></div>
+    </div>
+    <ul class="links__contact">
+      <li><a href={`mailto:${site.email}`}><Icon name="mail" />{site.email}</a></li>
+      <li><a href={`tel:${tel}`}><Icon name="phone" />{site.phone}</a></li>
+      <li><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener"><Icon name="whatsapp" />WhatsApp</a></li>
+      <li><a href={site.address.mapUrl} target="_blank" rel="noopener"><Icon name="pin" />{site.address.short}</a></li>
+    </ul>
+  </div>
+</nav>

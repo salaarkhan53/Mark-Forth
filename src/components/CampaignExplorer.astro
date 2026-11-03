@@ -1,0 +1,52 @@
+---
+import Icon from './Icon.astro';
+import CampaignArt from './CampaignArt.astro';
+import { campaigns } from '../data/campaigns';
+interface Props { exclude?: string; id?: string; }
+const { exclude, id = 'cx' } = Astro.props;
+const list = campaigns.filter((c) => c.slug !== exclude);
+const icons: Record<string, string> = { medicare: 'medicare', aca: 'shield', 'final-expense': 'life', 'auto-insurance': 'car', 'hospital-indemnity': 'hospital', 'home-improvement': 'home' };
+---
+<div class="cx" data-cx>
+  <div class="cx__tabs" role="tablist" aria-label="Campaigns" aria-orientation="vertical">
+    <span class="cx__glide" aria-hidden="true"></span>
+    {list.map((c, i) => (
+      <button class="cx__tab" role="tab" type="button" id={`${id}-tab-${c.slug}`} aria-controls={`${id}-panel-${c.slug}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
+        <span class="cx__icon"><Icon name={icons[c.slug]} /></span>
+        <span class="cx__name"><b>{c.name}</b><small>{c.category}</small></span>
+        <i class="cx__time" aria-hidden="true"></i>
+      </button>
+    ))}
+  </div>
+  <div class="cx__stage">
+    {list.map((c, i) => (
+      <article class="cx__panel" role="tabpanel" id={`${id}-panel-${c.slug}`} aria-labelledby={`${id}-tab-${c.slug}`} data-active={i === 0 ? '' : undefined} tabindex="0">
+        <div class="cx__copy">
+          <p class="cx__meta"><span class="cx__count">{String(i + 1).padStart(2, '0')} / {String(list.length).padStart(2, '0')}</span><span>{c.category}</span></p>
+          <h3 class="cx__title">{c.name}</h3>
+          <p class="cx__desc">{c.description}</p>
+          <ol class="cx__flow" aria-label={`How a ${c.name} lead moves`}>
+            {c.flow.map(([t, d]) => <li><span class="cx__hl" aria-hidden="true"></span><b>{t}</b><small>{d}</small></li>)}
+          </ol>
+          <div class="cx__cols">
+            <div>
+              <h4>What we discuss</h4>
+              <ul class="checklist">{c.points.map((p) => <li><Icon name="check-circle" /><span>{p}</span></li>)}</ul>
+            </div>
+            <div>
+              <h4>Bring to the first call</h4>
+              <div class="tags">{c.need.map((n) => <span>{n}</span>)}</div>
+            </div>
+          </div>
+          <div class="cx__actions">
+            <a class="btn btn-primary" href={`/contact.html?interest=${encodeURIComponent(c.name)}`}>Discuss {c.name} <Icon name="arrow" /></a>
+            <a class="btn btn-outline" href={`/campaigns/${c.slug}.html`}>Campaign details</a>
+          </div>
+        </div>
+        <figure class="cx__media">
+          <CampaignArt icon={icons[c.slug]} />
+        </figure>
+      </article>
+    ))}
+  </div>
+</div>

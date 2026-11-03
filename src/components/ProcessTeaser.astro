@@ -1,0 +1,31 @@
+---
+// A short version of the process for inner pages: the four steps in one line, no photos.
+// The full version, with pictures and step details, lives on the home page.
+import Icon from './Icon.astro';
+import { process } from '../data/site';
+interface Props { label?: string; title?: string; accent?: string; lead?: string; id?: string; }
+const {
+  label = 'How it starts',
+  title = 'Four steps,',
+  accent = 'agreed together.',
+  lead = 'Discover, align, prepare and refine. The same four steps on every engagement.',
+  id = 'process-title',
+} = Astro.props;
+---
+<div class="pt" data-reveal>
+  <div class="pt__head">
+    <p class="eyebrow" data-r>{label}</p>
+    <h2 class="h2" id={id} data-split>{title} <span class="accent">{accent}</span></h2>
+    <p class="lede" data-r>{lead}</p>
+    <a class="link" href="/#process-title" data-r>See the full process <Icon name="arrow" /></a>
+  </div>
+  <ol class="pt__steps">
+    {process.map((s, i) => (
+      <li data-r style={`--i:${i}`}>
+        <span class="pt__n">{String(i + 1).padStart(2, '0')}</span>
+        <b>{s.name}</b>
+        <span>{s.text}</span>
+      </li>
+    ))}
+  </ol>
+</div>

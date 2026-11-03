@@ -1,0 +1,66 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
+import Icon from '../components/Icon.astro';
+import SectionHead from '../components/SectionHead.astro';
+import CampaignExplorer from '../components/CampaignExplorer.astro';
+import ProcessTeaser from '../components/ProcessTeaser.astro';
+import CampaignArt from '../components/CampaignArt.astro';
+import { campaigns } from '../data/campaigns';
+const icons: Record<string, string> = { medicare: 'medicare', aca: 'shield', 'final-expense': 'life', 'auto-insurance': 'car', 'hospital-indemnity': 'hospital', 'home-improvement': 'home' };
+import CtaBand from '../components/CtaBand.astro';
+const agree = [
+  { icon: 'users', t: 'Audience and coverage', d: 'Who you want to reach, and the states or areas you cover.' },
+  { icon: 'target', t: 'Qualification criteria', d: 'What every lead must meet before it reaches you.' },
+  { icon: 'handoff', t: 'Transfer process', d: 'How and when qualified conversations are handed over.' },
+  { icon: 'chart', t: 'Commercial model', d: 'Cost per lead or per acquisition, discussed during onboarding.' },
+];
+---
+<Base title="Campaigns" page="campaigns" description="Medicare, ACA, Final Expense, Auto Insurance, Hospital Indemnity and Home Improvement campaign support from Markforth Solutions in Rawalpindi.">
+  <PageHero
+    label="Campaign focus"
+    title="One partner."
+    accent="Multiple paths to growth."
+    lead="Explore our campaign focus. Together we define your audience, qualification requirements, transfer process and commercial model before launch."
+    crumbs={[{ label: 'Campaigns' }]}
+    action={{ label: 'Discuss a campaign', href: '/contact.html?interest=Lead%20generation%20partnership' }}
+    secondary={{ label: 'Our services', href: '/services.html' }}
+    variant="mosaic"
+  >
+    <nav class="mosaic" slot="aside" aria-label="Campaigns">
+      {campaigns.map((c, i) => (
+        <a class="mosaic__tile" href={`/campaigns/${c.slug}.html`} style={`--i:${i}`}>
+          <CampaignArt icon={icons[c.slug]} class="camp-art--sm" />
+          <span class="mosaic__name"><b>{c.name}</b><small>{c.category}</small></span>
+        </a>
+      ))}
+    </nav>
+  </PageHero>
+
+  <section class="band-void section rel slant-top" aria-labelledby="list-title">
+    <div class="glow" style="width:40vw;aspect-ratio:1;left:-14vw;top:10%" aria-hidden="true"></div>
+    <div class="container">
+      <SectionHead label="Choose a campaign" title="Six campaigns." accent="One standard." id="list-title" split lead="Campaign availability and terms are confirmed during onboarding." />
+      <CampaignExplorer />
+    </div>
+  </section>
+
+  <section class="band-light section" aria-labelledby="agree-title">
+    <div class="container">
+      <SectionHead label="Settled before launch" title="Four things we agree" accent="before a single call." id="agree-title" split lead="Every campaign starts with a partnership conversation." />
+      <div class="grid-4" data-reveal>
+        {agree.map((a) => (
+          <div class="card hoverable" data-r><div class="card__head"><span class="ibox"><Icon name={a.icon} /></span><h3>{a.t}</h3></div><p>{a.d}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band-mist section" aria-labelledby="process-title">
+    <div class="container">
+      <ProcessTeaser label="How a campaign starts" title="From first call" accent="to first transfer." lead="Every campaign is set up in four steps, with criteria and handoffs agreed before the first call." />
+    </div>
+  </section>
+  <CtaBand title="Bring us your" accent="next campaign." text="Share your campaign, audience and preferred model. We will come back with questions, not a template." action={{ label: 'Discuss a campaign', href: '/contact.html?interest=Lead%20generation%20partnership' }} />
+</Base>

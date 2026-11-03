@@ -1,0 +1,78 @@
+---
+import '../styles/global.css';
+import '../styles/upgrade.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  page: string;
+  /** Pages driven by the original scripts (careers, apply, track) wire their own menu and dialogs. */
+  legacy?: boolean;
+  noindex?: boolean;
+  privacyLinkId?: string;
+  privacyTarget?: string;
+  bodyClass?: string;
+}
+const { title, description, page, legacy = false, noindex = false, privacyLinkId, privacyTarget, bodyClass } = Astro.props;
+const canonical = new URL(Astro.url.pathname === '/index.html' ? '/' : Astro.url.pathname, site.url).href;
+const fullTitle = page === 'home' ? `${site.name} | Built to move business forward` : `${title} | ${site.name}`;
+const ld = page === 'home' ? JSON.stringify({
+  '@context': 'https://schema.org', '@type': 'Organization', name: site.legalName, alternateName: site.name, url: site.url,
+  logo: `${site.url}/android-chrome-512x512.png`, email: site.email, ...(site.phone ? { telephone: site.phone } : {}),
+  address: { '@type': 'PostalAddress', streetAddress: 'Office No. 04-05, 1st Floor, Burj-e-Noor Trading Center, Main Murree Road', addressLocality: 'Rawalpindi', postalCode: '43490', addressCountry: 'PK' },
+  sameAs: site.socials.map((s) => s.href),
+}) : null;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script is:inline>document.documentElement.classList.add('js');setTimeout(function(){var r=document.documentElement;if(!r.classList.contains('motion-on'))r.classList.remove('js')},3000);</script>
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <meta name="theme-color" content="#07080b" />
+  {noindex && <meta name="robots" content="noindex,nofollow" />}
+  <link rel="canonical" href={canonical} />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content={site.name} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={`${site.url}/assets/markforth-social.png`} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="preload" href="/assets/fonts/cabinet-grotesk-700.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/assets/fonts/general-sans-400.woff2" as="font" type="font/woff2" crossorigin />
+  {ld && <script type="application/ld+json" set:html={ld} />}
+  <slot name="head" />
+</head>
+<body data-page={page} data-legacy={legacy ? '' : undefined} class={bodyClass}>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <Header />
+  <main id="main-content">
+    <slot />
+  </main>
+  <Footer privacyLinkId={privacyLinkId} privacyTarget={privacyTarget} managedPrivacy={!privacyTarget} />
+  {!privacyTarget && (
+    <dialog id="privacy" aria-labelledby="privacy-title">
+      <h2 id="privacy-title">Your privacy matters.</h2>
+      <p>Enquiry details and application information are sent directly to Markforth when you submit a form. Application CVs are optional. Records are stored privately on our hosting and used to respond to enquiries or review recruitment applications.</p>
+      <p>A session cookie helps protect form submissions. Optional application drafts stay in your browser tab. Please do not include consumer records, health information or confidential client data in a business enquiry.</p>
+      <p>For questions about your information, contact info@markforthsol.com. You can track published recruitment updates with your reference and an email verification code. Codes expire after 10 minutes and verified tracking access expires after 30 minutes. HR can send reviewed status messages to your application email.</p>
+      <button class="btn btn-dark" type="button" data-dialog-close>Close</button>
+    </dialog>
+  )}
+  <slot name="end" />
+  <script>
+    import { boot } from '../scripts/main';
+    boot();
+  </script>
+</body>
+</html>

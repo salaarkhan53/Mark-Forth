@@ -1,0 +1,52 @@
+---
+import Icon from './Icon.astro';
+import Photo from './Photo.astro';
+import Emblem from './Emblem.astro';
+import type { PhotoKey } from '../data/photos';
+interface Props {
+  label: string;
+  title: string;
+  accent?: string;
+  lead: string;
+  crumbs?: { label: string; href?: string }[];
+  action?: { label: string; href: string };
+  secondary?: { label: string; href: string };
+  more?: { label: string; href: string }[];
+  photo?: PhotoKey;
+  badge?: { icon: string; title: string; text: string };
+  /** a name for the page's own hero visual (passed in the "aside" slot) */
+  variant?: string;
+}
+const { label, title, accent, lead, crumbs = [], action, secondary, more = [], photo, badge, variant } = Astro.props;
+const custom = Astro.slots.has('aside');
+---
+<section class:list={['page-hero', variant && `page-hero--${variant}`]} data-hero>
+  <div class="mesh" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></div>
+  <div class="grid-lines" aria-hidden="true"></div>
+  <div class="slashes" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="container page-hero__inner">
+    <div class="page-hero__copy">
+      {crumbs.length > 0 && (
+        <nav class="crumbs" aria-label="Breadcrumb" data-stage>
+          <a href="/">Home</a>
+          {crumbs.map((c) => <><span aria-hidden="true">/</span>{c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</>)}
+        </nav>
+      )}
+      <h1 class="h1" data-headline>{title}{accent && <> <span class="accent">{accent}</span></>}</h1>
+      <p class="lede">{lead}</p>
+      {(action || secondary) && (
+        <div class="hero__actions" data-stage>
+          {action && <a class="btn btn-primary" href={action.href} data-magnetic>{action.label} <Icon name="arrow" /></a>}
+          {secondary && <a class="btn btn-outline" href={secondary.href} data-magnetic>{secondary.label}</a>}
+          {more.map((m) => <a class="btn btn-outline" href={m.href}>{m.label}</a>)}
+        </div>
+      )}
+    </div>
+    <div class="page-hero__aside" data-pop>
+      {custom ? <slot name="aside" /> : photo ? <Photo name={photo} sizes="(max-width: 920px) 100vw, 40vw" eager /> : (
+        <div class="emblem-panel" aria-hidden="true"><div class="grid-lines"></div><Emblem caption={false} /></div>
+      )}
+      {!custom && badge && <div class="float-card"><span class="ibox"><Icon name={badge.icon} /></span><div><b>{badge.title}</b>{badge.text}</div></div>}
+    </div>
+  </div>
+</section>

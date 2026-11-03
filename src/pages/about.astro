@@ -1,0 +1,83 @@
+---
+import { site } from '../data/site';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
+import Icon from '../components/Icon.astro';
+import SectionHead from '../components/SectionHead.astro';
+import Approach from '../components/Approach.astro';
+import ProcessTeaser from '../components/ProcessTeaser.astro';
+import CtaBand from '../components/CtaBand.astro';
+---
+<Base title="About" page="about" description="Markforth Solutions (Private) Limited is a BPO and lead generation company in Shamsabad, Rawalpindi. People, process and progress: how we work with partners.">
+  <PageHero
+    label="About Markforth"
+    title="People. Process."
+    accent="Progress."
+    lead="Markforth Solutions (Private) Limited is a BPO and lead generation company based in Rawalpindi, Pakistan. We bring people and processes together to support the work behind business growth."
+    crumbs={[{ label: 'About' }]}
+    action={{ label: 'Work with us', href: '/contact.html' }}
+    secondary={{ label: 'Join the team', href: '/careers.html' }}
+    variant="map"
+  >
+    <div class="bridge" slot="aside">
+      <svg class="bridge__map" viewBox="0 0 420 240" aria-hidden="true">
+        <defs>
+          <pattern id="bridge-dots" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.1" /></pattern>
+          <linearGradient id="bridge-line" x1="0" x2="1"><stop offset="0" stop-color="#ff4b2b" /><stop offset="1" stop-color="#ffffff" stop-opacity="0.7" /></linearGradient>
+        </defs>
+        <rect class="bridge__dots" width="420" height="240" fill="url(#bridge-dots)" />
+        <path class="bridge__arc" d="M330 150 C 290 30, 130 20, 78 112" pathLength="1" stroke="url(#bridge-line)" />
+        <g class="bridge__pin bridge__pin--home" transform="translate(330 150)">
+          <circle class="bridge__pulse" r="16" /><circle r="6" />
+          <path d="M0-30c-7.2 0-13 5.6-13 12.6C-13-8-0 4 0 4s13-12 13-21.4C13-24.4 7.2-30 0-30z" transform="translate(0 -6)" />
+        </g>
+        <g class="bridge__pin bridge__pin--us" transform="translate(78 112)"><circle class="bridge__pulse" r="12" /><circle r="5" /></g>
+        <text x="330" y="186" text-anchor="middle">Rawalpindi</text>
+        <text x="78" y="140" text-anchor="middle">New York</text>
+      </svg>
+      <div class="bridge__clocks">
+        <div data-clock="Asia/Karachi"><small>Our office</small><b class="num" data-time>PKT</b><span>Rawalpindi, <span data-day>today</span></span></div>
+        <div data-clock="America/New_York"><small>Your customers</small><b class="num" data-time>ET</b><span>New York, <span data-day>today</span></span></div>
+      </div>
+    </div>
+  </PageHero>
+
+  <section class="band-mist section" aria-label="The Markforth approach">
+    <div class="container"><Approach /></div>
+  </section>
+
+  <section class="band-light section" aria-labelledby="process-title">
+    <div class="container">
+      <ProcessTeaser label="From introduction to execution" title="Who does what," accent="settled before work begins." lead="Every partnership moves through the same four steps, so responsibilities are clear on both sides from day one." />
+    </div>
+  </section>
+
+  <section class="band-mist section" aria-labelledby="office-title">
+    <div class="container">
+      <div class="split">
+        <div class="photo-wrap" data-pop>
+          <Photo name="desk-window" sizes="(max-width: 900px) 100vw, 45vw" />
+          <div class="photo-badge"><span class="ibox"><Icon name="pin" /></span><div><b>Burj-e-Noor Trading Center</b><span>Shamsabad, Rawalpindi</span></div></div>
+        </div>
+        <div class="split__body" data-reveal>
+          <p class="eyebrow" data-r>Visit us</p>
+          <h2 class="h2" id="office-title" data-split>Find us on <span class="accent">Murree Road.</span></h2>
+          <p class="lede" data-r>Our team works from Burj-e-Noor Trading Center on Main Murree Road, in the heart of Shamsabad.</p>
+          <dl class="facts" data-r>
+            <div><dt><Icon name="briefcase" /> Office</dt><dd>No. 04-05, 1st Floor</dd></div>
+            <div><dt><Icon name="pin" /> Area</dt><dd>Shamsabad, Rawalpindi 43490</dd></div>
+            <div data-clock="Asia/Karachi"><dt><Icon name="clock" /> Local time</dt><dd><span data-time>Pakistan time</span>, <span data-day>today</span></dd></div>
+            <div><dt><Icon name="phone" /> Call or WhatsApp</dt><dd><a href={`tel:${site.phone.replace(/[^+\d]/g, '')}`}>{site.phone}</a></dd></div>
+          </dl>
+          <div class="hero__actions" data-r>
+            <a class="btn btn-dark" href="https://www.google.com/maps/search/?api=1&query=Burj-e-Noor+Trading+Center+Main+Murree+Road+Shamsabad+Rawalpindi" target="_blank" rel="noopener"><Icon name="pin" /> Open in Google Maps</a>
+            <a class="btn btn-line" href="/contact.html">Contact us</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Work with the team" accent="behind the work." text="Partner with us on a campaign or an operation, or join the team in Rawalpindi." action={{ label: 'Work with us', href: '/contact.html' }} />
+</Base>

@@ -1,0 +1,75 @@
+---
+import EdgeMark from './EdgeMark.astro';
+import Icon from './Icon.astro';
+import Landmark from './Landmark.astro';
+import SectionHead from './SectionHead.astro';
+import { site } from '../data/site';
+interface Props { address?: boolean; }
+const { address = true } = Astro.props;
+const zones = [
+  { tz: 'America/New_York', name: 'Eastern', city: 'New York', lm: 'empire-state', lmLabel: 'Empire State Building, New York' },
+  { tz: 'America/Chicago', name: 'Central', city: 'Chicago', lm: 'willis-tower', lmLabel: 'Willis Tower, Chicago' },
+  { tz: 'America/Denver', name: 'Mountain', city: 'Denver', lm: 'colorado-capitol', lmLabel: 'Colorado State Capitol, Denver' },
+  { tz: 'America/Los_Angeles', name: 'Pacific', city: 'Los Angeles', lm: 'griffith', lmLabel: 'Griffith Observatory, Los Angeles' },
+];
+---
+<section class="band-void section rel slant-top" aria-labelledby="coverage-title">
+  <EdgeMark left="Rawalpindi" right="US hours" />
+  <div class="glow" style="width:46vw;aspect-ratio:1;right:-14vw;top:-10vw" aria-hidden="true"></div>
+  <div class="container">
+    <SectionHead label="Coverage" title="Staffed across every" accent="US time zone." id="coverage-title" split lead="When your customers are awake, our team is at work. US business hours run through the Rawalpindi night." />
+    <div class="coverage">
+      <div class="clock-main" data-clock="Asia/Karachi" data-r>
+          <Landmark name="lal-haveli" label="Lal Haveli, Rawalpindi" />
+        <div>
+          <span class="live"><i></i>Our office, live</span>
+          <b class="num"><span data-time>PKT</span></b>
+          <p class="muted" style="margin-top:8px">Rawalpindi, <span data-day>Pakistan</span></p>
+        </div>
+        {address ? (
+          <div style="display:grid;gap:14px;justify-items:start">
+            <address>{site.address.lines.join(', ')}</address>
+            <a class="btn btn-outline btn-sm" href={site.address.mapUrl} target="_blank" rel="noopener"><Icon name="pin" /> Open in Google Maps</a>
+          </div>
+        ) : (
+          <p class="muted" style="max-width:34ch">Our team works through the Rawalpindi night, so every US business hour is covered.</p>
+        )}
+      </div>
+      <div class="clocks" data-reveal>
+        {zones.map((z) => (
+          <div class="clock" data-clock={z.tz} data-r>
+            <Landmark name={z.lm as any} label={z.lmLabel} />
+            <div class="tz"><span>{z.name} time</span><span class="sky-arc" aria-hidden="true"><span class="sky"></span></span></div>
+            <b class="num"><span data-time>{z.name}</span></b>
+            <small>{z.city}, <span data-day>US</span></small>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- 24 hours on one line, in Rawalpindi time: each US zone's 9 to 5, and the team's shift across them -->
+    <div class="overlap" data-overlap-chart data-r>
+      <div class="overlap__head">
+        <p class="overlap__title">Every US business hour, covered</p>
+        <p class="overlap__note">24 hours in Rawalpindi time. Bars show 9 am to 5 pm in each US zone.</p>
+      </div>
+      <div class="overlap__grid">
+        <div class="overlap__axis" aria-hidden="true">
+          {['12 am', '3 am', '6 am', '9 am', '12 pm', '3 pm', '6 pm', '9 pm'].map((t, i) => <span style={`--h:${i * 3}`}>{t}</span>)}
+        </div>
+        <div class="overlap__row overlap__row--team" data-ov="team">
+          <span class="overlap__label">Our shift</span>
+          <span class="overlap__track"><i></i><i></i></span>
+        </div>
+        {zones.map((z) => (
+          <div class="overlap__row" data-ov={z.tz}>
+            <span class="overlap__label">{z.name} <small>{z.city}</small></span>
+            <span class="overlap__track"><i></i><i></i></span>
+          </div>
+        ))}
+        <span class="overlap__now" data-overlap-now aria-hidden="true"><em>Now</em></span>
+      </div>
+      <p class="visually-hidden" data-overlap-summary>US business hours run through the Rawalpindi night.</p>
+    </div>
+  </div>
+</section>

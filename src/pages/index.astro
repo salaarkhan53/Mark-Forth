@@ -1,0 +1,64 @@
+---
+import EdgeMark from '../components/EdgeMark.astro';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Icon from '../components/Icon.astro';
+import TrustStrip from '../components/TrustStrip.astro';
+import StatsBand from '../components/StatsBand.astro';
+import SectionHead from '../components/SectionHead.astro';
+import ServiceCards from '../components/ServiceCards.astro';
+import CampaignExplorer from '../components/CampaignExplorer.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import Approach from '../components/Approach.astro';
+import Coverage from '../components/Coverage.astro';
+import CareersCards from '../components/CareersCards.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+---
+<Base
+  title="Home"
+  page="home"
+  description="Markforth Solutions provides business process outsourcing, lead generation and customer support from Rawalpindi, Pakistan, working US business hours. Let’s move your business forward."
+>
+  <Hero />
+  <TrustStrip />
+  <StatsBand />
+
+  <section class="band-mist section" aria-labelledby="services-title">
+    <div class="container">
+      <SectionHead label="What we do" title="The people behind your" accent="next phase of growth." id="services-title" split lead="Three services, each shaped around your customers, your process and the outcome you need.">
+        <a class="link" href="/services.html" data-r>All services <Icon name="arrow" /></a>
+      </SectionHead>
+      <ServiceCards />
+    </div>
+  </section>
+
+  <section class="band-void section rel slant-top" aria-labelledby="campaigns-title">
+    <EdgeMark left="Campaigns" right="Six paths" />
+    <div class="glow" style="width:40vw;aspect-ratio:1;left:-14vw;top:10%" aria-hidden="true"></div>
+    <div class="container">
+      <SectionHead label="Campaign focus" title="One partner." accent="Multiple paths to growth." id="campaigns-title" split lead="Together we define your audience, qualification requirements, transfer process and commercial model before launch." />
+      <CampaignExplorer />
+    </div>
+  </section>
+
+  <section class="band-light section pro-section" aria-labelledby="process-title">
+    <div class="container">
+      <ProcessSteps label="From introduction to execution" title="A clear process." accent="A shared direction." lead="Four steps on every engagement, so responsibilities are clear from the very first day." />
+    </div>
+  </section>
+
+  <Coverage />
+
+  <section class="band-light section" aria-labelledby="careers-title">
+    <div class="container">
+      <SectionHead label="Grow with us" title="Your next move" accent="starts here." id="careers-title" split lead="Find your role and send your application directly to our recruitment team. Freshers are welcome.">
+        <a class="link" href="/track.html" data-r>Already applied? Track your application <Icon name="arrow" /></a>
+      </SectionHead>
+      <CareersCards />
+    </div>
+  </section>
+
+  <Faq />
+  <CtaBand />
+</Base>

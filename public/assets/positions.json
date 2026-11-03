@@ -1,0 +1,111 @@
+[
+  {
+    "group": "Agent roles",
+    "roles": [
+      {
+        "name": "Fronter",
+        "summary": "Open conversations and identify interest."
+      },
+      {
+        "name": "Verifier",
+        "summary": "Review details against the campaign brief."
+      },
+      {
+        "name": "Closer",
+        "summary": "Continue qualified conversations within the agreed scope."
+      },
+      {
+        "name": "Customer Support Representative",
+        "summary": "Handle customer enquiries and agreed support tasks."
+      }
+    ]
+  },
+  {
+    "group": "Quality & training",
+    "roles": [
+      {
+        "name": "Quality Control (QC)",
+        "summary": "Review calls and records against the agreed quality criteria."
+      },
+      {
+        "name": "Quality Assurance Lead",
+        "summary": "Coordinate quality reviews and feedback."
+      },
+      {
+        "name": "Trainer",
+        "summary": "Support induction, campaign guidance and ongoing training."
+      }
+    ]
+  },
+  {
+    "group": "Team & operations",
+    "roles": [
+      {
+        "name": "Team Lead",
+        "summary": "Support agents, coordinate daily work and escalate issues."
+      },
+      {
+        "name": "Assistant Team Lead",
+        "summary": "Help with team coordination and agent support."
+      },
+      {
+        "name": "Operations Executive",
+        "summary": "Support daily campaign and operational processes."
+      },
+      {
+        "name": "Operations Manager",
+        "summary": "Oversee agreed operational responsibilities and team coordination."
+      },
+      {
+        "name": "Campaign Manager",
+        "summary": "Coordinate campaign requirements, handoffs and reporting."
+      }
+    ]
+  },
+  {
+    "group": "HR & administration",
+    "roles": [
+      {
+        "name": "HR Recruiter",
+        "summary": "Support sourcing, interviews and applicant coordination."
+      },
+      {
+        "name": "HR Executive",
+        "summary": "Support recruitment records and people processes."
+      },
+      {
+        "name": "Admin Executive",
+        "summary": "Coordinate administrative tasks and office records."
+      },
+      {
+        "name": "Office Coordinator",
+        "summary": "Help organise office activity and day-to-day support."
+      }
+    ]
+  },
+  {
+    "group": "Technical & data",
+    "roles": [
+      {
+        "name": "Dialer Administrator",
+        "summary": "Support dialer configuration, campaign setup and operational checks."
+      },
+      {
+        "name": "VoIP Support",
+        "summary": "Support voice services and troubleshoot calling issues."
+      },
+      {
+        "name": "IT Support",
+        "summary": "Help with systems, access and technical support."
+      },
+      {
+        "name": "Data Analyst",
+        "summary": "Prepare and review operational data and reports."
+      },
+      {
+        "name": "MIS Executive",
+        "summary": "Maintain reporting records and management information."
+      }
+    ]
+  }
+]

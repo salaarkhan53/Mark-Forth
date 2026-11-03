@@ -1,0 +1,10 @@
+---
+// Two large outlined words inside a dark band, drawn very faint behind the content.
+// They drift sideways in opposite directions as the band scrolls past.
+interface Props { left: string; right: string; }
+const { left, right } = Astro.props;
+---
+<div class="edge-mark" aria-hidden="true">
+  <span class="edge-mark__l" data-drift="-1">{left}</span>
+  <span class="edge-mark__r" data-drift="1">{right}</span>
+</div>

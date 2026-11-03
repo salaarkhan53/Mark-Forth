@@ -1,0 +1,23 @@
+---
+import Icon from './Icon.astro';
+import Photo from './Photo.astro';
+import { services } from '../data/services';
+interface Props { exclude?: string; photos?: boolean; }
+const { exclude, photos = true } = Astro.props;
+const icons: Record<string, string> = { 'lead-generation': 'phone', 'customer-support': 'headset', 'business-outsourcing': 'briefcase' };
+const list = services.filter((s) => s.slug !== exclude);
+---
+<div class:list={[list.length === 2 ? 'grid-2' : 'grid-3']} data-reveal>
+  {list.map((s) => (
+    <a class:list={['card', 'zoom', { 'card--photo': photos }]} href={`/services/${s.slug}.html`} data-r>
+      {photos && <Photo name={s.photo} sizes="(max-width: 640px) 100vw, 33vw" />}
+      <div class={photos ? 'card__body' : 'card__inner'} style={photos ? undefined : 'display:contents'}>
+        <p class="card__eyebrow">{String(services.indexOf(s) + 1).padStart(2, '0')} · {s.verb}</p>
+        <div class="card__head"><span class="ibox"><Icon name={icons[s.slug]} /></span><h3>{s.name}</h3></div>
+        <p>{s.summary} {s.body.split('.')[0]}.</p>
+        <div class="tags">{s.scope.slice(0, 3).map((x) => <span>{x.item}</span>)}</div>
+        <span class="link">Explore {s.name.toLowerCase()} <Icon name="arrow" /></span>
+      </div>
+    </a>
+  ))}
+</div>
