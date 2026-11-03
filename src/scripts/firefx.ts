@@ -46,7 +46,7 @@ export function initBarFire(canvas: HTMLCanvasElement, header: HTMLElement) {
     const sx = w / 2 + (Math.random() - 0.5) * w * 0.62;
     return {
       x: spark ? sx : w / 2 + g * spread * 2,
-      y: spark ? h - 2 - Math.random() * 6 : h + 2,
+      y: spark ? h - 2 - Math.random() * 6 : h - 1,
       vx: spark ? (sx - w / 2) * 0.012 + (Math.random() - 0.5) * 0.5 : (Math.random() - 0.5) * 0.3,
       vy: spark ? -(1.5 + Math.random() * 1.2) : -(0.9 + Math.random() * 1.1),
       r: spark ? 1 + Math.random() * 0.8 : 5 + Math.random() * 6,
@@ -81,13 +81,26 @@ export function initBarFire(canvas: HTMLCanvasElement, header: HTMLElement) {
       p.y += p.vy * (1 + boost * 0.35);
       const r = p.spark ? p.r : p.r * (1 - k * 0.8);
       const img = p.spark ? core : k < 0.18 ? core : k < 0.5 ? body : k < 0.82 ? tip : ember;
-      const fade = k < 0.12 ? k / 0.12 : 1 - (k - 0.12) / 0.88;
+      const fade = k < 0.12 ? 0.75 + (k / 0.12) * 0.25 : 1 - (k - 0.12) / 0.88; // visible from the moment it leaves the surface
       ctx.globalAlpha = p.spark ? (1 - k) : fade * (k < 0.18 ? 0.62 : 0.72) * (0.8 + 0.2 * Math.sin(p.seed + t * 0.6));
       const d = r * 2;
       // stretched upward, like a tongue of flame
       ctx.drawImage(img, p.x - r, p.y - r * 1.8, d, d * 1.9);
     }
+    // the bed of the fire: a low glow lying on the bar's surface, breathing with the flames
+    const bed = ctx.createRadialGradient(w / 2, h, 0, w / 2, h, w * 0.36);
+    const pulse = 0.75 + Math.sin(t * 0.13) * 0.12 + boost * 0.15;
+    bed.addColorStop(0, `rgba(255,190,80,${0.55 * pulse})`);
+    bed.addColorStop(0.35, `rgba(255,110,24,${0.35 * pulse})`);
+    bed.addColorStop(1, 'rgba(226,44,12,0)');
     ctx.globalAlpha = 1;
+    ctx.fillStyle = bed;
+    ctx.save();
+    ctx.translate(0, h);
+    ctx.scale(1, 0.16);
+    ctx.translate(0, -h);
+    ctx.fillRect(0, h - w * 0.36, w, w * 0.36);
+    ctx.restore();
     ctx.globalCompositeOperation = 'source-over';
     raf = requestAnimationFrame(step);
   };
