@@ -308,3 +308,10 @@ html:not(.js) .pt__steps::before { transform: none !important; }
 @media (max-width: 900px) { .ap__photo { flex: none; aspect-ratio: 16 / 9; min-height: 0; } }
 .dial__hand line { stroke-width: 4; }
 .dial__hand circle { fill: #fff; stroke: var(--void); stroke-width: 3; }
+
+/* our own photographs show in their real colours (the grey and red treatment is for stock) */
+.photo--real::before, .photo--real::after { display: none; }
+.office-card .photo--real img { object-position: 50% 22%; }
+
+/* the photo fills the card; the text beside it sets the height, so both columns end together */
+@media (min-width: 901px) { .office-card .photo { position: relative; } .office-card .photo img { position: absolute; inset: 0; width: 100%; height: 100%; } }

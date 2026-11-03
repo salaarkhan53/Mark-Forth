@@ -13,6 +13,7 @@ import concourse from '../assets/photos/concourse.jpg';
 import skyline from '../assets/photos/skyline.jpg';
 import officeWindows from '../assets/photos/office-windows.jpg';
 import telephone from '../assets/photos/telephone-1907.jpg';
+import burjENoor from '../assets/photos/burj-e-noor.jpg';
 
 // Stock photographs (Unsplash licence, via picsum.photos) used as atmosphere.
 // None shows Markforth's own office or team; replace with real photography when available.
@@ -31,6 +32,7 @@ export const photos = {
   concourse: { src: concourse, alt: 'A busy station concourse in New York', credit: 'Nicolai Berntsen / Unsplash' },
   skyline: { src: skyline, alt: 'The New York skyline from above', credit: 'Unsplash' },
   'office-windows': { src: officeWindows, alt: 'Lit office windows on a tower at night', credit: 'Vladimir Kudinov / Unsplash' },
+  'burj-e-noor': { src: burjENoor, alt: 'Burj-e-Noor Trading Center on Main Murree Road, Shamsabad, lit up at night', credit: 'Markforth Solutions' },
   'telephone-1907': {
     src: telephone,
     alt: 'Telephone Conversation, a 1907 lithograph by Moriz Jung showing two men speaking on the telephone',
