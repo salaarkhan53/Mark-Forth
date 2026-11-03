@@ -1,4 +1,3 @@
-import type { PhotoKey } from './photos';
 // Campaign copy: category, description and scope points are taken word for word from the live site.
 // "need" lists what partners are asked to share; review before launch.
 export type Campaign = {
@@ -9,7 +8,6 @@ export type Campaign = {
   description: string;
   points: string[];
   need: string[];
-  photo: PhotoKey;
   // Three steps a lead takes in this campaign, drawn from its scope above.
   flow: [string, string][];
 };
@@ -23,7 +21,6 @@ export const campaigns: Campaign[] = [
     description: 'Lead generation and transfer campaign support for Medicare partners, with qualification criteria and handoffs defined around your requirements.',
     points: ['Audience and campaign requirements', 'Lead qualification and transfer process', 'CPL / CPA model discussion'],
     need: ['Target audience and states', 'Qualification questions', 'Transfer hours and destination', 'Preferred CPL / CPA model'],
-    photo: 'concourse',
     flow: [['Reach', 'Your states'], ['Qualify', 'Your questions'], ['Transfer', 'Live, to your team']],
   },
   {
@@ -34,7 +31,6 @@ export const campaigns: Campaign[] = [
     description: 'Campaign support for ACA partners looking to define a clear outreach, qualification and transfer workflow.',
     points: ['Audience and state requirements', 'Qualification criteria and handoff process', 'CPL / CPA model discussion'],
     need: ['States and audience', 'Qualification criteria', 'Handoff process and hours', 'Preferred CPL / CPA model'],
-    photo: 'skyline',
     flow: [['Outreach', 'State by state'], ['Qualify', 'Your criteria'], ['Handoff', 'Agreed hours']],
   },
   {
@@ -45,7 +41,6 @@ export const campaigns: Campaign[] = [
     description: 'Outreach and lead qualification support for final expense campaigns, aligned with your buyer requirements.',
     points: ['Target audience and campaign scope', 'Qualification and transfer requirements', 'CPL / CPA model discussion'],
     need: ['Target audience and scope', 'Buyer requirements', 'Transfer requirements and hours', 'Preferred CPL / CPA model'],
-    photo: 'writing-notes',
     flow: [['Outreach', 'Your audience'], ['Qualify', 'Buyer requirements'], ['Transfer', 'Your hours']],
   },
   {
@@ -56,7 +51,6 @@ export const campaigns: Campaign[] = [
     description: 'Discuss lead generation and transfer support for auto insurance campaigns, built around your coverage areas and acceptance criteria.',
     points: ['Coverage areas and audience criteria', 'Lead information and qualification requirements', 'Transfer process and partnership model'],
     need: ['Coverage areas', 'Acceptance criteria', 'Lead information required', 'Transfer process and model'],
-    photo: 'suit-walk',
     flow: [['Coverage', 'Your areas only'], ['Qualify', 'Your acceptance rules'], ['Transfer', 'Lead details included']],
   },
   {
@@ -67,7 +61,6 @@ export const campaigns: Campaign[] = [
     description: 'Connect with our team about hospital indemnity campaign support, from outreach requirements to the agreed handoff.',
     points: ['Campaign scope and qualification requirements', 'Lead and transfer workflow', 'Buyer acceptance criteria and partnership terms'],
     need: ['Campaign scope', 'Qualification requirements', 'Buyer acceptance criteria', 'Partnership terms'],
-    photo: 'glass-roof',
     flow: [['Scope', 'Agreed up front'], ['Qualify', 'Your requirements'], ['Handoff', 'Buyer accepted']],
   },
   {
@@ -78,7 +71,6 @@ export const campaigns: Campaign[] = [
     description: 'Explore outreach and lead generation support for home improvement businesses, based on the services and locations you cover.',
     points: ['Service categories and coverage areas', 'Homeowner enquiry qualification', 'Lead handoff and partnership terms'],
     need: ['Services you offer', 'Locations you cover', 'Homeowner qualification criteria', 'Handoff and partnership terms'],
-    photo: 'laptop-typing',
     flow: [['Services', 'What you offer'], ['Homeowner', 'Enquiry qualified'], ['Handoff', 'In your locations']],
   },
 ];

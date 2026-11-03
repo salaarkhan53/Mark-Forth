@@ -313,3 +313,6 @@ dialog > .eyebrow + h2 { margin-top: 10px; }
 /* the fire stays inside the bar's red outline, its base fading softly so the outline runs unbroken */
 .bar-fire canvas { bottom: 0; height: 100%; -webkit-mask-image: linear-gradient(to top, rgb(0 0 0 / 0.55) 0, #000 2px); mask-image: linear-gradient(to top, rgb(0 0 0 / 0.55) 0, #000 2px); }
 .bar-fire { width: 210px; }
+
+/* long words such as email addresses wrap instead of pushing past the screen edge */
+p, li, dd, address, .track-small { overflow-wrap: break-word; }

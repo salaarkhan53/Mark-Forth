@@ -319,7 +319,11 @@ function careers() {
         b.type = 'button';
         b.className = 'dept-chip';
         b.dataset.value = o.value;
-        b.innerHTML = svg(o.value ? deptOf(o.textContent || '') : 'all') + `<span>${o.value ? o.textContent : 'All roles'}</span>`;
+        // the icon is ours; the department name comes from the job list, so it is set as plain text
+        b.innerHTML = svg(o.value ? deptOf(o.textContent || '') : 'all');
+        const label = document.createElement('span');
+        label.textContent = o.value ? (o.textContent || '') : 'All roles';
+        b.appendChild(label);
         b.addEventListener('click', () => { select.value = o.value; select.dispatchEvent(new Event('change', { bubbles: true })); sync(); });
         return b;
       }));

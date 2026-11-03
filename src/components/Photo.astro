@@ -4,9 +4,8 @@ import { photos, type PhotoKey } from '../data/photos';
 interface Props { name: PhotoKey; class?: string; sizes?: string; eager?: boolean; caption?: string; drift?: boolean; ratio?: string; }
 const { name, class: cls = '', sizes = '(max-width: 900px) 100vw, 50vw', eager = false, caption, drift = false, ratio } = Astro.props;
 const p = photos[name];
-const art = name === 'telephone-1907';
 ---
-<figure class:list={['photo', { 'photo--art': art }, cls]} style={ratio ? `aspect-ratio:${ratio}` : undefined}>
+<figure class:list={['photo', cls]} style={ratio ? `aspect-ratio:${ratio}` : undefined}>
   <Picture src={p.src} alt={p.alt} widths={[640, 960, 1400, 2000]} sizes={sizes} formats={['avif', 'webp']} fallbackFormat="webp" quality={72}
     loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : 'auto'} data-drift={drift ? '' : undefined} />
   {caption && <figcaption>{caption}</figcaption>}

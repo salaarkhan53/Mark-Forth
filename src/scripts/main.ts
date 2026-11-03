@@ -474,10 +474,11 @@ function applyStepper() {
   const bar = document.createElement('ol');
   bar.className = 'stepper';
   bar.setAttribute('aria-label', 'Application steps');
-  bar.innerHTML = indicators.map((ind, i) => {
-    const name = ind.querySelector('b')?.textContent || `Step ${i + 1}`;
-    return `<li class="stepper__step"><span class="stepper__dot" aria-hidden="true"><b>${i + 1}</b><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span class="stepper__name">${name}</span></li>`;
-  }).join('') + '<li class="stepper__line" aria-hidden="true"><i></i></li>';
+  bar.innerHTML = indicators.map((_, i) =>
+    `<li class="stepper__step"><span class="stepper__dot" aria-hidden="true"><b>${i + 1}</b><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span class="stepper__name"></span></li>`,
+  ).join('') + '<li class="stepper__line" aria-hidden="true"><i></i></li>';
+  // step names are copied as plain text
+  $$('.stepper__name', bar).forEach((el, i) => { el.textContent = indicators[i].querySelector('b')?.textContent || `Step ${i + 1}`; });
   const tools = $('.application-tools', host)!;
   tools.after(bar);
   const items = $$('.stepper__step', bar);

@@ -7,6 +7,26 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import PrivacyDialog from '../components/PrivacyDialog.astro';
 import { site } from '../data/site';
+import { createHash } from 'node:crypto';
+
+// The only two inline scripts on the site. The security policy below allows exactly these
+// (by their SHA-256 fingerprint) plus the site's own files, and nothing else.
+const INLINE_VT = "(function(){var q=function(t){if(!t)return;['ready','finished','updateCallbackDone'].forEach(function(k){t[k]&&t[k].catch(function(){})});if(matchMedia('(prefers-reduced-motion: reduce)').matches)try{t.skipTransition()}catch(e){}};addEventListener('pagereveal',function(e){q(e.viewTransition)});addEventListener('pageswap',function(e){q(e.viewTransition)});addEventListener('unhandledrejection',function(e){var r=e.reason;if(r&&r.name==='InvalidStateError'&&/transition/i.test(r.message||''))e.preventDefault()})})();";
+const INLINE_JS = "document.documentElement.classList.add('js');setTimeout(function(){var r=document.documentElement;if(!r.classList.contains('motion-on'))r.classList.remove('js')},3000);";
+const sha = (code: string) => `'sha256-${createHash('sha256').update(code, 'utf8').digest('base64')}'`;
+const csp = [
+  "default-src 'self'",
+  `script-src 'self' ${sha(INLINE_VT)} ${sha(INLINE_JS)}`,
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob:",
+  "font-src 'self'",
+  "connect-src 'self'",
+  "frame-src 'none'",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  'upgrade-insecure-requests',
+].join('; ');
 
 interface Props {
   title: string;
@@ -19,7 +39,10 @@ interface Props {
   privacyTarget?: string;
   bodyClass?: string;
 }
-const { title, description, page, legacy = false, noindex = false, privacyLinkId, privacyTarget, bodyClass } = Astro.props;
+const { title, description: fullDescription, page, legacy = false, noindex = false, privacyLinkId, privacyTarget, bodyClass } = Astro.props;
+// search results show about 160 characters: keep descriptions within that, cut at a word
+const description = fullDescription.length <= 158 ? fullDescription : fullDescription.slice(0, 155).replace(/[\s,.;:]+\S*$/, '') + '…';
+const ogImage = `${site.url}/assets/markforth-social.png`;
 const canonical = new URL(Astro.url.pathname === '/index.html' ? '/' : Astro.url.pathname, site.url).href;
 const fullTitle = page === 'home' ? `${site.name} | Built to move business forward` : `${title} | ${site.name}`;
 const ld = page === 'home' ? JSON.stringify({
@@ -34,20 +57,29 @@ const ld = page === 'home' ? JSON.stringify({
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script is:inline>(function(){var q=function(t){if(!t)return;['ready','finished','updateCallbackDone'].forEach(function(k){t[k]&&t[k].catch(function(){})});if(matchMedia('(prefers-reduced-motion: reduce)').matches)try{t.skipTransition()}catch(e){}};addEventListener('pagereveal',function(e){q(e.viewTransition)});addEventListener('pageswap',function(e){q(e.viewTransition)});addEventListener('unhandledrejection',function(e){var r=e.reason;if(r&&r.name==='InvalidStateError'&&/transition/i.test(r.message||''))e.preventDefault()})})();</script>
-  <script is:inline>document.documentElement.classList.add('js');setTimeout(function(){var r=document.documentElement;if(!r.classList.contains('motion-on'))r.classList.remove('js')},3000);</script>
+  <meta http-equiv="Content-Security-Policy" content={csp} />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <script is:inline set:html={INLINE_VT}></script>
+  <script is:inline set:html={INLINE_JS}></script>
   <title>{fullTitle}</title>
   <meta name="description" content={description} />
   <meta name="theme-color" content="#07080b" />
   {noindex && <meta name="robots" content="noindex,nofollow" />}
-  <link rel="canonical" href={canonical} />
+  {page !== '404' && <link rel="canonical" href={canonical} />}
   <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_US" />
   <meta property="og:site_name" content={site.name} />
   <meta property="og:title" content={fullTitle} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonical} />
-  <meta property="og:image" content={`${site.url}/assets/markforth-social.png`} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Markforth Solutions (Private) Limited: built to move business forward" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={fullTitle} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
   <link rel="icon" href="/favicon.ico" sizes="32x32" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
