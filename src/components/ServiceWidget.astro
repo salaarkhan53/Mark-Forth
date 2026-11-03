@@ -1,0 +1,50 @@
+---
+// A small live panel that sits on a service photo and shows the service at work.
+// It plays a short loop while on screen; with reduced motion it shows the finished state.
+// The words describe the process only: no figures, names or results are invented.
+import Icon from './Icon.astro';
+interface Props { kind: 'connect' | 'support' | 'operate' | 'agree'; items?: string[]; class?: string; }
+const { kind, items = [], class: cls } = Astro.props;
+const title = { connect: 'Lead flow', support: 'Support queue', operate: 'Task board', agree: 'Agreed before launch' }[kind];
+const note = { connect: 'Your criteria, your hours', support: 'Answered in your voice', operate: 'Clear handoffs', agree: 'Settled with you' }[kind];
+const rows = kind === 'connect'
+  ? ['Audience matched', 'Criteria checked', 'Live transfer to your team']
+  : kind === 'support'
+    ? [['mail', 'Email enquiry'], ['message', 'Chat message'], ['phone', 'Call back request']]
+    : kind === 'operate'
+      ? ['Inputs received', 'Work done to your process', 'Output handed back']
+      : items.slice(0, 4);
+---
+<div class:list={['sw', `sw--${kind}`, cls]} data-sw aria-hidden="true">
+  <div class="sw__head">
+    <span class="sw__live"><i></i></span>
+    <b>{title}</b>
+    <small>{note}</small>
+  </div>
+  {kind === 'connect' && (
+    <div class="sw__call">
+      <span class="sw__call-icon"><Icon name="phone" /></span>
+      <span class="sw__wave">{Array.from({ length: 14 }, (_, k) => <i style={`--k:${k}`}></i>)}</span>
+      <span class="sw__call-tag">Conversation</span>
+    </div>
+  )}
+  <ol class="sw__rows">
+    {rows.map((r, k) => (
+      <li style={`--k:${k}`}>
+        {Array.isArray(r) ? (
+          <>
+            <span class="sw__ch"><Icon name={r[0]} /></span>
+            <span class="sw__txt">{r[1]}</span>
+            <span class="sw__state"><em>Waiting</em><em>Answered</em></span>
+          </>
+        ) : (
+          <>
+            <span class="sw__tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" pathLength="1" /></svg></span>
+            <span class="sw__txt">{r}</span>
+          </>
+        )}
+      </li>
+    ))}
+  </ol>
+  {(kind === 'connect' || kind === 'operate') && <span class="sw__bar"><i></i></span>}
+</div>

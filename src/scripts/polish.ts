@@ -148,6 +148,62 @@ function focusReveal() {
   });
 }
 
+// S1: service widgets play their loop only while on screen.
+function serviceWidgets() {
+  const els = $$('[data-sw]');
+  if (!els.length || reduced.matches) return;
+  const io = new IntersectionObserver((entries) => entries.forEach((e) => e.target.classList.toggle('is-play', e.isIntersecting)), { threshold: 0.35 });
+  els.forEach((el) => io.observe(el));
+}
+
+// S2: the sticky service bar shows where you are and how far through each service.
+function chapters() {
+  const bar = document.querySelector<HTMLElement>('[data-chapters]');
+  if (!bar) return;
+  const wrap = bar.parentElement!;
+  const links = $$<HTMLAnchorElement>('[data-chapter]', bar);
+  const secs = links.map((a) => document.querySelector<HTMLElement>(`[data-chapter-section="${a.dataset.chapter}"]`));
+  let raf = 0;
+  const update = () => {
+    raf = 0;
+    const w = wrap.getBoundingClientRect();
+    bar.classList.toggle('is-on', w.top < innerHeight * 0.35 && w.bottom > innerHeight * 0.5);
+    const mid = innerHeight * 0.45;
+    secs.forEach((sec, i) => {
+      if (!sec) return;
+      const r = sec.getBoundingClientRect();
+      const p = Math.min(1, Math.max(0, (mid - r.top) / r.height));
+      links[i].style.setProperty('--p', p.toFixed(3));
+      const active = r.top <= mid && r.bottom > mid;
+      links[i].classList.toggle('is-active', active);
+      links[i].classList.toggle('is-done', p >= 1);
+      if (active) links[i].setAttribute('aria-current', 'location'); else links[i].removeAttribute('aria-current');
+    });
+  };
+  addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(update); }, { passive: true });
+  addEventListener('resize', update);
+  update();
+}
+
+// S6: the four-step strip fills as you scroll past it; passed steps get a tick.
+function stepStrip() {
+  const strips = $$('.pt__steps');
+  if (!strips.length) return;
+  let raf = 0;
+  const update = () => {
+    raf = 0;
+    strips.forEach((ol) => {
+      const r = ol.getBoundingClientRect();
+      const p = reduced.matches ? 1 : Math.min(1, Math.max(0, (innerHeight * 0.85 - r.top) / (innerHeight * 0.55)));
+      ol.style.setProperty('--pt', p.toFixed(3));
+      $$('li', ol).forEach((li, i, all) => li.classList.toggle('is-passed', p >= (i + 1) / all.length - 0.02));
+    });
+  };
+  addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(update); }, { passive: true });
+  addEventListener('resize', update);
+  update();
+}
+
 export function initPolish() {
   const run = (fn: () => void) => { try { fn(); } catch (e) { console.error(e); } };
   run(buttonSparks);
@@ -157,4 +213,7 @@ export function initPolish() {
   run(launchTop);
   run(dialogs);
   run(focusReveal);
+  run(serviceWidgets);
+  run(chapters);
+  run(stepStrip);
 }

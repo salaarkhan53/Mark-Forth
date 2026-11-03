@@ -5,6 +5,7 @@ import Photo from '../components/Photo.astro';
 import Icon from '../components/Icon.astro';
 import SectionHead from '../components/SectionHead.astro';
 import ProcessTeaser from '../components/ProcessTeaser.astro';
+import ServiceWidget from '../components/ServiceWidget.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { services } from '../data/services';
 const laneIcons: Record<string, string> = { 'lead-generation': 'phone', 'customer-support': 'headset', 'business-outsourcing': 'briefcase' };
@@ -32,19 +33,34 @@ const laneIcons: Record<string, string> = { 'lead-generation': 'phone', 'custome
     </nav>
   </PageHero>
 
+  <div class="chapters-wrap">
+  <!-- a slim bar that follows you through the three services, showing where you are -->
+  <nav class="chapters" aria-label="Services on this page" data-chapters>
+    <div class="container chapters__inner">
+      {services.map((s, i) => (
+        <a class="chapters__link" href={`#svc-${s.slug}`} data-chapter={s.slug}>
+          <span class="chapters__n">0{i + 1}</span>
+          <span class="chapters__name"><small>{s.verb}</small><b>{s.name}</b></span>
+          <i class="chapters__fill" aria-hidden="true"></i>
+        </a>
+      ))}
+    </div>
+  </nav>
   {services.map((s, i) => (
-    <section class:list={['section', i % 2 === 0 ? 'band-light' : 'band-mist']} aria-labelledby={`svc-${s.slug}`}>
+    <section class:list={['section', 'chapter', i % 2 === 0 ? 'band-light' : 'band-mist']} aria-labelledby={`svc-${s.slug}`} data-chapter-section={s.slug}>
+      <span class="chapter__n" aria-hidden="true">0{i + 1}</span>
+      <span class="chapter__verb" aria-hidden="true">{s.verb}</span>
       <div class="container">
         <div class:list={['split', { 'split--rev': i % 2 === 1 }]}>
           <div class="photo-wrap" data-pop>
             <Photo name={s.photo} sizes="(max-width: 900px) 100vw, 45vw" />
-            <div class="photo-badge"><span class="ibox"><Icon name="check-circle" /></span><div><b>{s.verb}</b><span>{s.summary}</span></div></div>
+            <ServiceWidget kind={(['connect', 'support', 'operate'] as const)[i]} />
           </div>
           <div class="split__body" data-reveal>
             <p class="eyebrow" data-r>Service 0{i + 1}</p>
             <h2 class="h2" id={`svc-${s.slug}`} data-split>{s.name}</h2>
             <p class="lede" data-r>{s.body}</p>
-            <ul class="checklist" data-r>{s.scope.map((x) => <li><Icon name="check-circle" /><span><b>{x.item}.</b> {x.detail}</span></li>)}</ul>
+            <ul class="checklist checklist--rich" data-r>{s.scope.map((x, k) => <li style={`--k:${k}`}><Icon name="check-circle" /><span><b>{x.item}.</b> {x.detail}</span><em class="checklist__tag">{x.value}</em></li>)}</ul>
             <div class="hero__actions" data-r>
               <a class="btn btn-dark" href={`/services/${s.slug}.html`}>Explore {s.name.toLowerCase()} <Icon name="arrow" /></a>
               <a class="btn btn-line" href={`/contact.html?interest=${encodeURIComponent(s.enquiry)}`}>Enquire</a>
@@ -54,6 +70,7 @@ const laneIcons: Record<string, string> = { 'lead-generation': 'phone', 'custome
       </div>
     </section>
   ))}
+  </div>
 
   <section class="band-mist section" aria-labelledby="process-title">
     <div class="container">

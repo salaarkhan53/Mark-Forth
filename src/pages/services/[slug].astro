@@ -8,6 +8,7 @@ import SectionHead from '../../components/SectionHead.astro';
 import ServiceCards from '../../components/ServiceCards.astro';
 import CampaignExplorer from '../../components/CampaignExplorer.astro';
 import ProcessTeaser from '../../components/ProcessTeaser.astro';
+import ServiceWidget from '../../components/ServiceWidget.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import { services, type Service } from '../../data/services';
 
@@ -35,7 +36,8 @@ const icons = ['target', 'check-circle', 'handoff', 'chart'];
       <SectionHead label="What’s included" title="What we take on," accent="agreed with you." id="included-title" split lead="This is where the conversation starts. What we take on is agreed with you before launch." />
       <div class="grid-4" data-reveal>
         {s.scope.map((x, i) => (
-          <div class="card hoverable" data-r>
+          <div class="card hoverable card--scope" data-r style={`--k:${i}`}>
+            <span class="card__ghost" aria-hidden="true">0{i + 1}</span>
             <div class="card__head"><span class="ibox"><Icon name={icons[i % icons.length]} /></span><h3>{x.item}</h3></div>
             <p>{x.detail}</p>
             <div class="tags" style="margin-top:auto"><span>{x.value}</span></div>
@@ -48,7 +50,7 @@ const icons = ['target', 'check-circle', 'handoff', 'chart'];
   <section class="band-mist section" aria-labelledby="agree-title">
     <div class="container">
       <div class="split">
-        <div class="photo-wrap" data-pop><Photo name="writing-notes" sizes="(max-width: 900px) 100vw, 45vw" /></div>
+        <div class="photo-wrap" data-pop><Photo name="writing-notes" sizes="(max-width: 900px) 100vw, 45vw" /><ServiceWidget kind="agree" items={s.agree} /></div>
         <div class="split__body" data-reveal>
           <p class="eyebrow" data-r>Before we start</p>
           <h2 class="h2" id="agree-title" data-split>Agreed with you, <span class="accent">up front.</span></h2>
