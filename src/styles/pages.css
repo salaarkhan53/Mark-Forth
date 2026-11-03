@@ -315,3 +315,69 @@ html:not(.js) .pt__steps::before { transform: none !important; }
 
 /* the photo fills the card; the text beside it sets the height, so both columns end together */
 @media (min-width: 901px) { .office-card .photo { position: relative; } .office-card .photo img { position: absolute; inset: 0; width: 100%; height: 100%; } }
+
+/* =================== Careers page =================== */
+
+/* ---------- C1 job rows: department icon and colour, ripple in, livelier hover ---------- */
+.vacancies .job-row { --dept: var(--red); transition: transform 350ms var(--ease), border-color 350ms var(--ease), box-shadow 350ms var(--ease); }
+.vacancies .job-row[data-dept='quality'] { --dept: #d9772b; }
+.vacancies .job-row[data-dept='team'] { --dept: #b8240f; }
+.vacancies .job-row[data-dept='hr'] { --dept: #8f3a8a; }
+.vacancies .job-row[data-dept='tech'] { --dept: #2f6fb5; }
+.vacancies .job-row::before { background: var(--dept); }
+.vacancies .job-row::after { content: ''; position: absolute; z-index: -1; right: -40px; bottom: -40px; width: 160px; height: 160px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--dept) 16%, transparent), transparent 70%); opacity: 0; transition: opacity 400ms var(--ease); pointer-events: none; }
+.vacancies .job-row:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--dept) 40%, transparent); box-shadow: 0 22px 44px -30px rgb(13 15 20 / 0.35); }
+.vacancies .job-row:hover::after { opacity: 1; }
+.vacancies .job-row .job-department { display: inline-flex; align-items: center; gap: 6px; background: color-mix(in srgb, var(--dept) 10%, #fff); color: color-mix(in srgb, var(--dept) 85%, #000); }
+.vacancies .job-row .job-department svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.vacancies .job-row .job-number { font-variant-numeric: tabular-nums; transition: color 300ms, transform 400ms var(--ease); }
+.vacancies .job-row:hover .job-number { color: var(--dept); transform: translateY(-2px); }
+.vacancies .job-row > .button { transition: transform 300ms var(--ease), background-color 300ms, box-shadow 300ms; }
+.vacancies .job-row:hover > .button { transform: translateX(-4px); box-shadow: 0 12px 26px -12px rgb(223 47 24 / 0.8); }
+/* an odd last opening takes the full row, so no half-empty line */
+.vacancies .job-list > .job-row:last-child:nth-child(odd) { grid-column: 1 / -1; }
+@media (prefers-reduced-motion: no-preference) {
+  .vacancies .job-row.is-new { animation: jobIn 520ms var(--ease) backwards; animation-delay: calc(min(var(--i, 0), 10) * 40ms); }
+}
+@keyframes jobIn { from { opacity: 0; transform: translateY(14px) scale(0.985); } }
+
+/* ---------- C2 department chips and the ticking count ---------- */
+.dept-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 2px 0 16px; }
+.dept-chip { display: inline-flex; align-items: center; gap: 7px; min-height: 40px; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--hairline); background: #fff; color: var(--ink); font: 500 14px/1 var(--sans); cursor: pointer; transition: background-color 250ms, border-color 250ms, color 250ms, transform 250ms var(--ease); }
+.dept-chip svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.dept-chip:hover { border-color: rgb(223 47 24 / 0.45); transform: translateY(-2px); }
+.dept-chip[aria-pressed='true'] { background: var(--ink); border-color: var(--ink); color: #fff; }
+.dept-chip[aria-pressed='true'] svg { color: var(--red-bright); }
+#job-count { transition: transform 300ms var(--ease); }
+#job-count.is-tick { animation: countTick 450ms var(--ease); }
+@keyframes countTick { 30% { transform: scale(1.06); background: #fff1ee; border-color: rgb(223 47 24 / 0.4); } }
+@media (max-width: 600px) { .dept-chips { flex-wrap: nowrap; overflow-x: auto; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scrollbar-width: none; } .dept-chips::-webkit-scrollbar { display: none; } .dept-chip { flex: none; } }
+
+/* ---------- C3 nothing matches: a friendly note with a small floating emblem ---------- */
+.vacancies #jobs-note:not([hidden]) { display: grid; justify-items: center; gap: 10px; padding: 40px 20px; border-radius: var(--radius); border: 1px dashed rgb(223 47 24 / 0.3); background: #fff; text-align: center; color: var(--muted); }
+.vacancies #jobs-note:not([hidden])::before { content: ''; width: 64px; height: 64px; border-radius: 18px; background: url('/assets/markforth-emblem.svg') center / 58% no-repeat, var(--ink); box-shadow: 0 14px 30px -14px rgb(13 15 20 / 0.6); }
+@media (prefers-reduced-motion: no-preference) { .vacancies #jobs-note:not([hidden])::before { animation: emFloat 2.6s ease-in-out infinite; } }
+@keyframes emFloat { 50% { transform: translateY(-8px) rotate(-6deg); } }
+
+/* ---------- C4 what happens next: three steps on one connected path ---------- */
+.steps-flow { position: relative; }
+.steps-flow::before { content: ''; position: absolute; z-index: 0; left: 8%; right: 8%; top: 50%; height: 2px; background: linear-gradient(90deg, var(--red), rgb(255 75 43 / 0.25)); transform: scaleX(0); transform-origin: left; transition: transform 1s var(--ease) 0.3s; }
+.in-view .steps-flow::before, html:not(.js) .steps-flow::before { transform: scaleX(1); }
+.steps-flow::after { content: ''; position: absolute; z-index: 0; left: 8%; top: 50%; width: 10px; height: 10px; margin: -4px 0 0 -5px; border-radius: 50%; background: #ffd0b8; box-shadow: 0 0 10px 3px rgb(255 75 43 / 0.7); opacity: 0; }
+@media (prefers-reduced-motion: no-preference) { .in-view .steps-flow::after { animation: flowDot 4s var(--ease) 1.4s infinite; } }
+@keyframes flowDot { 0% { opacity: 0; transform: translateX(0); } 10% { opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; transform: translateX(var(--flow-w, 1000px)); } }
+.steps-flow > .card { position: relative; z-index: 1; background: rgb(12 13 18 / 0.92); }
+.steps-flow > .card .card__num { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgb(255 75 43 / 0.45); color: #ff8a73; font-size: 13px; transition: background-color 300ms, color 300ms; }
+.steps-flow > .card:hover .card__num { background: var(--red); color: #fff; }
+.steps-flow > .card .ibox svg :is(path, circle, rect) { stroke-dasharray: 80; stroke-dashoffset: 0; transition: stroke-dashoffset 900ms var(--ease); }
+.steps-flow > .card:nth-child(2) .ibox svg * { transition-delay: 200ms; }
+.steps-flow > .card:nth-child(3) .ibox svg * { transition-delay: 400ms; }
+@media (prefers-reduced-motion: no-preference) { html.js section:not(.in-view) .steps-flow .ibox svg :is(path, circle, rect) { stroke-dashoffset: 80; } }
+@media (max-width: 1000px) { .steps-flow::before { left: 50%; right: auto; top: 6%; bottom: 6%; width: 2px; height: auto; transform: scaleY(0); transform-origin: top; } .in-view .steps-flow::before { transform: scaleY(1); } .steps-flow::after { display: none; } }
+
+/* ---------- C5 hero chips pause under the pointer ---------- */
+.roles-hero__chips:hover .roles-hero__track { animation-play-state: paused; }
+.roles-hero__track span { transition: border-color 250ms, color 250ms, background-color 250ms; }
+.roles-hero__track span:hover { border-color: var(--red-bright); background: rgb(255 75 43 / 0.15); color: #fff; }
+
+@media (prefers-reduced-motion: reduce) { .vacancies .job-row, .dept-chip, .steps-flow::before { transition: none; } }

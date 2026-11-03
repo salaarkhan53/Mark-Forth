@@ -76,7 +76,7 @@ const next = [
     <div class="glow" style="width:40vw;aspect-ratio:1;right:-14vw;top:-10%" aria-hidden="true"></div>
     <div class="container">
       <SectionHead label="What happens next" title="A considered" accent="start." id="next-title" split lead="Applications are subject to review and do not guarantee an interview or offer." />
-      <div class="grid-3" data-reveal>
+      <div class="grid-3 steps-flow" data-reveal>
         {next.map((n, i) => (
           <div class="card hoverable" data-r><div class="card__top card__head"><span class="ibox"><Icon name={n.icon} /></span><h3>{n.t}</h3><span class="card__num">0{i + 1}</span></div><p>{n.d}</p></div>
         ))}

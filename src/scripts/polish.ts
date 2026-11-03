@@ -265,6 +265,78 @@ function lift() {
   io.observe(el);
 }
 
+// C1-C4: careers. Reads what careers.js renders and decorates it; the job list itself is untouched.
+const DEPT_ICONS: Record<string, string> = {
+  agent: '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/>',
+  quality: '<circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/>',
+  team: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/>',
+  hr: '<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M2 13h20"/>',
+  tech: '<path d="m12 2 10 5-10 5L2 7z"/><path d="m2 12 10 5 10-5"/><path d="m2 17 10 5 10-5"/>',
+  all: '<path d="m12 2 10 5-10 5L2 7z"/><path d="m2 12 10 5 10-5"/>',
+};
+const deptOf = (t: string) => {
+  t = t.toLowerCase();
+  if (/agent/.test(t)) return 'agent';
+  if (/quality|training/.test(t)) return 'quality';
+  if (/team|operation/.test(t)) return 'team';
+  if (/hr|admin/.test(t)) return 'hr';
+  if (/tech|data|it\b/.test(t)) return 'tech';
+  return 'agent';
+};
+const svg = (k: string) => `<svg viewBox="0 0 24 24" aria-hidden="true">${DEPT_ICONS[k]}</svg>`;
+function careers() {
+  const list = document.getElementById('job-list');
+  if (!list) return;
+  // rows: department colour and icon, a short ripple as they arrive
+  const decorate = () => {
+    $$('.job-row', list).forEach((row, i) => {
+      if (row.dataset.dept) return;
+      const tag = row.querySelector<HTMLElement>('.job-department');
+      const d = deptOf(tag?.textContent || '');
+      row.dataset.dept = d;
+      row.style.setProperty('--i', String(i));
+      if (tag && !tag.querySelector('svg')) tag.insertAdjacentHTML('afterbegin', svg(d));
+      row.classList.add('is-new');
+    });
+  };
+  new MutationObserver(decorate).observe(list, { childList: true });
+  decorate();
+  // quick department chips, built from the department list once it loads
+  const select = document.getElementById('job-department') as HTMLSelectElement | null;
+  const filters = document.querySelector('.job-filters');
+  if (select && filters) {
+    const box = document.createElement('div');
+    box.className = 'dept-chips';
+    box.setAttribute('role', 'group');
+    box.setAttribute('aria-label', 'Filter by department');
+    filters.after(box);
+    const sync = () => $$<HTMLButtonElement>('.dept-chip', box).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.value === select.value)));
+    const build = () => {
+      const opts = Array.from(select.options);
+      if (opts.length < 2) return;
+      box.replaceChildren(...opts.map((o) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'dept-chip';
+        b.dataset.value = o.value;
+        b.innerHTML = svg(o.value ? deptOf(o.textContent || '') : 'all') + `<span>${o.value ? o.textContent : 'All roles'}</span>`;
+        b.addEventListener('click', () => { select.value = o.value; select.dispatchEvent(new Event('change', { bubbles: true })); sync(); });
+        return b;
+      }));
+      sync();
+    };
+    new MutationObserver(build).observe(select, { childList: true });
+    select.addEventListener('change', sync);
+    document.getElementById('clear-job-filters')?.addEventListener('click', () => setTimeout(sync, 0));
+    build();
+  }
+  // the count gives a small tick when it changes
+  const count = document.getElementById('job-count');
+  if (count) new MutationObserver(() => { count.classList.remove('is-tick'); void count.offsetWidth; count.classList.add('is-tick'); }).observe(count, { childList: true, characterData: true, subtree: true });
+  // the dot on the "what happens next" path travels the line's length
+  $$('.steps-flow').forEach((el) => { const set = () => el.style.setProperty('--flow-w', `${Math.round(el.clientWidth * 0.84)}px`); set(); addEventListener('resize', set); });
+}
+
 export function initPolish() {
   const run = (fn: () => void) => { try { fn(); } catch (e) { console.error(e); } };
   run(buttonSparks);
@@ -280,4 +352,5 @@ export function initPolish() {
   run(motto);
   run(approach);
   run(lift);
+  run(careers);
 }
