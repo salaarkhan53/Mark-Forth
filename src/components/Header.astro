@@ -9,9 +9,8 @@ const isActive = (href: string) => {
   return path === h || path.startsWith(h + '/') || (h === '/careers' && (path === '/apply' || path === '/track'));
 };
 const links = nav;
-// The overlay lists every page, numbered, with Contact last (same set as the footer).
-const menuLinks = [{ label: 'Home', href: '/' }, ...nav, { label: 'Contact', href: '/contact.html' }];
-const tel = site.phone.replace(/[^+\d]/g, '');
+// The overlay lists the main pages, numbered; contact is one tap away through the buttons below.
+const menuLinks = [{ label: 'Home', href: '/' }, ...nav];
 ---
 <header class="site-header" id="top">
   <div class="bar">
@@ -25,6 +24,7 @@ const tel = site.phone.replace(/[^+\d]/g, '');
     </nav>
     <span class="bar-fire" aria-hidden="true"><canvas data-bar-fire></canvas></span>
     <div class="header-end">
+      <a class="icon-btn icon-btn--agent" href={site.agentLogin} target="_blank" rel="noopener" aria-label="Agent login" title="Agent login" data-magnetic><Icon name="login" /></a>
       <a class="icon-btn wa-pulse" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp" data-magnetic><Icon name="whatsapp" /></a>
       <a class="btn btn-primary btn-sm" href="/contact.html">Let’s talk</a>
     </div>
@@ -41,6 +41,7 @@ const tel = site.phone.replace(/[^+\d]/g, '');
     ))}
     <div class="links__actions">
       <a class="btn btn-primary" href="/contact.html">Start a conversation</a>
+      <a class="btn btn-outline btn-agent" href={site.agentLogin} target="_blank" rel="noopener"><Icon name="login" /> Agent Login</a>
       <a class="btn btn-outline" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener"><Icon name="whatsapp" /> WhatsApp</a>
     </div>
   </div>
@@ -52,7 +53,6 @@ const tel = site.phone.replace(/[^+\d]/g, '');
     </div>
     <ul class="links__contact">
       <li><a href={`mailto:${site.email}`}><Icon name="mail" />{site.email}</a></li>
-      <li><a href={`tel:${tel}`}><Icon name="phone" />{site.phone}</a></li>
       <li><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener"><Icon name="whatsapp" />WhatsApp</a></li>
       <li><a href={site.address.mapUrl} target="_blank" rel="noopener"><Icon name="pin" />{site.address.short}</a></li>
     </ul>

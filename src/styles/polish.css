@@ -316,3 +316,18 @@ dialog > .eyebrow + h2 { margin-top: 10px; }
 
 /* long words such as email addresses wrap instead of pushing past the screen edge */
 p, li, dd, address, .track-small { overflow-wrap: break-word; }
+
+/* ---------- P19 agent login (header icon on desktop, button in the phone menu) ---------- */
+.icon-btn--agent:hover { background: var(--red); border-color: var(--red); transform: translateY(-2px); }
+@media (max-width: 920px) { .icon-btn--agent { display: none; } }
+.links__actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; width: 100%; max-width: 420px; }
+.links__actions .btn-primary { grid-column: 1 / -1; }
+.links__actions .btn { justify-content: center; }
+.btn-agent svg { width: 17px; height: 17px; }
+
+/* ---------- P20 footer name in the logo's style: a light "Mark", a bolder "Forth" ---------- */
+.ft__word { font-family: var(--sans); letter-spacing: -0.035em; transform: none; }
+.ft__word .wm-mark { font-weight: 400; }
+.ft__word .wm-forth { font-weight: 600; }
+.ft__bg .ft__ghost { -webkit-text-stroke: 1px rgb(255 75 43 / 0.18); }
+.ft__bg .ft__fill { opacity: 0.18; }

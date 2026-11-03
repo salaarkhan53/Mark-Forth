@@ -18,6 +18,7 @@ export const site = {
     // { label: 'Facebook', href: 'https://www.facebook.com/…' },
     // { label: 'Instagram', href: 'https://www.instagram.com/…' },
   ] as { label: string; href: string }[],
+  agentLogin: 'https://agents.markforthsol.com',
   tagline: 'Built to move business forward.',
   motto: 'People. Process. Progress.',
 };
