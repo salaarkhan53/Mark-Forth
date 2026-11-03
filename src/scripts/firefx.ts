@@ -87,20 +87,7 @@ export function initBarFire(canvas: HTMLCanvasElement, header: HTMLElement) {
       // stretched upward, like a tongue of flame
       ctx.drawImage(img, p.x - r, p.y - r * 1.8, d, d * 1.9);
     }
-    // the bed of the fire: a low glow lying on the bar's surface, breathing with the flames
-    const bed = ctx.createRadialGradient(w / 2, h, 0, w / 2, h, w * 0.36);
-    const pulse = 0.75 + Math.sin(t * 0.13) * 0.12 + boost * 0.15;
-    bed.addColorStop(0, `rgba(255,190,80,${0.55 * pulse})`);
-    bed.addColorStop(0.35, `rgba(255,110,24,${0.35 * pulse})`);
-    bed.addColorStop(1, 'rgba(226,44,12,0)');
     ctx.globalAlpha = 1;
-    ctx.fillStyle = bed;
-    ctx.save();
-    ctx.translate(0, h);
-    ctx.scale(1, 0.16);
-    ctx.translate(0, -h);
-    ctx.fillRect(0, h - w * 0.36, w, w * 0.36);
-    ctx.restore();
     ctx.globalCompositeOperation = 'source-over';
     raf = requestAnimationFrame(step);
   };
