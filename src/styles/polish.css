@@ -343,3 +343,28 @@ p, li, dd, address, .track-small { overflow-wrap: break-word; }
   .ft__bg .ft__word { font-size: 33vw; line-height: 0.86; margin-bottom: -0.1em; }
   .ft__word .wm-mark, .ft__word .wm-forth { display: block; }
 }
+
+/* ---------- P22 footer name: centred in the footer; on phones it sits between the two lines with no dead space ---------- */
+.ft__bg { justify-content: center; }
+.ft__bg .ft__word { text-align: center; }
+/* "Forth" outline 25% lighter */
+.ft__fill .wm-forth { -webkit-text-stroke-color: rgb(255 75 43 / 0.375); }
+.ft__bg .ft__ghost .wm-forth { -webkit-text-stroke-color: rgb(255 75 43 / 0.165); }
+@media (max-width: 600px) {
+  .ft__body { display: grid; grid-template-columns: minmax(0, 1fr); padding-bottom: 0; }
+  .ft__top { grid-row: 1; grid-column: 1; }
+  /* links and contacts stay close together instead of stretching to the name's height */
+  .ft__mid { grid-row: 2; grid-column: 1; justify-content: flex-start; gap: 4px; padding-top: 12px; padding-bottom: 10px; }
+  /* the name fills the same area behind the links, resting on the bottom line */
+  /* the name starts just under the first line and runs down behind the © row */
+  .ft__bg { position: absolute; top: 0; left: 0; right: 0; bottom: auto; grid-row: 2; grid-column: 1; padding-top: 12px; align-items: flex-start; justify-content: center; }
+  .ft__bg .ft__word { margin: 0 auto; font-size: 28vw; line-height: 0.84; }
+  :is(.ft__nav, .ft__contact, .legal__links) a:not(.legal__top) { min-height: 36px; }
+  .ft .legal { row-gap: 0; padding-top: 8px; padding-bottom: 10px; }
+  /* the line above the © row is drawn behind the name, so "Forth" sits over it */
+  .ft .legal { border-top-color: transparent; }
+  .ft__body::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--line-dark); z-index: -2; pointer-events: none; }
+  /* "Forth" gets solid colours (same look as before) so the line can't show through the letters */
+  .ft__bg .ft__ghost .wm-forth { color: var(--void); }
+  .ft__fill .wm-forth { color: #202123; }
+}
