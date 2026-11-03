@@ -23,6 +23,7 @@ const tel = site.phone.replace(/[^+\d]/g, '');
       <span class="glide" aria-hidden="true"></span>
       {links.map((n) => <a href={n.href} aria-current={isActive(n.href) ? 'page' : undefined}>{n.label}</a>)}
     </nav>
+    <span class="bar-fire" aria-hidden="true"><canvas data-bar-fire></canvas></span>
     <div class="header-end">
       <a class="icon-btn wa-pulse" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp" data-magnetic><Icon name="whatsapp" /></a>
       <a class="btn btn-primary btn-sm" href="/contact.html">Let’s talk</a>

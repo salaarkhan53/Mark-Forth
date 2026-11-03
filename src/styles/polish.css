@@ -299,3 +299,11 @@ dialog > .eyebrow + h2 { margin-top: 10px; }
 /* the outer red span paints nothing once its word is split, so letter parts below the line
    (the tails of p, g, y) cannot wrap round and show above the word */
 .accent:has(.hw-mask), .accent:has(.ln-mask) { background: none !important; animation: none !important; }
+
+/* ---------- P18 a small live fire in the scrolled header bar ---------- */
+.bar-fire { position: relative; align-self: stretch; flex: none; width: 170px; margin-left: auto; margin-right: 4px; opacity: 0; transform: translateY(8px) scaleY(0.6); transform-origin: bottom; transition: opacity 500ms var(--ease), transform 600ms var(--ease); pointer-events: none; }
+.bar-fire canvas { position: absolute; left: 0; right: 0; bottom: -1px; width: 100%; height: 100%; display: block; }
+.site-header.is-solid .bar-fire { opacity: 1; transform: none; }
+.site-header .bar-fire + .header-end { margin-left: 0; }
+@media (max-width: 920px) { .bar-fire { display: none; } .site-header .bar-fire + .header-end { margin-left: auto; } }
+@media (prefers-reduced-motion: reduce) { .bar-fire { display: none; } }

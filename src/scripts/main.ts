@@ -934,6 +934,13 @@ export function boot() {
     import('./slantfx').then((m) => bands.forEach((b) => m.initSlantFx(b))).catch(() => {});
   });
   run(() => {
+    // A small live fire in the scrolled header bar (desktop, full motion only).
+    const c = document.querySelector<HTMLCanvasElement>('[data-bar-fire]');
+    const header = document.querySelector<HTMLElement>('.site-header');
+    if (!c || !header || reduced.matches || !matchMedia('(min-width: 921px)').matches) return;
+    import('./firefx').then((m) => m.initBarFire(c, header)).catch(() => {});
+  });
+  run(() => {
     // Tiny flames around the closing banner.
     const c = document.querySelector<HTMLCanvasElement>('[data-embers]');
     if (!c || reduced.matches) return;
