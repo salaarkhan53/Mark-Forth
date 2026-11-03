@@ -162,7 +162,8 @@ a.card:hover, .card.hoverable:hover { transform: translateY(-4px); box-shadow: v
 @media (max-width: 767px) { .assure li + li::before { left: 16px; right: auto; top: 0; bottom: auto; width: 22px; height: 3px; transform: skewX(-22deg); } }
 
 /* split headlines: room under each word so descenders are never cut */
-.hw-mask { padding-bottom: 0.12em; margin-bottom: -0.12em; }
+/* room above and below each word so dots, accents and descenders are never cut */
+.hw-mask { padding-block: 0.12em; margin-block: -0.12em; }
 .ln-mask { padding-bottom: 0.1em; margin-bottom: -0.1em; }
 
 /* reveals: cards rise 16px */

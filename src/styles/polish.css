@@ -292,3 +292,10 @@ dialog .btn-dark::after { background: var(--red-bright); }
 dialog > .eyebrow:first-of-type { margin-top: clamp(28px, 4vw, 40px); }
 dialog > .eyebrow + h2 { margin-top: 10px; }
 @media (max-width: 600px) { dialog > .eyebrow:first-of-type { margin-top: 38px; } }
+
+/* split headlines: only the word itself carries the red gradient, never its reveal wrapper
+   (the wrapper is padded into the line above, and would tint the letters there) */
+.accent .hw-mask, .accent .ln-mask { background: none !important; animation: none !important; }
+/* the outer red span paints nothing once its word is split, so letter parts below the line
+   (the tails of p, g, y) cannot wrap round and show above the word */
+.accent:has(.hw-mask), .accent:has(.ln-mask) { background: none !important; animation: none !important; }
