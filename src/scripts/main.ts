@@ -1,4 +1,5 @@
 import { startMotion } from './motion';
+import { initPolish } from './polish';
 
 declare global {
   interface Window {
@@ -22,8 +23,8 @@ const dtf = (tz: string, o: Intl.DateTimeFormatOptions) => {
 function redirectOldAnchors() {
   if (document.body.dataset.page !== 'home') return;
   const map: Record<string, string> = {
-    '#contact': '/contact.html', '#services': '/services.html', '#industries': '/campaigns.html',
-    '#about': '/about.html', '#partnership': '/about.html', '#careers': '/careers.html', '#privacy': '/contact.html',
+    // #services and #industries are sections on this page; #privacy opens the notice here
+    '#contact': '/contact.html', '#about': '/about.html', '#partnership': '/about.html', '#careers': '/careers.html',
   };
   const to = map[location.hash];
   if (to) location.replace(to);
@@ -250,6 +251,17 @@ function processJourney() {
     });
 
     setActive(0); setBar(0); onRow(); onPage();
+    // first view on a scrolling row: the cards nudge left and back once, a hint that they move
+    if (!reduced.matches) {
+      const track = $('.pro__track', pro);
+      const io = new IntersectionObserver(([e]) => {
+        if (!e.isIntersecting) return;
+        io.disconnect();
+        if (wide.matches || max() < 8 || !track) return;
+        setTimeout(() => track.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-20px)' }, { transform: 'translateX(0)' }], { duration: 900, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }), 600);
+      }, { threshold: 0.5 });
+      io.observe(viewport);
+    }
   });
 }
 
@@ -416,7 +428,7 @@ function scrollProgress() {
     raf = 0;
     const max = document.documentElement.scrollHeight - innerHeight;
     const p = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
-    if (line) line.style.transform = `scaleX(${p.toFixed(4)})`;
+    if (line) { line.style.transform = `scaleX(${p.toFixed(4)})`; line.parentElement?.style.setProperty('--p', p.toFixed(4)); }
     if (ring) ring.style.strokeDashoffset = String(Math.round((1 - p) * 1000) / 10);
   };
   addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(update); }, { passive: true });
@@ -546,6 +558,8 @@ function trackEnhance() {
   cards.setAttribute('aria-label', 'Available interview times');
   select.after(cards);
   select.classList.add('slot-select');
+  // the cards are the control now; the original list stays for the form, out of the tab order
+  select.tabIndex = -1;
   const render = () => {
     const opts = Array.from(select.options).filter((o) => o.value);
     cards.replaceChildren(...opts.map((o) => {
@@ -649,6 +663,23 @@ function overlapChart(now: Date) {
   if (sum) sum.textContent = `US business hours, 9 am Eastern to 5 pm Pacific, run from ${fmt(toPk('America/New_York', 9))} to ${fmt(toPk('America/Los_Angeles', 17))} in Rawalpindi.`;
 }
 
+// Clocks with a breathing colon and minutes that flip when they change.
+function tickClock(el: HTMLElement, txt: string) {
+  const m = txt.match(/^(\d{1,2}):(\d{2})\s*(.*)$/);
+  if (!m) { el.textContent = txt; return; }
+  if (!el.querySelector('.tick')) el.innerHTML = '<span class="tick" aria-hidden="true"><span class="tick__h"></span><span class="tick__c">:</span><span class="tick__m"><span></span></span><span class="tick__ap"></span></span><span class="visually-hidden tick__sr"></span>';
+  const h = el.querySelector('.tick__h')!, mm = el.querySelector('.tick__m')!, ap = el.querySelector('.tick__ap')!;
+  h.textContent = m[1];
+  ap.textContent = ` ${m[3]}`;
+  el.querySelector('.tick__sr')!.textContent = txt;
+  const inner = mm.firstElementChild as HTMLElement;
+  if (inner.textContent !== m[2]) {
+    const first = inner.textContent === '';
+    inner.textContent = m[2];
+    if (!first) { mm.classList.remove('is-flip'); void (mm as HTMLElement).offsetWidth; mm.classList.add('is-flip'); }
+  }
+}
+
 function clocks() {
   const els = $$('[data-clock]');
   if (!els.length) return;
@@ -660,7 +691,11 @@ function clocks() {
       const tz = el.dataset.clock!;
       const t = el.querySelector('[data-time]');
       const d = el.querySelector('[data-day]');
-      if (t) t.textContent = fmt(tz).format(now).toLowerCase();
+      if (t) {
+        const txt = fmt(tz).format(now).toLowerCase();
+        if (t.hasAttribute('data-time-fx')) tickClock(t as HTMLElement, txt);
+        else t.textContent = txt;
+      }
       if (d) d.textContent = day(tz).format(now);
       const parts = dtf(tz, { weekday: 'short', hour: 'numeric', minute: 'numeric', hour12: false }).formatToParts(now);
       const get = (k: string) => parts.find((p) => p.type === k)?.value || '0';
@@ -700,7 +735,8 @@ function clocks() {
     }
   };
   tick();
-  setInterval(tick, 15000);
+  // every second, so the minutes flip the moment they change (formatters are cached)
+  setInterval(tick, 1000);
 }
 
 function emblem() {
@@ -719,7 +755,7 @@ function emblem() {
     if (!fine.matches && !reduced.matches) {
       addEventListener('deviceorientation', (e) => {
         if (e.gamma == null || e.beta == null) return;
-        const cl = (v: number) => Math.max(-8, Math.min(8, v));
+        const cl = (v: number) => Math.max(-6, Math.min(6, v));
         tilt.style.setProperty('--ey', `${cl(e.gamma / 3).toFixed(1)}deg`);
         tilt.style.setProperty('--ex', `${cl(-(e.beta - 50) / 3).toFixed(1)}deg`);
       }, { passive: true });
@@ -894,6 +930,7 @@ export function boot() {
     const evts = ['pointermove', 'scroll', 'keydown', 'pointerdown'];
     evts.forEach((e) => addEventListener(e, start, { passive: true }));
   });
+  run(initPolish);
   try {
     startMotion();
   } catch (e) {

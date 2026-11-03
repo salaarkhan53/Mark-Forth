@@ -1,6 +1,7 @@
 ---
 import { site, nav } from '../data/site';
 import Icon from './Icon.astro';
+import Logo from './Logo.astro';
 interface Props { privacyLinkId?: string; privacyTarget?: string; managedPrivacy?: boolean; }
 // Apply and track bind their own privacy dialogs by id; other pages use data-dialog.
 const { privacyLinkId = 'privacy-link', privacyTarget = 'privacy', managedPrivacy = true } = Astro.props;
@@ -22,7 +23,7 @@ const links = [...nav, { label: 'Contact', href: '/contact.html' }];
 
   <div class="container ft__top">
     <div class="ft__brand">
-      <a href="/" aria-label="Markforth Solutions home"><img src="/assets/markforth-logo-onblack.png" alt="Markforth Solutions" width="1423" height="303" loading="lazy" /></a>
+      <a class="ft__logo-link" href="/" aria-label="Markforth Solutions home"><Logo class="ft__logo" title={false} /></a>
       <p>Lead generation, customer support and business outsourcing, working US hours from Rawalpindi.</p>
     </div>
     <div class="ft__cta">

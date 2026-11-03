@@ -66,7 +66,7 @@ html.menu-open, html.menu-open body { overflow: hidden; }
   .links__clock { display: grid; gap: 2px; padding: 14px 16px; border-radius: 14px; border: 1px solid var(--line-dark); background: rgb(7 8 11 / 0.6); }
   .links__clock small { font-size: 12.5px; font-weight: 600; color: #ff8a73; }
   .links__clock b { font-family: var(--display); font-size: 26px; font-weight: 700; line-height: 1.1; letter-spacing: -0.01em; color: #fff; }
-  .links__clock span { font-size: 12.5px; color: var(--on-dark-2); }
+  .links__clock > span { font-size: 12.5px; color: var(--on-dark-2); }
   .links__contact { display: grid; gap: 2px; }
   .links__contact a { display: inline-flex; align-items: center; gap: 10px; padding: 7px 0; font-size: 15px; color: var(--on-dark-2); transition: color 250ms; }
   .links__contact a:hover { color: #fff; }
@@ -497,7 +497,7 @@ html:not(.js) .faq .faq__item[open] .faq__a-in p { opacity: 1; transform: none; 
 .bridge__clocks > div { display: grid; gap: 2px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line-dark); background: rgb(7 8 11 / 0.55); }
 .bridge__clocks small { font-size: 12px; font-weight: 600; color: #ff8a73; }
 .bridge__clocks b { font-family: var(--display); font-size: clamp(24px, 2.2vw, 32px); font-weight: 700; line-height: 1.1; color: #fff; }
-.bridge__clocks span { font-size: 12.5px; color: var(--on-dark-2); }
+.bridge__clocks > div > span { font-size: 12.5px; color: var(--on-dark-2); }
 
 /* careers: the open roles count and two rows of role chips */
 .roles-hero { position: relative; display: grid; align-content: center; gap: 18px; padding: clamp(20px, 2.4vw, 30px); border-radius: var(--radius); border: 1px solid var(--line-dark); background: radial-gradient(80% 70% at 100% 0%, rgb(223 47 24 / 0.35), transparent 70%), rgb(255 255 255 / 0.03); overflow: hidden; }

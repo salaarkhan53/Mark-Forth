@@ -93,7 +93,7 @@ export function startMotion() {
         trigger: h, start: 'top bottom+=240', once: true,
         onEnter: () => {
           const split = SplitText.create(h, { type: 'lines', mask: 'lines', linesClass: 'ln' });
-          gsap.from(split.lines, { yPercent: 105, duration: 0.7, ease: BRAND, stagger: 0.06, scrollTrigger: { trigger: h, start: 'top 88%', once: true } });
+          gsap.from(split.lines, { yPercent: 105, duration: 0.7, ease: BRAND, stagger: 0.06, scrollTrigger: { trigger: h, start: 'top 96%', once: true } });
         },
       });
     });
@@ -103,11 +103,11 @@ export function startMotion() {
   gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((g) => {
     const parts = g.querySelectorAll(':scope [data-r]');
     if (!parts.length) return;
-    gsap.to(parts, { opacity: 1, y: 0, duration: 0.6, ease: BRAND, stagger: 0.06, scrollTrigger: { trigger: g, start: 'top 86%', once: true } });
+    gsap.to(parts, { opacity: 1, y: 0, duration: 0.6, ease: BRAND, stagger: 0.06, scrollTrigger: { trigger: g, start: 'top 97%', once: true } });
   });
   gsap.utils.toArray<HTMLElement>('[data-r]').forEach((el) => {
     if (el.closest('[data-reveal]')) return;
-    gsap.to(el, { opacity: 1, y: 0, duration: 0.6, ease: BRAND, scrollTrigger: { trigger: el, start: 'top 90%', once: true } });
+    gsap.to(el, { opacity: 1, y: 0, duration: 0.6, ease: BRAND, scrollTrigger: { trigger: el, start: 'top 97%', once: true } });
   });
   gsap.utils.toArray<HTMLElement>('[data-pop]').forEach((el) => {
     if (el.closest('[data-hero]')) return;
@@ -150,14 +150,11 @@ export function startMotion() {
   });
 
   // 7. Large photographs drift slightly inside their frames.
-  gsap.utils.toArray<HTMLElement>('.split .photo img, .page-hero__aside .photo img').forEach((img) => {
-    const frame = img.closest('.photo');
-    gsap.fromTo(img, { yPercent: -4, scale: 1.08 }, { yPercent: 4, scale: 1.08, ease: 'none', scrollTrigger: { trigger: frame, start: 'top bottom', end: 'bottom top', scrub: true } });
-  });
+  // (the old scroll parallax on photos is replaced by the CSS slow zoom in polish.css)
 
   // 8. Magnetic primary buttons.
   if (fine) {
-    document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((b) => {
+    document.querySelectorAll<HTMLElement>('[data-magnetic], .btn-primary').forEach((b) => {
       const mx = gsap.quickTo(b, 'x', { duration: 0.45, ease: 'power3' });
       const my = gsap.quickTo(b, 'y', { duration: 0.45, ease: 'power3' });
       b.addEventListener('pointermove', (e) => {
@@ -173,7 +170,7 @@ export function startMotion() {
   // 9. Sections switch on as they arrive: CSS then runs the small details
   // (eyebrow bars, checklist ticks, tag pills, icon boxes) in sequence.
   ScrollTrigger.batch('section, .site-footer', {
-    start: 'top 82%', once: true,
+    start: 'top 92%', once: true,
     onEnter: (els) => els.forEach((el) => el.classList.add('in-view')),
   });
 
@@ -221,7 +218,7 @@ export function startMotion() {
 
   // 13. Cards and panels: a soft red light follows the pointer.
   if (fine) {
-    document.querySelectorAll<HTMLElement>('.card, .cx__panel, .stat').forEach((c) => {
+    document.querySelectorAll<HTMLElement>('.card, .cx__panel, .stat, .trust li, .clock, .clock-main, .faq__card, .status, .cx__tab, .roles-hero, .bridge').forEach((c) => {
       const spot = document.createElement('span');
       spot.className = 'spot';
       spot.setAttribute('aria-hidden', 'true');

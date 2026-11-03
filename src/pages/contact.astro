@@ -20,8 +20,8 @@ import { site, enquiryOptions } from '../data/site';
       <p class="status__title" data-status-text>Our team works US business hours</p>
       <p class="status__sub">Replies within one business day.</p>
       <div class="status__clocks">
-        <div data-clock="Asia/Karachi"><small>Rawalpindi</small><b class="num" data-time>PKT</b></div>
-        <div data-clock="America/New_York"><small>New York</small><b class="num" data-time>ET</b></div>
+        <div data-clock="Asia/Karachi"><small>Rawalpindi</small><b class="num" data-time data-time-fx>PKT</b></div>
+        <div data-clock="America/New_York"><small>New York</small><b class="num" data-time data-time-fx>ET</b></div>
       </div>
       <p class="status__hours">On shift Monday to Friday, 9 am Eastern to 5 pm Pacific.</p>
     </div>
@@ -44,6 +44,7 @@ import { site, enquiryOptions } from '../data/site';
           <div class="full" style="display:flex;flex-wrap:wrap;gap:14px;align-items:center">
             <button type="submit" class="btn btn-primary" data-magnetic>Send enquiry <Icon name="arrow" /></button>
             <span class="small muted">Secure form. Sent directly to Markforth.</span>
+            <a class="privacy-mini" href="#privacy" data-dialog="privacy">Privacy notice</a>
           </div>
           <p class="form-note full" id="form-note" role="status">Please do not include consumer records, health information or confidential client data.</p>
         </form>

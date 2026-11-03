@@ -1,0 +1,22 @@
+---
+// The official Markforth logo, rebuilt so it stays sharp and correct:
+// the emblem as vector paths (its stripes can move), the original wordmark artwork,
+// and the subline as live text, corrected to "Solutions (Private) Limited".
+// compact: emblem and wordmark only (no subline), for the scrolled header.
+interface Props { compact?: boolean; class?: string; title?: boolean; }
+const { compact = false, class: cls, title = true } = Astro.props;
+const label = 'Markforth Solutions (Private) Limited';
+---
+<svg class:list={['mf-logo', { 'mf-logo--compact': compact }, cls]} viewBox="0 0 1423 303" role={title ? 'img' : undefined} aria-label={title ? label : undefined} aria-hidden={title ? undefined : 'true'} focusable="false">
+  {title && <title>{label}</title>}
+  <g class="mf-logo__mark" transform="scale(0.7531) translate(-48.76 -60.78)">
+    <path class="mf-logo__s mf-logo__s1" d="M96.574 60.777H467.172L423.133 136.777H140.125Z" fill="#df2f18" />
+    <path class="mf-logo__s mf-logo__s2" d="M48.758 136.777H140.125L180.258 209.359H87.184Z" fill="#df2f18" />
+    <path class="mf-logo__s mf-logo__s3" d="M381.094 209.359H180.258L224.66 284.074H337.809Z" fill="#df2f18" />
+    <path class="mf-logo__s mf-logo__s4" d="M130.73 284.074H224.66L281.391 381.457L234.91 461.691L130.73 285.785Z" fill="#ffffff" />
+  </g>
+  <image href="/assets/markforth-wordmark.png" x="319" y={compact ? 46 : 0} width="1104" height="210" />
+  {!compact && (
+    <text class="mf-logo__sub" x="321" y="270" textLength="1100" lengthAdjust="spacing">Solutions (Private) Limited</text>
+  )}
+</svg>

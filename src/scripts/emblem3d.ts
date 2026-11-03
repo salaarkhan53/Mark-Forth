@@ -98,8 +98,8 @@ export function initEmblem3D(canvas: HTMLCanvasElement) {
 
   // Interaction state.
   const target = { x: 0, y: 0 }, current = { x: 0, y: 0 }, vel = { x: 0, y: 0 };
-  // the tilt toward the cursor (or the tilt of the phone) never passes 8 degrees
-  const MAX_TILT = THREE.MathUtils.degToRad(8);
+  // the tilt toward the cursor (or the tilt of the phone) never passes 6 degrees
+  const MAX_TILT = THREE.MathUtils.degToRad(6);
   let open = 0, openTarget = 0;
   let spin = 0, spinVel = 0, dragging = false, lastX = 0, lastT = 0;
   const pointerArea = host.closest('.hero') ?? host;

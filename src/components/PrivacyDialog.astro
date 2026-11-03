@@ -1,0 +1,16 @@
+---
+// The privacy notice popup, in one place for every page that uses it.
+import { site } from '../data/site';
+---
+<dialog id="privacy" aria-labelledby="privacy-title">
+  <div class="dlg__head">
+    <p class="eyebrow">Privacy</p>
+    <h2 id="privacy-title">Your privacy matters.</h2>
+  </div>
+  <div class="dlg__body">
+    <p>Enquiry details and application information are sent directly to Markforth when you submit a form. Application CVs are optional. Records are stored privately on our hosting and used to respond to enquiries or review recruitment applications.</p>
+    <p>A session cookie helps protect form submissions. Optional application drafts stay in your browser tab. Please do not include consumer records, health information or confidential client data in a business enquiry.</p>
+    <p>For questions about your information, contact <a href={`mailto:${site.email}`}>{site.email}</a>. You can track published recruitment updates with your reference and an email verification code. Codes expire after 10 minutes and verified tracking access expires after 30 minutes. HR can send reviewed status messages to your application email.</p>
+  </div>
+  <div class="dlg__foot"><button class="btn btn-dark" type="button" data-dialog-close>Close</button></div>
+</dialog>

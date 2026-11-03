@@ -1,6 +1,7 @@
 ---
 import { nav, site } from '../data/site';
 import Icon from './Icon.astro';
+import Logo from './Logo.astro';
 const path = Astro.url.pathname.replace(/\.html$/, '');
 const isActive = (href: string) => {
   const h = href.replace(/\.html$/, '');
@@ -15,9 +16,8 @@ const tel = site.phone.replace(/[^+\d]/g, '');
 <header class="site-header" id="top">
   <div class="bar">
     <a class="logo" href="/" aria-label="Markforth Solutions home">
-      <img class="logo-full" src="/assets/markforth-logo-onblack.png" alt="Markforth Solutions" width="1423" height="303" />
-      <img class="logo-mark" src="/assets/markforth-emblem.svg" alt="" width="445" height="430" aria-hidden="true" />
-      <span class="logo-word" aria-hidden="true"><b>Mark</b>forth</span>
+      <Logo class="logo-full" title={false} />
+      <Logo compact class="logo-compact" title={false} />
     </a>
     <nav class="nav" aria-label="Main navigation" data-glide>
       <span class="glide" aria-hidden="true"></span>
@@ -46,8 +46,8 @@ const tel = site.phone.replace(/[^+\d]/g, '');
   <div class="links__panel">
     <img class="links__emblem" src="/assets/markforth-emblem.svg" alt="" width="445" height="430" aria-hidden="true" loading="lazy" />
     <div class="links__clocks">
-      <div class="links__clock" data-clock="Asia/Karachi"><small>Rawalpindi</small><b class="num" data-time>PKT</b><span data-day>Pakistan</span></div>
-      <div class="links__clock" data-clock="America/New_York"><small>New York</small><b class="num" data-time>ET</b><span data-day>US</span></div>
+      <div class="links__clock" data-clock="Asia/Karachi"><small>Rawalpindi</small><b class="num" data-time data-time-fx>PKT</b><span data-day>Pakistan</span></div>
+      <div class="links__clock" data-clock="America/New_York"><small>New York</small><b class="num" data-time data-time-fx>ET</b><span data-day>US</span></div>
     </div>
     <ul class="links__contact">
       <li><a href={`mailto:${site.email}`}><Icon name="mail" />{site.email}</a></li>

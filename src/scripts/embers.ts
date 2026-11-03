@@ -62,9 +62,11 @@ export function initEmbers(canvas: HTMLCanvasElement) {
     ctx.restore();
   };
 
-  let t = 0;
+  let t = 0, frame = 0;
   const step = () => {
     if (!visible || document.hidden) { raf = 0; return; }
+    // phones draw every other frame (about 30 fps)
+    if (small && (frame++ & 1)) { raf = requestAnimationFrame(step); return; }
     t++;
     ctx.clearRect(0, 0, w, h);
     while (flames.length < target) flames.push(spawn());
