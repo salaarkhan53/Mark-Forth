@@ -40,12 +40,14 @@ export function initBarFire(canvas: HTMLCanvasElement, header: HTMLElement) {
 
   // the bed of the fire: wider in the middle, a few tongues
   const spawn = (spark = false): P => {
-    const spread = w * 0.26;
+    const spread = w * 0.21;
     const g = (Math.random() + Math.random() + Math.random()) / 3 - 0.5; // roughly bell-shaped
+    // sparks scatter wider than the flame, drifting out to the left and right
+    const sx = w / 2 + (Math.random() - 0.5) * w * 0.62;
     return {
-      x: w / 2 + g * spread * 2,
-      y: h + 4,
-      vx: (Math.random() - 0.5) * 0.3,
+      x: spark ? sx : w / 2 + g * spread * 2,
+      y: spark ? h - 2 - Math.random() * 6 : h + 1,
+      vx: spark ? (sx - w / 2) * 0.012 + (Math.random() - 0.5) * 0.5 : (Math.random() - 0.5) * 0.3,
       vy: spark ? -(1.5 + Math.random() * 1.2) : -(0.9 + Math.random() * 1.1),
       r: spark ? 1 + Math.random() * 0.8 : 5 + Math.random() * 6,
       life: 0,
@@ -63,7 +65,7 @@ export function initBarFire(canvas: HTMLCanvasElement, header: HTMLElement) {
     ctx.clearRect(0, 0, w, h);
     ctx.globalCompositeOperation = 'lighter';
     const target = Math.round(130 + boost * 70);
-    for (let i = 0; i < 6 + boost * 4 && parts.length < target; i++) parts.push(spawn(Math.random() < 0.04));
+    for (let i = 0; i < 6 + boost * 4 && parts.length < target; i++) parts.push(spawn(Math.random() < 0.09));
     for (let i = parts.length - 1; i >= 0; i--) {
       const p = parts[i];
       p.life++;
@@ -71,8 +73,10 @@ export function initBarFire(canvas: HTMLCanvasElement, header: HTMLElement) {
       if (k >= 1) { parts.splice(i, 1); continue; }
       // flicker and sway: the flame licks side to side and pulls towards the centre as it rises
       // tongues: a shared side-to-side lick, and each particle drawn in to the centre as it rises
-      p.vx += Math.sin(t * 0.09 + p.seed * 0.002) * 0.05 + Math.sin((t + p.seed) * 0.31) * 0.04 + (w / 2 - p.x) * 0.0035 * k;
-      p.vx *= 0.96;
+      if (p.spark) { p.vx += Math.sin((t + p.seed) * 0.2) * 0.03; } else {
+        p.vx += Math.sin(t * 0.09 + p.seed * 0.002) * 0.05 + Math.sin((t + p.seed) * 0.31) * 0.04 + (w / 2 - p.x) * 0.0035 * k;
+        p.vx *= 0.96;
+      }
       p.x += p.vx;
       p.y += p.vy * (1 + boost * 0.35);
       const r = p.spark ? p.r : p.r * (1 - k * 0.8);

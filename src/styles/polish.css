@@ -311,4 +311,5 @@ dialog > .eyebrow + h2 { margin-top: 10px; }
 /* header: the reading line itself is hidden, only its glowing dot travels */
 .bar-progress .progress { opacity: 0; }
 /* the fire stays inside the bar's red outline, its base fading softly so the outline runs unbroken */
-.bar-fire canvas { bottom: 3px; height: calc(100% - 3px); -webkit-mask-image: linear-gradient(to top, transparent 0, #000 10px); mask-image: linear-gradient(to top, transparent 0, #000 10px); }
+.bar-fire canvas { bottom: 0; height: 100%; -webkit-mask-image: linear-gradient(to top, rgb(0 0 0 / 0.55) 0, #000 4px); mask-image: linear-gradient(to top, rgb(0 0 0 / 0.55) 0, #000 4px); }
+.bar-fire { width: 210px; }
