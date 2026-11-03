@@ -331,3 +331,15 @@ p, li, dd, address, .track-small { overflow-wrap: break-word; }
 .ft__word .wm-forth { font-weight: 600; }
 .ft__bg .ft__ghost { -webkit-text-stroke: 1px rgb(255 75 43 / 0.18); }
 .ft__bg .ft__fill { opacity: 0.18; }
+
+/* ---------- P21 footer name: "Forth" in white with the red outline; stacked on phones ---------- */
+/* each half carries its own paint, so "Forth" can be white with a clear red outline */
+.ft__bg .ft__fill { opacity: 1; background: none; }
+.ft__fill .wm-mark { background: linear-gradient(90deg, #b8240f 0%, var(--red) 55%, #ff5a3a 100%); -webkit-background-clip: text; background-clip: text; color: transparent; opacity: 0.2; }
+.ft__fill .wm-forth { color: rgb(255 255 255 / 0.1); -webkit-text-stroke: 1.5px rgb(255 75 43 / 0.5); }
+.ft__bg .ft__ghost .wm-forth { -webkit-text-stroke-color: rgb(255 75 43 / 0.22); }
+@media (max-width: 920px) { .links__panel { flex: none; min-height: 0; padding-bottom: 12px; } }
+@media (max-width: 600px) {
+  .ft__bg .ft__word { font-size: 33vw; line-height: 0.86; margin-bottom: -0.1em; }
+  .ft__word .wm-mark, .ft__word .wm-forth { display: block; }
+}
