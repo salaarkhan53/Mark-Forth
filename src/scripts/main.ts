@@ -949,17 +949,20 @@ export function boot() {
   });
   run(() => {
     // Real 3D emblem on the home hero; the CSS emblem stays as the fallback.
-    // Desktop pointers only, once the page has settled: phones keep the light CSS emblem.
+    // Every device gets the 3D emblem, loaded once the page has finished loading (so it never
+    // delays the first view); on desktop it comes in at once if the pointer moves sooner.
+    // The CSS emblem shows until then, and stays if WebGL is unavailable or data saving is on.
     const c = document.querySelector<HTMLCanvasElement>('[data-emblem3d]');
     if (!c) return;
     const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
-    if (!matchMedia('(pointer: fine) and (min-width: 768px)').matches || conn?.saveData) return;
+    if (conn?.saveData) return;
     const go = () => import('./emblem3d').then((m) => m.initEmblem3D(c)).catch((e) => console.warn('3D emblem unavailable', e));
-    // it arrives on the first sign of a person (pointer, scroll, key), so it never slows the first paint
     let started = false;
+    const evts = ['pointermove', 'scroll', 'keydown', 'pointerdown', 'touchstart'];
     const start = () => { if (started) return; started = true; evts.forEach((e) => removeEventListener(e, start)); go(); };
-    const evts = ['pointermove', 'scroll', 'keydown', 'pointerdown'];
     evts.forEach((e) => addEventListener(e, start, { passive: true }));
+    const idle = () => setTimeout(() => ('requestIdleCallback' in window ? (window as Window & { requestIdleCallback: (f: () => void, o?: object) => void }).requestIdleCallback(start, { timeout: 1500 }) : start()), 600);
+    if (document.readyState === 'complete') idle(); else addEventListener('load', idle, { once: true });
   });
   run(initPolish);
   try {
