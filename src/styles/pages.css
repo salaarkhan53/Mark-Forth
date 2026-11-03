@@ -136,3 +136,22 @@ html:not(.js) .pt__steps::before { transform: none !important; }
 @media (prefers-reduced-motion: reduce) {
   .chapters__inner, .checklist--rich li, .lane::after, .pt__n, .card__ghost { transition: none; }
 }
+
+/* ---------- S8 photo and live panel as one card, as tall as the text beside it ---------- */
+.split:has(.sw) { align-items: stretch; }
+.photo-wrap:has(.sw) { display: flex; flex-direction: column; border-radius: var(--radius); overflow: hidden; background: #0c0d12; box-shadow: 0 30px 60px -36px rgb(7 8 11 / 0.55); }
+.photo-wrap:has(.sw) .photo { flex: 1 1 auto; min-height: 240px; aspect-ratio: auto; border-radius: 0; }
+.photo-wrap:has(.sw) .sw, .split--rev .photo-wrap:has(.sw) .sw { position: relative; inset: auto; width: auto; margin: 0; border: 0; border-radius: 0; box-shadow: none; padding: 18px 22px 20px; -webkit-backdrop-filter: none; backdrop-filter: none; background: #0c0d12; }
+.photo-wrap:has(.sw) .sw::before { left: 0; right: 0; top: 0; height: 3px; border-radius: 0; background: linear-gradient(90deg, var(--red), var(--red-bright) 50%, rgb(255 75 43 / 0.2)); }
+.photo-wrap:has(.sw) .sw__rows { grid-template-columns: repeat(var(--cols, 1), minmax(0, 1fr)); }
+@media (min-width: 901px) { .photo-wrap:has(.sw) .sw__rows li { min-height: 32px; } }
+@media (max-width: 900px) { .photo-wrap:has(.sw) .photo { flex: none; aspect-ratio: 16 / 10; min-height: 0; } }
+/* the three services sit closer together */
+.chapter { padding-block: clamp(40px, 4.2vw, 64px); }
+
+/* thin waveform bars, whatever the card width */
+.sw__wave { justify-content: flex-start; gap: 3px; overflow: hidden; }
+.sw__wave i { flex: none; width: 4px; }
+
+/* text beside a taller picture stays together, centred, instead of spreading out */
+.split__body { align-content: center; }
