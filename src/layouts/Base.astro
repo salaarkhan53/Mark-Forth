@@ -33,6 +33,7 @@ const ld = page === 'home' ? JSON.stringify({
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script is:inline>(function(){var q=function(t){if(!t)return;['ready','finished','updateCallbackDone'].forEach(function(k){t[k]&&t[k].catch(function(){})});if(matchMedia('(prefers-reduced-motion: reduce)').matches)try{t.skipTransition()}catch(e){}};addEventListener('pagereveal',function(e){q(e.viewTransition)});addEventListener('pageswap',function(e){q(e.viewTransition)});addEventListener('unhandledrejection',function(e){var r=e.reason;if(r&&r.name==='InvalidStateError'&&/transition/i.test(r.message||''))e.preventDefault()})})();</script>
   <script is:inline>document.documentElement.classList.add('js');setTimeout(function(){var r=document.documentElement;if(!r.classList.contains('motion-on'))r.classList.remove('js')},3000);</script>
   <title>{fullTitle}</title>
   <meta name="description" content={description} />

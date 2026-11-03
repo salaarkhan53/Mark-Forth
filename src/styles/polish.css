@@ -272,3 +272,23 @@ dialog .btn-dark::after { background: var(--red-bright); }
 
 /* menu panel grows with its content (the taller tap targets need the room) */
 @media (max-width: 920px) { .links__panel { justify-content: flex-start; height: auto; } }
+
+/* ---------- P17 small fixes ---------- */
+/* back to top: the arrow sits dead centre in its ring (the mobile tap-target rule must not turn it into a flex row) */
+.legal__links .legal__top { display: grid; place-items: center; padding: 0; }
+.legal__links .legal__top > svg:not(.legal__ring) { margin: 0; }
+@media (max-width: 600px) {
+  .ft .legal__links .legal__top { position: absolute; right: var(--gutter); top: 50%; margin: -22px 0 0; width: 44px; height: 44px; }
+}
+/* campaign chips on phones: the red slash stays clear of the words */
+@media (max-width: 600px) {
+  .cx__flow li { padding-left: 24px !important; }
+  .cx__flow li::after { left: 7px; top: 12px; bottom: 12px; width: 3px; }
+}
+/* the header logo is a full 44px tap target */
+@media (max-width: 920px) { .site-header .logo { height: 44px; } }
+
+/* dialogs that open with the "Privacy" label: the label carries the top space, the heading follows it */
+dialog > .eyebrow:first-of-type { margin-top: clamp(28px, 4vw, 40px); }
+dialog > .eyebrow + h2 { margin-top: 10px; }
+@media (max-width: 600px) { dialog > .eyebrow:first-of-type { margin-top: 38px; } }

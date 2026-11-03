@@ -59,7 +59,7 @@ export function startMotion() {
       });
     }
     tl.to(stage, { opacity: 1, y: 0, duration: 0.6, ease: BRAND, stagger: 0.05 }, isHome ? 0.55 : 0.2);
-    tl.to(pop, { opacity: 1, scale: 1, duration: 0.7, ease: BRAND }, isHome ? 0.3 : 0.15);
+    if (pop.length) tl.to(pop, { opacity: 1, scale: 1, duration: 0.7, ease: BRAND }, isHome ? 0.3 : 0.15);
     // Signature: the emblem's three forward bars sweep in behind the hero, then drift with the scroll.
     const slashes = hero.querySelectorAll<HTMLElement>('.slashes i');
     if (slashes.length) {

@@ -26,8 +26,12 @@ function redirectOldAnchors() {
     // #services and #industries are sections on this page; #privacy opens the notice here
     '#contact': '/contact.html', '#about': '/about.html', '#partnership': '/about.html', '#careers': '/careers.html',
   };
-  const to = map[location.hash];
-  if (to) location.replace(to);
+  const go = () => {
+    const to = map[location.hash];
+    if (to) location.replace(to);
+  };
+  go();
+  addEventListener('hashchange', go);
 }
 
 function nav() {
