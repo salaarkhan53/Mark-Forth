@@ -45,12 +45,34 @@ const description = fullDescription.length <= 158 ? fullDescription : fullDescri
 const ogImage = `${site.url}/assets/markforth-social.png`;
 const canonical = new URL(Astro.url.pathname === '/index.html' ? '/' : Astro.url.pathname, site.url).href;
 const fullTitle = page === 'home' ? `${site.name} | Built to move business forward` : `${title} | ${site.name}`;
-const ld = page === 'home' ? JSON.stringify({
-  '@context': 'https://schema.org', '@type': 'Organization', name: site.legalName, alternateName: site.name, url: site.url,
+// Structured data (schema.org) for search engines. Not visible on the page.
+const orgId = `${site.url}/#organization`;
+const organization = {
+  '@type': 'Organization', '@id': orgId, name: site.legalName, alternateName: site.name, url: site.url,
   logo: `${site.url}/android-chrome-512x512.png`, email: site.email, ...(site.phone ? { telephone: site.phone } : {}),
   address: { '@type': 'PostalAddress', streetAddress: 'Office No. 04-05, 1st Floor, Burj-e-Noor Trading Center, Main Murree Road', addressLocality: 'Rawalpindi', postalCode: '43490', addressCountry: 'PK' },
   sameAs: site.socials.map((s) => s.href),
-}) : null;
+};
+const pathName = Astro.url.pathname.replace(/\.html$/, '');
+const sections: Record<string, { name: string; href: string }> = {
+  services: { name: 'Services', href: `${site.url}/services.html` },
+  campaigns: { name: 'Campaigns', href: `${site.url}/campaigns.html` },
+};
+const [, first = '', second] = pathName.split('/');
+const crumbs = [{ name: 'Home', item: `${site.url}/` }];
+if (second && sections[first]) crumbs.push({ name: sections[first].name, item: sections[first].href });
+crumbs.push({ name: title, item: canonical });
+const ld = noindex || page === '404' ? null : JSON.stringify(page === 'home' ? {
+  '@context': 'https://schema.org',
+  '@graph': [organization, { '@type': 'WebSite', '@id': `${site.url}/#website`, url: `${site.url}/`, name: site.name, publisher: { '@id': orgId } }],
+} : {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': first === 'about' ? 'AboutPage' : first === 'contact' ? 'ContactPage' : 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: fullTitle, description, isPartOf: { '@id': `${site.url}/#website` }, publisher: { '@id': orgId } },
+    { '@type': 'BreadcrumbList', itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: c.item })) },
+    ...(second && sections[first] ? [{ '@type': 'Service', name: title, description, url: canonical, serviceType: title, areaServed: 'US', provider: organization }] : []),
+  ],
+});
 ---
 <!doctype html>
 <html lang="en">
