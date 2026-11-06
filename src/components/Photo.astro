@@ -7,6 +7,6 @@ const p = photos[name];
 ---
 <figure class:list={['photo', cls]} style={ratio ? `aspect-ratio:${ratio}` : undefined}>
   <Picture src={p.src} alt={p.alt} widths={[640, 960, 1400, 2000]} sizes={sizes} formats={['avif', 'webp']} fallbackFormat="webp" quality={72}
-    loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : 'auto'} data-drift={drift ? '' : undefined} />
+    style={`object-position:${p.focus}`} loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : 'auto'} data-drift={drift ? '' : undefined} />
   {caption && <figcaption>{caption}</figcaption>}
 </figure>

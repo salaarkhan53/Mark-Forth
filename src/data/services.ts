@@ -30,7 +30,7 @@ export const services: Service[] = [
     ],
     agree: ['Audience and campaign requirements', 'Lead qualification and transfer process', 'Hours, volumes and reporting', 'CPL / CPA model discussion'],
     campaigns: true,
-    photo: 'phone-laptop',
+    photo: 'agent-headset',
   },
   {
     slug: 'customer-support',
@@ -47,7 +47,7 @@ export const services: Service[] = [
     ],
     agree: ['Channels, hours and expected volumes', 'Your guidelines, tone and escalation paths', 'What a resolved conversation looks like', 'How feedback and reporting are shared'],
     campaigns: false,
-    photo: 'keyboard',
+    photo: 'team-coaching',
   },
   {
     slug: 'business-outsourcing',
@@ -64,6 +64,6 @@ export const services: Service[] = [
     ],
     agree: ['Which tasks move and which stay with you', 'Inputs, outputs and turnaround', 'Access, tools and data handling', 'Check-ins and accountability'],
     campaigns: false,
-    photo: 'desk-window',
+    photo: 'call-floor',
   },
 ];

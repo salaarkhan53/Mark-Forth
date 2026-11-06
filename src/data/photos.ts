@@ -1,25 +1,24 @@
-import laptopTyping from '../assets/photos/laptop-typing.jpg';
-import phoneLaptop from '../assets/photos/phone-laptop.jpg';
-import meetingNotes from '../assets/photos/meeting-notes.jpg';
-import writingNotes from '../assets/photos/writing-notes.jpg';
-import keyboard from '../assets/photos/keyboard.jpg';
-import deskWindow from '../assets/photos/desk-window.jpg';
-import cityWindows from '../assets/photos/city-windows.jpg';
+import teamCoaching from '../assets/photos/team-coaching.jpg';
+import agentHeadset from '../assets/photos/agent-headset.jpg';
+import leadership from '../assets/photos/leadership.jpg';
+import planningNotes from '../assets/photos/planning-notes.jpg';
+import callFloor from '../assets/photos/call-floor.jpg';
+import workstation from '../assets/photos/workstation.jpg';
+import brandedDesk from '../assets/photos/branded-desk.jpg';
 import burjENoor from '../assets/photos/burj-e-noor.jpg';
 
-// Stock photographs (Unsplash licence, via picsum.photos) used as atmosphere.
-// None shows Markforth's own office or team; replace with real photography when available.
+// Photographs supplied by Markforth (originals in X:\MarkForth Website\Assets).
+// `focus` is the point that stays in view when a frame crops the photo (CSS object-position),
+// so faces and key objects are not cut off on narrow phone screens.
 export const photos = {
-  'laptop-typing': { src: laptopTyping, alt: 'A person typing on a laptop at a wooden desk', credit: 'Unsplash' },
-  'phone-laptop': { src: phoneLaptop, alt: 'A person holding a phone beside an open laptop', credit: 'Unsplash' },
-  'meeting-notes': { src: meetingNotes, alt: 'Two people taking notes across a table with a tablet and coffee', credit: 'Unsplash' },
-  'writing-notes': { src: writingNotes, alt: 'A hand writing notes in a notebook beside a laptop', credit: 'Unsplash' },
-  keyboard: { src: keyboard, alt: 'A hand on a mouse beside a keyboard and a coffee mug', credit: 'Unsplash' },
-  'desk-window': { src: deskWindow, alt: 'A tidy desk with a laptop beside an office window', credit: 'Unsplash' },
-  'city-windows': { src: cityWindows, alt: 'People standing at tall windows above a city', credit: 'Unsplash' },
-  'burj-e-noor': { src: burjENoor, alt: 'Burj-e-Noor Trading Center on Main Murree Road, Shamsabad, lit up at night', credit: 'Markforth Solutions' },
+  'team-coaching': { src: teamCoaching, alt: 'A team lead pointing at a screen while an agent with a headset follows along', focus: '58% 32%' },
+  'agent-headset': { src: agentHeadset, alt: 'An agent wearing a headset at a laptop in an office at night', focus: '52% 30%' },
+  leadership: { src: leadership, alt: 'Two leaders in dark suits by a window above a city at sunset', focus: '50% 28%' },
+  'planning-notes': { src: planningNotes, alt: 'Two people planning a workflow and a checklist in a notebook', focus: '48% 62%' },
+  'call-floor': { src: callFloor, alt: 'Agents with headsets at their workstations on a call floor', focus: '50% 55%' },
+  workstation: { src: workstation, alt: 'A ready workstation with a laptop, headset, mug and notebook', focus: '34% 62%' },
+  'branded-desk': { src: brandedDesk, alt: 'A desk with a Markforth mug, a headset, a desk phone and an open notebook', focus: '42% 62%' },
+  'burj-e-noor': { src: burjENoor, alt: 'Burj-e-Noor Trading Center on Main Murree Road, Shamsabad, lit up at night', focus: '50% 22%' },
 } as const;
 
 export type PhotoKey = keyof typeof photos;
-
-export const photoCredits = 'Photographs from Unsplash.';
