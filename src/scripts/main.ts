@@ -948,21 +948,17 @@ export function boot() {
     import('./embers').then((m) => m.initEmbers(c)).catch(() => {});
   });
   run(() => {
-    // Real 3D emblem on the home hero; the CSS emblem stays as the fallback.
-    // Every device gets the 3D emblem, loaded once the page has finished loading (so it never
-    // delays the first view); on desktop it comes in at once if the pointer moves sooner.
-    // The CSS emblem shows until then, and stays if WebGL is unavailable or data saving is on.
+    // Real 3D emblem on the home hero. It starts loading straight away, and the flat CSS emblem
+    // stays hidden meanwhile, so visitors never see the flat logo swap into the 3D one.
+    // The flat emblem only appears if WebGL is unavailable, data saving is on, or loading fails or stalls.
     const c = document.querySelector<HTMLCanvasElement>('[data-emblem3d]');
     if (!c) return;
+    const host = c.parentElement as HTMLElement;
     const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
-    if (conn?.saveData) return;
-    const go = () => import('./emblem3d').then((m) => m.initEmblem3D(c)).catch((e) => console.warn('3D emblem unavailable', e));
-    let started = false;
-    const evts = ['pointermove', 'scroll', 'keydown', 'pointerdown', 'touchstart'];
-    const start = () => { if (started) return; started = true; evts.forEach((e) => removeEventListener(e, start)); go(); };
-    evts.forEach((e) => addEventListener(e, start, { passive: true }));
-    const idle = () => setTimeout(() => ('requestIdleCallback' in window ? (window as Window & { requestIdleCallback: (f: () => void, o?: object) => void }).requestIdleCallback(start, { timeout: 1500 }) : start()), 600);
-    if (document.readyState === 'complete') idle(); else addEventListener('load', idle, { once: true });
+    if (conn?.saveData) { host.classList.add('is-flat'); return; }
+    const settle = () => { if (!host.classList.contains('is-3d')) host.classList.add('is-flat'); };
+    setTimeout(settle, 4000);
+    import('./emblem3d').then((m) => m.initEmblem3D(c)).catch((e) => console.warn('3D emblem unavailable', e)).finally(settle);
   });
   run(initPolish);
   try {

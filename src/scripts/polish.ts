@@ -34,7 +34,7 @@ function buttonSparks() {
 
 // P6: accent words shimmer once, the first time they are seen.
 function shimmer() {
-  const els = $$('.hero .accent, .page-hero .accent, .cta .accent, .faq__card .accent, .pro__card--end .accent');
+  const els = $$('.page-hero .accent, .cta .accent, .faq__card .accent, .pro__card--end .accent');
   if (!els.length || reduced.matches) return;
   const io = new IntersectionObserver((entries) => entries.forEach((e) => {
     if (!e.isIntersecting) return;
@@ -44,33 +44,6 @@ function shimmer() {
     io.unobserve(el);
   }), { threshold: 0.6 });
   els.forEach((el) => io.observe(el));
-}
-
-// P6: the hand-drawn red underline under "forward." on the home hero.
-function flameLine() {
-  const accent = document.querySelector<HTMLElement>('.hero .accent');
-  if (!accent) return;
-  const add = (draw: boolean) => {
-    if (accent.querySelector('.flame-line')) return;
-    const ns = 'http://www.w3.org/2000/svg';
-    const svg = document.createElementNS(ns, 'svg');
-    svg.setAttribute('class', 'flame-line');
-    svg.setAttribute('viewBox', '0 0 300 30');
-    svg.setAttribute('preserveAspectRatio', 'none');
-    svg.setAttribute('aria-hidden', 'true');
-    // a quick, slightly uneven brush stroke with a flick at the end
-    svg.innerHTML = '<path pathLength="1" d="M4 20 C 50 12, 96 16, 140 13 S 230 8, 262 11 C 276 12, 286 9, 296 4"/><path pathLength="1" d="M30 23 C 90 18, 170 19, 250 15"/>';
-    accent.appendChild(svg);
-    if (draw) requestAnimationFrame(() => svg.classList.add('is-drawing'));
-  };
-  if (reduced.matches) { add(false); return; }
-  const hero = accent.closest('.hero')!;
-  const go = () => { if (hero.classList.contains('is-streak')) { add(true); mo.disconnect(); } };
-  const mo = new MutationObserver(go);
-  mo.observe(hero, { attributes: true, attributeFilter: ['class'] });
-  go();
-  // safety: if the headline animation never runs, draw anyway
-  setTimeout(() => add(true), 3500);
 }
 
 // P7: the ember at the front of the header's reading line.
@@ -345,7 +318,6 @@ export function initPolish() {
   const run = (fn: () => void) => { try { fn(); } catch (e) { console.error(e); } };
   run(buttonSparks);
   run(shimmer);
-  run(flameLine);
   run(progressEmber);
   run(launchTop);
   run(dialogs);

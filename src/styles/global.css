@@ -597,6 +597,8 @@ a.card:hover::after, .card.hoverable:hover::after { width: 90px; transform: skew
 .emblem-fallback .emblem__tilt { width: 58%; }
 .hero__art.is-3d .emblem3d { opacity: 1; }
 .hero__art.is-3d .emblem-fallback { opacity: 0; pointer-events: none; }
+/* with JavaScript on, the flat emblem stays hidden from the first frame while the 3D one loads; it only shows if 3D can't run */
+.js .hero__art:not(.is-flat) .emblem-fallback { opacity: 0; pointer-events: none; }
 .hero__art .halo { transition: transform 700ms var(--ease), opacity 700ms var(--ease); }
 .hero__art.is-hot .halo { transform: scale(1.18); opacity: 1; }
 .hero__art .r1, .hero__art .r2 { transition: inset 800ms var(--ease), border-color 600ms; }
@@ -1376,3 +1378,10 @@ section:has(> .container > .cta) { padding-block: clamp(36px, 3.6vw, 52px); }
 .is-night .sky::after { opacity: 1; }
 @keyframes skyGlow { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
 @media (prefers-reduced-motion: reduce) { .sky { animation: none; } }
+
+/* footer credit: sits between the © line and the legal links */
+.legal { position: relative; }
+.legal .legal__credit { margin: 0; font-size: inherit; color: var(--on-dark-soft); }
+.legal__credit a { font-weight: 700; color: #ff7a1a; transition: color 220ms; }
+.legal__credit a:hover { color: #ffa04d; }
+@media (min-width: 981px) { .legal .legal__credit { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); white-space: nowrap; } }

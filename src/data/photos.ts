@@ -6,6 +6,7 @@ import callFloor from '../assets/photos/call-floor.jpg';
 import workstation from '../assets/photos/workstation.jpg';
 import brandedDesk from '../assets/photos/branded-desk.jpg';
 import burjENoor from '../assets/photos/burj-e-noor.jpg';
+import step4Refine from '../assets/photos/step-4-refine.jpg';
 
 // Photographs supplied by Markforth (originals in X:\MarkForth Website\Assets).
 // `focus` is the point that stays in view when a frame crops the photo (CSS object-position),
@@ -19,6 +20,7 @@ export const photos = {
   workstation: { src: workstation, alt: 'A ready workstation with a laptop, headset, mug and notebook', focus: '34% 62%' },
   'branded-desk': { src: brandedDesk, alt: 'A desk with a Markforth mug, a headset, a desk phone and an open notebook', focus: '42% 62%' },
   'burj-e-noor': { src: burjENoor, alt: 'Burj-e-Noor Trading Center on Main Murree Road, Shamsabad, lit up at night', focus: '50% 22%' },
+  'step-4-refine': { src: step4Refine, alt: 'A laptop showing "Refine" on a desk with a Markforth mug and headset, a city skyline at sunset behind', focus: '42% 52%' },
 } as const;
 
 export type PhotoKey = keyof typeof photos;

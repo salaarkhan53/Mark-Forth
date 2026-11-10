@@ -6,6 +6,9 @@ interface Props { privacyLinkId?: string; privacyTarget?: string; managedPrivacy
 // Apply and track bind their own privacy dialogs by id; other pages use data-dialog.
 const { privacyLinkId = 'privacy-link', privacyTarget = 'privacy', managedPrivacy = true } = Astro.props;
 const links = [...nav, { label: 'Contact', href: '/contact.html' }];
+// Designer credit: a followed link on the homepage only; nofollow on every other page.
+const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html';
+const creditRel = isHome ? 'noopener' : 'nofollow noopener';
 ---
 <footer class="site-footer ft">
   <!-- The top edge is the emblem's three forward bars, stepped across the page. -->
@@ -49,6 +52,7 @@ const links = [...nav, { label: 'Contact', href: '/contact.html' }];
 
   <div class="container legal">
     <p>© <span id="year">{new Date().getFullYear()}</span> {site.legalName}</p>
+    <p class="legal__credit">Designed by: <a href="https://qorica.com" target="_blank" rel={creditRel}>Qorica</a></p>
     <div class="legal__links">
       <a href="/track.html">Track an application</a>
       <a href={`#${privacyTarget}`} id={privacyLinkId} data-dialog={managedPrivacy ? privacyTarget : undefined}>Privacy notice</a>

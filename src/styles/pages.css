@@ -381,3 +381,40 @@ html:not(.js) .pt__steps::before { transform: none !important; }
 .roles-hero__track span:hover { border-color: var(--red-bright); background: rgb(255 75 43 / 0.15); color: #fff; }
 
 @media (prefers-reduced-motion: reduce) { .vacancies .job-row, .dept-chip, .steps-flow::before { transition: none; } }
+
+/* phones: centre the contact line and the bottom legal block so the right side isn't left empty */
+@media (max-width: 600px) {
+  .ft__contact { justify-content: center; }
+  .ft .legal { align-items: center; text-align: center; padding-inline: var(--gutter); }
+  .ft .legal .legal__links { justify-content: center; margin-left: 0; }
+}
+
+/* ---------- home hero "forward.": no underline; a forward-leaning ember word ----------
+   Heavier weight, leaning like the logo's bars, with a warm top-to-bottom fill.
+   It glides forward into place as the headline rises, then a soft band of light
+   passes through it every few seconds while its glow gently breathes. */
+.hero .accent .flame-line { display: none; }
+.hero .accent::after { content: none; animation: none; }
+.hero h1 .accent { display: inline-block; font-weight: 800; letter-spacing: -0.035em; padding-right: 0.08em; transform: skewX(-8deg); transform-origin: 0 100%; filter: drop-shadow(0 0.08em 0.45em rgb(255 60 30 / 0.24)); }
+.hero h1 .accent, .hero h1 .accent * {
+  background-image: linear-gradient(100deg, transparent 0%, transparent 42%, rgb(255 236 222 / 0.95) 50%, transparent 58%, transparent 100%), linear-gradient(180deg, #ff7448 0%, #ff4b2b 48%, #d0250f 100%);
+  background-size: 300% 100%, 100% 100%; background-position: 100% 0, 0 0; background-repeat: no-repeat;
+  -webkit-background-clip: text; background-clip: text; color: transparent; }
+@media (prefers-reduced-motion: no-preference) {
+  html.js .hero:not(.is-split) h1 .accent { opacity: 0; }
+  .hero.is-split h1 .accent { animation: fwIn 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both, fwGlow 6.5s ease-in-out 2.2s infinite; }
+  .hero.is-split h1 .accent * { animation: fwSheen 6.5s cubic-bezier(0.45, 0, 0.2, 1) 1.5s infinite; }
+}
+@keyframes fwIn {
+  0% { opacity: 0; transform: translateX(-0.35em) skewX(0deg); filter: blur(10px) drop-shadow(0 0.08em 0.45em rgb(255 60 30 / 0)); }
+  60% { opacity: 1; filter: blur(0) drop-shadow(0 0.08em 0.6em rgb(255 90 50 / 0.5)); }
+  100% { opacity: 1; transform: translateX(0) skewX(-8deg); filter: blur(0) drop-shadow(0 0.08em 0.45em rgb(255 60 30 / 0.24)); }
+}
+@keyframes fwGlow {
+  0%, 100% { filter: blur(0) drop-shadow(0 0.08em 0.45em rgb(255 60 30 / 0.24)); }
+  30% { filter: blur(0) drop-shadow(0 0.08em 0.7em rgb(255 90 50 / 0.42)); }
+}
+@keyframes fwSheen { 0% { background-position: 100% 0, 0 0; } 45%, 100% { background-position: 0% 0, 0 0; } }
+
+/* home hero: the text, buttons and chips sit a little closer under the headline */
+.hero__copy > h1 { margin-bottom: calc(-1 * clamp(8px, 0.9vw, 16px)); }

@@ -50,6 +50,7 @@ export function startMotion() {
       ready.then(() => {
         const split = SplitText.create(head, { type: 'words', mask: 'words', wordsClass: 'hw' });
         gsap.set(head, { opacity: 1 });
+        hero.classList.add('is-split');
         // its own tween: the intro timeline may already have finished by the time fonts are ready
         const wait = Math.max(0, (isHome ? 0.45 : 0.05) - (performance.now() - t0) / 1000);
         gsap.from(split.words, {
