@@ -1,6 +1,5 @@
 import teamCoaching from '../assets/photos/team-coaching.jpg';
 import agentHeadset from '../assets/photos/agent-headset.jpg';
-import leadership from '../assets/photos/leadership.jpg';
 import planningNotes from '../assets/photos/planning-notes.jpg';
 import callFloor from '../assets/photos/call-floor.jpg';
 import workstation from '../assets/photos/workstation.jpg';
@@ -14,7 +13,6 @@ import step4Refine from '../assets/photos/step-4-refine.jpg';
 export const photos = {
   'team-coaching': { src: teamCoaching, alt: 'A team lead pointing at a screen while an agent with a headset follows along', focus: '58% 32%' },
   'agent-headset': { src: agentHeadset, alt: 'An agent wearing a headset at a laptop in an office at night', focus: '52% 30%' },
-  leadership: { src: leadership, alt: 'Two leaders in dark suits by a window above a city at sunset', focus: '50% 28%' },
   'planning-notes': { src: planningNotes, alt: 'Two people planning a workflow and a checklist in a notebook', focus: '48% 62%' },
   'call-floor': { src: callFloor, alt: 'Agents with headsets at their workstations on a call floor', focus: '50% 55%' },
   workstation: { src: workstation, alt: 'A ready workstation with a laptop, headset, mug and notebook', focus: '34% 62%' },
